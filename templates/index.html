@@ -1,14 +1,16 @@
 
 {% block content %}
-<h1>{% block title %} Welcome to Gadget Company  {% endblock %}</h1>
-<a href="http://127.0.0.1:5000/signin/">SIGN IN</a>
+<h1>{% block title %} Welcome to Phone Company  {% endblock %}</h1>
+<a href="http://127.0.0.1:5000/signin/">SIGN IN</a>&nbsp;&nbsp;&nbsp;
 <a href="http://127.0.0.1:5000/browse/">Broswe Phones</a>
-{% for cx in customers %}
-    <div class='book'>
-        <h3>#{{ cx[0] }} - {{ cx[1] }} - {{ cx[2] }}</h3>
-        <i><p>({{ cx[3] }})</p></i>
-        <p class='review'>{{ cx[4] }}</p>
-        <i><p>{{ cx[5] }}</p></i>
-    </div>
+<br /> <br />
+
+<h1> Trending Products</h1><br /> <br />
+{% for cx in products %}
+    <div class='phone'>
+        <h3>{{ cx[5] }} --- PRICE: ${{ cx[3] }} --- RELEASE DATE: {{ cx[4] }}</h3>
+        <i><p>DISPLAY RESOLUTION: {{ cx[2] }}</p></i>
+        <p class='review'>STORAGE{{ cx[6] }}</p>
+    </div><br />
 {% endfor %}
 {% endblock %}

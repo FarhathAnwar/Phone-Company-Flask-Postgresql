@@ -12,15 +12,15 @@ def index():
     # connect to 
     conn = dbconn.get_db_connection();
 
-    customers = executeTest(conn);
+    products = executeTest(conn);
     conn.close;
 
-    return render_template('index.html', customers=customers);
+    return render_template('index.html', products=products);
 
 
 def executeTest(conn):
     cur = conn.cursor();
-    cur.execute('SELECT * FROM customer LIMIT 10;');
+    cur.execute('SELECT * FROM product LIMIT 10;');
     customers = cur.fetchall();
     cur.close();
     return customers;

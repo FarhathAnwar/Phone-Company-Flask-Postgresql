@@ -1,0 +1,22 @@
+{% block content %}
+    <h1>{% block title %} Sign into your account {% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="email">Email</label>
+            <input type="text" name="email"
+                   placeholder="Enter your email here">
+            </input>
+        </p>
+
+        <p>
+            <label for="password">Password</label>
+            <input type="text" name="password"
+                   placeholder="Enter password here">
+            </input>
+        </p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+    <a href="http://127.0.0.1:5000/create_account/">New User? Click here to create a new account</a>
+{% endblock %}
+

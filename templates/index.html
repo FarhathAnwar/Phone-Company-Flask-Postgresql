@@ -1,0 +1,14 @@
+
+{% block content %}
+<h1>{% block title %} Welcome to Gadget Company  {% endblock %}</h1>
+<a href="http://127.0.0.1:5000/signin/">SIGN IN</a>
+<a href="http://127.0.0.1:5000/browse/">Broswe Phones</a>
+{% for cx in customers %}
+    <div class='book'>
+        <h3>#{{ cx[0] }} - {{ cx[1] }} - {{ cx[2] }}</h3>
+        <i><p>({{ cx[3] }})</p></i>
+        <p class='review'>{{ cx[4] }}</p>
+        <i><p>{{ cx[5] }}</p></i>
+    </div>
+{% endfor %}
+{% endblock %}

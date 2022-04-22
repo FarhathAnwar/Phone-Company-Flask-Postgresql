@@ -55,7 +55,7 @@ def signin():
 
 @app.route('/browse/', methods=('GET', 'POST'))
 def browse():
-    return "browse";
+    return render_template('browse.html');
 
 
 @app.route('/create_account/', methods=('GET', 'POST'))

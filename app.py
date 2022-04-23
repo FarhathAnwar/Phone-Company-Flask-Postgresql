@@ -1,10 +1,12 @@
 import dbconn
 import random
 
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, session
 
 
 app = Flask(__name__)
+app.secret_key = 'UNIQUE_SECRET_KEY'
+
 @app.route('/')
 def index():
     #return 'Hello world!'
@@ -44,6 +46,8 @@ def signin():
 
         if(cmp[0] == password):
             print('matched')
+            session['username'] = getFirstName(email, password)
+            #print(session['username'])
             return redirect('http://127.0.0.1:5000/browse')
         else:
             print('query ressult: ', cmp[0])  
@@ -85,3 +89,17 @@ def create_account():
 
 
     return render_template('create_acc.html');
+
+
+def getFirstName(email, password):
+    conn = dbconn.get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT first_name FROM customer WHERE email=(%s) AND password=(%s) "+"limit 1;", (email, password))
+    #cur.commit()
+    query_result = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    name_list = query_result[0]
+    first_name = name_list[0]
+    return first_name

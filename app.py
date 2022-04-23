@@ -30,6 +30,7 @@ def executeTest(conn):
 
 @app.route('/signin/', methods=('GET', 'POST'))
 def signin():
+    session['username'] = ''
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -59,7 +60,13 @@ def signin():
 
 @app.route('/browse/', methods=('GET', 'POST'))
 def browse():
-    return render_template('browse.html');
+    conn = dbconn.get_db_connection();
+
+    products = executeTest(conn);
+    conn.close;
+
+    user = session['username']
+    return render_template('browse.html', products=products, user=user);
 
 
 @app.route('/create_account/', methods=('GET', 'POST'))

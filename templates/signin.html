@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Sign into your account {% endblock %}</h1>
-    <form method="post">
-        <p>
-            <label for="email">Email</label>
-            <input type="text" name="email"
-                   placeholder="Enter your email here">
-            </input>
-        </p>
-
-        <p>
-            <label for="password">Password</label>
-            <input type="text" name="password"
-                   placeholder="Enter password here">
-            </input>
-        </p>
-            <button type="submit">Submit</button>
-        </p>
-    </form>
-    <a href="http://127.0.0.1:5000/create_account/">New User? Click here to create a new account</a>
+<h1>{% block title %} Sign into your account {% endblock %}</h1>
+<br>
+<form method="post">
+    <p style="margin:0"><label for="email">Email</label></p>
+    <input type="text" name="email" placeholder="email@gmail.com"> </input>
+    <br>
+    <br>
+    <p style="margin:0"> <label for="password">Password</label> </p>
+    <input type="text" name="password" placeholder="password1234"> </input>
+    <br>
+    <br>
+    <button style="font-size:16px;padding:5px" type="submit">Sign In</button>
+</form>
+<br>
+<p><a href="http://127.0.0.1:5000/create_account/">New User? Click here to create a new account</a></p>
 {% endblock %}
-

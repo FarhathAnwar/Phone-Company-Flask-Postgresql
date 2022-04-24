@@ -2,6 +2,9 @@ import os
 import psycopg2
 from flask import Flask, render_template
 
+# os.environ['DB_USERNAME'] = '';
+# os.environ['DB_PASSWORD'] = '';
+
 
 def get_db_connection():
     conn = psycopg2.connect(host='localhost',
@@ -21,4 +24,4 @@ def index():
     cur.close()
     conn.close()
     return render_template('index.html', books=books)
-'''
+    '''

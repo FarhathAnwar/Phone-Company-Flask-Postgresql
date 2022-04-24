@@ -3,11 +3,11 @@
 {% block content %}
 <h1>Congrats!!Your order has been placed</h1>
 {% for cx in products %}
-    <div class='phone'>
-            <h4>Order Date: {{cx[3]}}</h4>
-            <h4>Estimated Delivery Date: {{cx[4]}}</h4>
-            <h4>Total Price: {{cx[6]}}</h4>
-            <a href="http://127.0.0.1:5000">Home</a>
-    </div><br />
-    {% endfor %}
+<div class='phone'>
+    <h4>Order Date: {{cx[3]}}</h4>
+    <h4>Estimated Delivery Date: {{cx[4]}}</h4>
+    <h4>Total Price: {{cx[6]}}</h4>
+    <a href="http://127.0.0.1:5000">Home</a>
+</div><br />
+{% endfor %}
 {% endblock %}

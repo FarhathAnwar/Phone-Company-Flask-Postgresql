@@ -8,25 +8,26 @@ import datetime
 app = Flask(__name__)
 app.secret_key = 'UNIQUE_SECRET_KEY'
 
+
 @app.route('/')
 def index():
-    #return 'Hello world!'
+    # return 'Hello world!'
 
-    # connect to 
-    conn = dbconn.get_db_connection();
+    # connect to
+    conn = dbconn.get_db_connection()
 
-    products = executeTest(conn);
-    conn.close;
+    products = executeTest(conn)
+    conn.close
 
-    return render_template('index.html', products=products);
+    return render_template('index.html', products=products)
 
 
 def executeTest(conn):
-    cur = conn.cursor();
-    cur.execute('SELECT * FROM product LIMIT 10;');
-    customers = cur.fetchall();
-    cur.close();
-    return customers;
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM product LIMIT 10;')
+    customers = cur.fetchall()
+    cur.close()
+    return customers
 
 
 @app.route('/signin/', methods=('GET', 'POST'))
@@ -40,8 +41,9 @@ def signin():
 
         conn = dbconn.get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT password FROM customer WHERE email=(%s)"+"limit 1;", (email, ))
-        #cur.commit()
+        cur.execute(
+            "SELECT password FROM customer WHERE email=(%s)"+"limit 1;", (email, ))
+        # cur.commit()
         query_result = cur.fetchall()
         cur.close()
         conn.close()
@@ -52,14 +54,13 @@ def signin():
             print('matched')
             session['username'] = getFirstName(email, password)
             session['cid'] = getCID(email, password)
-            #print(session['username'])
+            # print(session['username'])
             return redirect('http://127.0.0.1:5000/browse')
         else:
-            print('query ressult: ', cmp[0])  
-            print('password: ', password)      
-    
-    return render_template('signin.html');
+            print('query ressult: ', cmp[0])
+            print('password: ', password)
 
+    return render_template('signin.html')
 
 
 @app.route('/browse/', methods=('GET', 'POST'))
@@ -70,7 +71,7 @@ def browse():
     conn.close
 
     user = session['username']
-    return render_template('browse.html', products=products, user=user);
+    return render_template('browse.html', products=products, user=user)
 
 
 @app.route('/create_account/', methods=('GET', 'POST'))
@@ -86,17 +87,18 @@ def create_account():
 
         conn = dbconn.get_db_connection()
         cur = conn.cursor()
-        cur.execute('Insert into customer(cid, first_name, last_name, phone_number, password, email) overriding system value Values(%s , %s, %s, %s, %s, %s)',(cid, fname, lname, phone, password, email))
+        cur.execute('Insert into customer(cid, first_name, last_name, phone_number, password, email) overriding system value Values(%s , %s, %s, %s, %s, %s)',
+                    (cid, fname, lname, phone, password, email))
         conn.commit()
         cur.close()
         conn.close()
 
         return redirect('http://127.0.0.1:5000/browse')
 
-        #test start
+        # test start
 
-        #test end
-    return render_template('create_acc.html');
+        # test end
+    return render_template('create_acc.html')
 
 
 @app.route('/buy/<int:pid>', methods=('GET', 'POST'))
@@ -120,7 +122,8 @@ def buy(pid):
 
         conn = dbconn.get_db_connection()
         cur = conn.cursor()
-        cur.execute('Insert into buys(b_cid, b_pid, delivery_address, order_date, delivery_date, order_quantity, total_price) Values(%s , %s, %s, %s, %s, %s, %s)',(cid, pid, delivery_addr, order_date, delivery_date, order_quantity, total_price))
+        cur.execute('Insert into buys(b_cid, b_pid, delivery_address, order_date, delivery_date, order_quantity, total_price) Values(%s , %s, %s, %s, %s, %s, %s)',
+                    (cid, pid, delivery_addr, order_date, delivery_date, order_quantity, total_price))
         conn.commit()
         cur.close()
         conn.close()
@@ -131,7 +134,6 @@ def buy(pid):
     return render_template('buy.html', user=user, products=selected_product)
 
 
-
 @app.route('/confirmation/', methods=('GET', 'POST'))
 def confirmation():
     cid = session['cid']
@@ -139,13 +141,15 @@ def confirmation():
 
     conn = dbconn.get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT * FROM buys WHERE b_cid=(%s) AND b_pid=(%s);', (cid, pid))
+    cur.execute(
+        'SELECT * FROM buys WHERE b_cid=(%s) AND b_pid=(%s);', (cid, pid))
     conn.commit()
     selection = cur.fetchall()
-    #cur.close()
+    # cur.close()
 
     m_invid = 3020
-    cur.execute('Insert into managed_by(m_invid, m_pid) Values(%s , %s)',(m_invid, pid))
+    cur.execute(
+        'Insert into managed_by(m_invid, m_pid) Values(%s , %s)', (m_invid, pid))
     conn.commit()
     cur.close()
     conn.close()
@@ -156,8 +160,9 @@ def confirmation():
 def getFirstName(email, password):
     conn = dbconn.get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT first_name FROM customer WHERE email=(%s) AND password=(%s) "+"limit 1;", (email, password))
-    #cur.commit()
+    cur.execute("SELECT first_name FROM customer WHERE email=(%s) AND password=(%s) " +
+                "limit 1;", (email, password))
+    # cur.commit()
     query_result = cur.fetchall()
     cur.close()
     conn.close()
@@ -170,8 +175,9 @@ def getFirstName(email, password):
 def getCID(email, password):
     conn = dbconn.get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT cid FROM customer WHERE email=(%s) AND password=(%s) "+"limit 1;", (email, password))
-    #cur.commit()
+    cur.execute("SELECT cid FROM customer WHERE email=(%s) AND password=(%s) " +
+                "limit 1;", (email, password))
+    # cur.commit()
     query_result = cur.fetchall()
     cur.close()
     conn.close()
@@ -180,12 +186,13 @@ def getCID(email, password):
     cid = cid_list[0]
     return cid
 
+
 def getPriceFromPID(pid):
     price = 0
     conn = dbconn.get_db_connection()
     cur = conn.cursor()
     cur.execute("SELECT price FROM product WHERE pid=(%s);", (pid, ))
-    #cur.commit()
+    # cur.commit()
     query_result = cur.fetchall()
     cur.close()
     conn.close()

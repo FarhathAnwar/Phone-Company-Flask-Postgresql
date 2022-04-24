@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         nav a {
             color: #d64161;
             font-size: 3em;
             margin-left: 50px;
             text-decoration: none;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex * {
+            margin-right: 10px;
         }
 
         .phone {
@@ -18,15 +30,42 @@
         }
 
         .review {
-                margin-left: 50px;
-                font-size: 20px;
+            margin-left: 50px;
+            font-size: 20px;
         }
 
+        body {
+            padding: 20px;
+            margin: 0;
+        }
+
+        input {
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Open Sans', sans-serif;
+            margin: 10px 0;
+        }
     </style>
 </head>
+
 <body>
     <div class="content">
         {% block content %} {% endblock %}
     </div>
 </body>
+
 </html>

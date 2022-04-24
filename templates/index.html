@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% block title %} Welcome to Phone Company!  {% endblock %}</h1>
 <div class="flex">
-    <p><a href="http://127.0.0.1:5000/signin/">SIGN IN</a></p>
+    <p><a href="http://127.0.0.1:5000/">Home</a></p>
+    <p><a href="http://127.0.0.1:5000/signin/">Sign In</a></p>
     <p><a href="http://127.0.0.1:5000/browse/">Broswe Phones</a></p>
 </div>
+<h1 style="" class="title">{% block title %} Welcome to <br/>The Phone Company!  {% endblock %}</h1>
 <br />
 <br />
 
 <h2 style="margin-left: 10px"> Trending Products:</h2>
 {% for cx in products %}
     <div class='phone'>
-        <h3>{{ cx[5] }} --- PRICE: ${{ cx[3] }} --- RELEASE DATE: {{ cx[4] }}</h3>
-        <i><p>DISPLAY RESOLUTION: {{ cx[2] }}</p></i>
-        <p class='review'>STORAGE: {{ cx[6] }}</p>
+        <h2>{{ cx[5] }}</h2>
+        <p>RELEASE DATE: {{ cx[4] }}</p>
+        <br/>
+        <h4>PRICE: ${{ cx[3] }}</h4>
+        <i><h4>DISPLAY RESOLUTION: {{ cx[2] }}</h4></i>
+        <h4 class='review'>STORAGE: {{ cx[6] }}</h4>
     </div><br />
 {% endfor %}
 {% endblock %}

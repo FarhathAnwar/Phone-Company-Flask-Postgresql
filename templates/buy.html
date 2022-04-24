@@ -5,13 +5,16 @@
 <h3>You have selected the following product:</h3>
 {% for cx in products %}
 <div class='phone'>
-    <h3>{{ cx[5] }} --- PRICE: ${{ cx[3] }} --- RELEASE DATE: {{ cx[4] }}</h3>
-    <i>
-        <p>DISPLAY RESOLUTION: {{ cx[2] }}</p>
-    </i>
-    <p class='review'>STORAGE: {{ cx[6] }}</p>
-    <p>Order Quantity: 1</p>
+    <h2>{{ cx[5] }}</h2>
+    <p>RELEASE DATE: {{ cx[4] }}</p>
+    <br/>
+    <h4>PRICE: ${{ cx[3] }}</h4>
+    <i><h4>DISPLAY RESOLUTION: {{ cx[2] }}</h4></i>
+    <h4 class='review'>STORAGE: {{ cx[6] }}</h4>
     <h6 name="productid" id="pid">Product ID: {{cx[0]}}</h6>
+    </p>
+    <a href="/buy/{{cx[0]}}">BUY NOW</a>
+    </p>
 </div><br />
 {% endfor %}
 <form method="post">

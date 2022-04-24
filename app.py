@@ -112,7 +112,7 @@ def buy(pid):
         delivery_addr = request.form['address']
         order_quantity = 1
         order_date = datetime.datetime.today()
-        delivery_date = datetime.datetime.today() + datetime.timedelta(days=1)
+        delivery_date = datetime.datetime.today() + datetime.timedelta(days=15)
         total_price = getPriceFromPID(pid)
         cid = session['cid']
 
@@ -134,7 +134,23 @@ def buy(pid):
 
 @app.route('/confirmation/', methods=('GET', 'POST'))
 def confirmation():
-    return render_template('confirmation.html')
+    cid = session['cid']
+    pid = session['pid_of_placed_order']
+
+    conn = dbconn.get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM buys WHERE b_cid=(%s) AND b_pid=(%s);', (cid, pid))
+    conn.commit()
+    selection = cur.fetchall()
+    #cur.close()
+
+    m_invid = 3020
+    cur.execute('Insert into managed_by(m_invid, m_pid) Values(%s , %s)',(m_invid, pid))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return render_template('confirmation.html', products=selection)
 
 
 def getFirstName(email, password):

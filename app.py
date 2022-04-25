@@ -24,11 +24,17 @@ def index():
 
 def executeTest(conn):
     cur = conn.cursor()
-    cur.execute('SELECT * FROM product LIMIT 10;')
+    cur.execute('SELECT * FROM product LIMIT 20;')
     customers = cur.fetchall()
     cur.close()
     return customers
 
+def getCheapest(conn):
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM product order by price LIMIT 20;')
+    customers = cur.fetchall()
+    cur.close()
+    return customers
 
 @app.route('/signin/', methods=('GET', 'POST'))
 def signin():
@@ -68,6 +74,16 @@ def browse():
     conn = dbconn.get_db_connection()
 
     products = executeTest(conn)
+    conn.close
+
+    user = session['username']
+    return render_template('browse.html', products=products, user=user)
+
+@app.route('/deals/', methods=('GET', 'POST'))
+def deals():
+    conn = dbconn.get_db_connection()
+
+    products = getCheapest(conn)
     conn.close
 
     user = session['username']

@@ -1,0 +1,3156 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.1 (Ubuntu 14.1-2.pgdg20.04+1)
+-- Dumped by pg_dump version 14.1 (Ubuntu 14.1-2.pgdg20.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: buys; Type: TABLE; Schema: public; Owner: farhath
+--
+
+CREATE TABLE public.buys (
+    b_cid integer NOT NULL,
+    b_pid integer NOT NULL,
+    delivery_address character varying(60),
+    order_date date NOT NULL,
+    delivery_date date NOT NULL,
+    order_quantity integer NOT NULL,
+    total_price double precision NOT NULL
+);
+
+
+ALTER TABLE public.buys OWNER TO farhath;
+
+--
+-- Name: customer; Type: TABLE; Schema: public; Owner: farhath
+--
+
+CREATE TABLE public.customer (
+    cid integer NOT NULL,
+    password character varying(11) NOT NULL,
+    email character varying(20) NOT NULL,
+    first_name character varying(20) NOT NULL,
+    last_name character varying(20) NOT NULL,
+    phone_number character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.customer OWNER TO farhath;
+
+--
+-- Name: customer_cid_seq; Type: SEQUENCE; Schema: public; Owner: farhath
+--
+
+ALTER TABLE public.customer ALTER COLUMN cid ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.customer_cid_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: inventory; Type: TABLE; Schema: public; Owner: farhath
+--
+
+CREATE TABLE public.inventory (
+    invid integer NOT NULL,
+    products_sold integer NOT NULL,
+    future_stock integer NOT NULL,
+    current_stock integer NOT NULL,
+    revenue double precision NOT NULL
+);
+
+
+ALTER TABLE public.inventory OWNER TO farhath;
+
+--
+-- Name: inventory_invid_seq; Type: SEQUENCE; Schema: public; Owner: farhath
+--
+
+ALTER TABLE public.inventory ALTER COLUMN invid ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.inventory_invid_seq
+    START WITH 3000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: managed_by; Type: TABLE; Schema: public; Owner: farhath
+--
+
+CREATE TABLE public.managed_by (
+    m_invid integer NOT NULL,
+    m_pid integer NOT NULL
+);
+
+
+ALTER TABLE public.managed_by OWNER TO farhath;
+
+--
+-- Name: product; Type: TABLE; Schema: public; Owner: farhath
+--
+
+CREATE TABLE public.product (
+    pid integer NOT NULL,
+    imei_number character varying(20) NOT NULL,
+    display_res character varying(100) NOT NULL,
+    price double precision NOT NULL,
+    model_year character varying(50) NOT NULL,
+    model_name character varying(50) NOT NULL,
+    internal character varying(100)
+);
+
+
+ALTER TABLE public.product OWNER TO farhath;
+
+--
+-- Name: product_pid_seq; Type: SEQUENCE; Schema: public; Owner: farhath
+--
+
+ALTER TABLE public.product ALTER COLUMN pid ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.product_pid_seq
+    START WITH 2000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Data for Name: buys; Type: TABLE DATA; Schema: public; Owner: farhath
+--
+
+COPY public.buys (b_cid, b_pid, delivery_address, order_date, delivery_date, order_quantity, total_price) FROM stdin;
+1107	2023	(995, ' S. Dobson Rd Houston, KN')	1998-09-23	1998-09-28	1	851.27
+1008	2024	(600, ' S. Main Dr Buffalo, MI')	1996-06-13	1996-06-18	2	741.05
+1184	2025	(1045, ' W. OC Works Dr Hilsboro, WY')	2004-11-22	2004-11-27	1	457.67
+1983	2026	(2505, ' S. Wabash St Buffalo, MA')	1994-03-15	1994-03-20	4	3117.94
+1951	2027	(1004, ' S. Ash St Encinitas, CO')	2003-04-12	2003-04-17	5	4131.3
+1868	2028	(932, ' W. Mean St Phoenix, NY')	1996-06-02	1996-06-07	4	3287.62
+1432	2029	(1816, ' N. Wabash St Wellys, GA')	2013-11-02	2013-11-07	3	1402.31
+1347	2030	(1111, ' W. Alma School St El Paso, CA')	1995-01-23	1995-01-28	3	1204.27
+1318	2031	(413, ' N. University Dr Encinitas, DE')	1993-04-15	1993-04-20	2	418.04
+1915	2032	(2777, ' S. Cert Dr Encinitas, NV')	2016-10-04	2016-10-09	5	2586.21
+1931	2033	(1627, ' S. Letter St Wellys, WA')	2021-07-03	2021-07-08	4	889.68
+1456	2034	(104, ' W. Mean St Chandler, CA')	1991-08-21	1991-08-26	1	200.61
+1323	2035	(2370, ' N. Rural Rd Encinitas, KS')	2011-04-16	2011-04-21	1	990.98
+1371	2036	(666, ' N. Gilbert Rd Chandler, OR')	2003-04-09	2003-04-14	2	877.61
+1188	2037	(2097, ' S. Uee Rd Wellys, NM')	2010-06-12	2010-06-17	2	799.91
+1314	2038	(631, ' N. Alma School St Encinitas, DE')	2013-11-21	2013-11-26	2	294.76
+1720	2039	(793, ' N. Letter St Wellys, OH')	2008-02-07	2008-02-12	3	1938.74
+1590	2040	(1649, ' S. Rural Rd Orton, WA')	1998-02-28	1998-03-28	4	3692.29
+1944	2041	(2526, ' E. Alma School St Hilsboro, FL')	2018-10-26	2018-11-26	1	767.97
+1538	2042	(769, ' W. Dobson Rd Plano, KS')	2022-03-14	2022-03-19	1	545.98
+1389	2043	(2134, ' W. Rural Rd Orton, MI')	2019-01-20	2019-01-25	1	242.87
+1865	2045	(455, ' W. Cert Dr Wellys, AL')	2007-11-18	2007-11-23	4	1565.83
+1778	2046	(1721, ' N. Francis St Hilsboro, MA')	2013-07-27	2013-08-27	4	990.21
+1254	2047	(276, ' S. OC Works Dr Chandler, OR')	2022-07-15	2022-07-20	3	1730.46
+1585	2048	(2893, ' S. OC Works Dr Durham, MI')	1998-11-19	1998-11-24	1	127.82
+1957	2049	(1086, ' E. Gilbert Rd Orton, CA')	1996-01-03	1996-01-08	3	2138.65
+1654	2050	(1017, ' S. Dobson Rd Wellys, KN')	2006-10-12	2006-10-17	2	579.85
+1558	2051	(2086, ' W. Myrtle Ave Plano, AZ')	2000-10-20	2000-10-25	4	2536.39
+1169	2052	(639, ' E. Main Dr Plano, KS')	2001-08-19	2001-08-24	2	324.45
+1777	2053	(1953, ' S. Gilbert Rd Orton, CA')	2009-08-17	2009-08-22	5	3825.03
+1611	2054	(1870, ' W. Letter St Durham, UT')	2014-03-16	2014-03-21	1	431.43
+1524	2055	(976, ' W. Mean St Wellys, MA')	2004-01-01	2004-01-06	4	514.28
+1669	2056	(1984, ' W. Fun St Encinitas, NV')	2000-02-18	2000-02-23	3	2724.73
+1616	2057	(375, ' N. Rural Rd Houston, AL')	2015-01-28	2015-02-28	1	387.09
+1716	2058	(1260, ' S. Cert Dr Memphis, TX')	2005-01-24	2005-01-29	4	1925.78
+1497	2059	(2901, ' W. Francis St Encinitas, NM')	2010-06-03	2010-06-08	2	1996.53
+1525	2060	(1250, ' W. Uee Rd Orton, DE')	2018-02-24	2018-02-24	2	643.5
+1381	2061	(1361, ' E. Myrtle Ave Plano, NY')	2022-05-19	2022-05-24	3	1330.75
+1962	2062	(1210, ' E. Myrtle Ave Plano, CO')	2013-11-14	2013-11-19	1	726.67
+1696	2063	(1449, ' N. Rural Rd Wellys, KS')	1991-11-03	1991-11-08	5	2037.77
+1886	2064	(969, ' W. Alma School St Hilsboro, FL')	1998-06-08	1998-06-13	2	1085.9
+1987	2065	(2832, ' E. Letter St Alma, OH')	2012-08-16	2012-08-21	5	4344.95
+1575	2066	(2499, ' S. Uee Rd St. Petersburg, MI')	1997-08-09	1997-08-14	1	662.61
+1955	2067	(2459, ' N. Myrtle Ave New York, AL')	2003-09-05	2003-09-10	3	1154.76
+1851	2068	(2438, ' N. Silly Dr Orton, OH')	2017-05-08	2017-05-13	3	2963.93
+1259	2069	(290, ' W. Silly Dr Houston, NJ')	2010-07-14	2010-07-19	2	779.57
+1032	2070	(414, ' N. Ash St Orton, GA')	2000-04-04	2000-04-09	5	1473.52
+1010	2071	(2156, ' E. Dobson Rd St. Petersburg, ID')	2005-04-17	2005-04-22	2	1991.79
+1450	2072	(980, ' E. Francis St Durham, MI')	1994-03-14	1994-03-19	3	1779.82
+1374	2073	(1073, ' S. Silly Dr El Paso, NV')	2016-09-24	2016-09-29	5	1688.84
+1001	2074	(1853, ' W. University Dr Wellys, NM')	2013-06-09	2013-06-14	3	1981.25
+1905	2075	(2850, ' N. Myrtle Ave Buffalo, NV')	2013-03-27	2013-04-27	5	1550.26
+1884	2076	(2584, ' E. Francis St Tucson, AR')	1993-07-20	1993-07-25	2	672.97
+1924	2077	(1173, ' W. Letter St St. Petersburg, CO')	2020-10-27	2020-11-27	3	2331.28
+1452	2078	(1018, ' N. OC Works Dr Alma, MA')	1995-01-07	1995-01-12	4	954.94
+1004	2079	(913, ' W. Uee Rd Houston, WY')	2005-03-27	2005-04-27	2	1512.89
+1827	2080	(1766, ' W. Uee Rd Durham, OH')	2021-06-02	2021-06-07	5	4871.18
+1400	2081	(1196, ' S. Wabash St Alma, TX')	2001-08-08	2001-08-13	5	614.64
+1353	2082	(2746, ' E. Alma School St Chandler, NM')	2013-06-15	2013-06-20	5	1990.94
+1659	2083	(2484, ' N. Dobson Rd Encinitas, WY')	2004-03-12	2004-03-17	3	2837.24
+1580	2084	(1351, ' S. Rural Rd London, NJ')	2019-09-18	2019-09-23	4	2452.37
+1792	2085	(2569, ' E. Letter St St. Petersburg, OH')	2001-07-06	2001-07-11	5	2222.33
+1626	2086	(263, ' S. Main Dr Phoenix, FL')	2016-06-01	2016-06-06	2	1090.37
+1150	2087	(2489, ' W. Rural Rd Houston, CO')	2020-04-20	2020-04-25	3	2755.52
+1571	2088	(2087, ' E. Cert Dr Attica, VT')	2008-05-24	2008-05-29	2	1582.7
+1154	2089	(1910, ' E. Uee Rd Hilsboro, TX')	2018-11-08	2018-11-13	2	1061.57
+1572	2090	(2516, ' W. Main Dr Phoenix, AL')	2002-10-04	2002-10-09	3	313.48
+1447	2091	(343, ' S. Myrtle Ave St. Petersburg, AR')	2005-05-27	2005-06-27	1	356.07
+1413	2092	(2279, ' E. Mean St Tucson, OH')	2014-05-25	2014-06-25	1	730.92
+1309	2094	(1703, ' E. Alma School St Attica, WA')	2007-07-22	2007-07-27	5	1980.24
+1864	2095	(1369, ' S. Alma School St Phoenix, KS')	2017-02-13	2017-02-18	5	3500.04
+1215	2096	(151, ' E. Fun St St. Petersburg, GA')	2013-04-07	2013-04-12	4	3439.37
+1540	2097	(641, ' E. Cert Dr Hilsboro, MA')	2021-01-27	2021-02-27	5	4416.07
+1184	2098	(2170, ' W. Alma School St Memphis, TX')	2014-02-14	2014-02-19	1	660.8
+1860	2099	(185, ' E. Cert Dr Tucson, NJ')	2017-03-28	2017-04-28	5	821.36
+1533	2100	(2882, ' E. Mean St Tucson, NM')	1992-09-18	1992-09-23	5	4832.34
+1495	2101	(1827, ' S. Main Dr Hilsboro, VT')	2002-06-16	2002-06-21	4	2007.5
+1070	2102	(802, ' E. Wabash St Plano, NV')	2014-09-08	2014-09-13	4	2894.4
+1084	2103	(1476, ' E. Fun St Orton, UT')	2019-06-04	2019-06-09	4	3801.64
+1060	2105	(170, ' N. Francis St Plano, NJ')	2010-10-11	2010-10-16	2	229.7
+1834	2106	(2770, ' W. Myrtle Ave St. Petersburg, AZ')	2002-09-15	2002-09-20	2	695.01
+1492	2107	(678, ' N. Dobson Rd Orton, UT')	2007-10-21	2007-10-26	3	2459.14
+1727	2108	(1391, ' S. Main Dr Attica, ID')	2017-11-14	2017-11-19	5	571.7
+1775	2109	(2419, ' W. Dobson Rd Tucson, TX')	2002-09-11	2002-09-16	4	3800.88
+1833	2110	(1714, ' E. Gilbert Rd London, UT')	2016-08-20	2016-08-25	2	1849.11
+1423	2111	(2160, ' N. Dobson Rd El Paso, VT')	1996-07-23	1996-07-28	5	853.65
+1164	2112	(1284, ' N. Wabash St Houston, CA')	2016-03-16	2016-03-21	5	830.76
+1311	2113	(2611, ' W. Fun St London, AZ')	1993-07-11	1993-07-16	3	544.37
+1658	2114	(1133, ' E. Fun St Houston, UT')	2009-04-24	2009-04-29	5	548.86
+1380	2115	(1415, ' E. Letter St Plano, FL')	2001-07-01	2001-07-06	3	2533.38
+1170	2116	(551, ' W. Dobson Rd Buffalo, DE')	1992-06-18	1992-06-23	5	1684.86
+1718	2117	(1749, ' N. Cert Dr New York, AR')	2016-04-28	2016-05-28	3	1061.23
+1403	2118	(211, ' E. Silly Dr Memphis, VT')	2017-09-28	2017-10-28	4	3233.33
+1288	2119	(209, ' S. Gilbert Rd Orton, WA')	1999-01-14	1999-01-19	4	3658.12
+1807	2120	(2558, ' S. OC Works Dr Phoenix, AZ')	2009-08-12	2009-08-17	3	1167.96
+1263	2121	(2691, ' N. University Dr Durham, AR')	2021-11-17	2021-11-22	1	261.04
+1583	2122	(1043, ' S. OC Works Dr Tucson, FL')	2001-04-12	2001-04-17	2	1803.88
+1067	2123	(1033, ' E. Mean St Wellys, KS')	2010-03-06	2010-03-11	3	1984.58
+1131	2124	(1661, ' N. Fun St Wellys, TX')	2013-01-27	2013-02-27	3	1112.52
+1293	2125	(2420, ' S. Mean St Orton, AL')	2015-06-25	2015-07-25	1	499.45
+1965	2126	(502, ' W. Ash St Hilsboro, WY')	2018-04-26	2018-05-26	1	325.94
+1820	2127	(460, ' N. Uee Rd Hilsboro, AL')	1991-02-05	1991-02-10	2	1377.72
+1815	2128	(1042, ' E. Mean St New York, KN')	1995-07-21	1995-07-26	5	4928.17
+1797	2129	(115, ' S. Gilbert Rd Phoenix, TX')	1990-11-03	1990-11-08	4	3272.59
+1092	2130	(1657, ' E. Francis St Alma, DE')	2007-10-19	2007-10-24	2	1735.56
+1942	2131	(923, ' N. Mean St Hilsboro, DE')	1998-04-15	1998-04-20	2	1007.77
+1627	2132	(1236, ' W. Silly Dr New York, OH')	2008-03-14	2008-03-19	2	1153.05
+1868	2133	(184, ' E. Dobson Rd Buffalo, AZ')	2016-07-22	2016-07-27	5	937.51
+1858	2134	(429, ' S. Uee Rd Attica, KN')	2011-09-22	2011-09-27	3	2848.85
+1808	2135	(1248, ' E. University Dr Alma, OH')	2000-01-17	2000-01-22	3	2754.03
+1075	2136	(334, ' E. Alma School St Memphis, CA')	1991-10-09	1991-10-14	3	768.63
+1026	2137	(1084, ' W. Main Dr Plano, AZ')	1992-08-08	1992-08-13	1	385.72
+1413	2138	(918, ' N. Francis St New York, NY')	1999-11-20	1999-11-25	5	1584.35
+1587	2139	(2521, ' S. University Dr Durham, AR')	2006-09-10	2006-09-15	4	1305.75
+1063	2140	(2358, ' S. Rural Rd Attica, TX')	2011-04-16	2011-04-21	4	1500.74
+1054	2141	(755, ' W. Ash St Buffalo, MA')	2022-03-23	2022-03-28	3	736.39
+1505	2142	(1160, ' E. Mean St Encinitas, NM')	1998-08-06	1998-08-11	1	193
+1454	2143	(2790, ' E. Silly Dr Houston, VT')	2020-05-25	2020-06-25	3	2850.93
+1076	2144	(2234, ' S. Letter St Houston, NV')	2020-08-24	2020-08-29	3	1684
+1168	2146	(1113, ' E. Francis St Durham, OH')	2009-06-03	2009-06-08	4	3219.45
+1615	2147	(876, ' E. Uee Rd El Paso, ID')	2000-11-10	2000-11-15	1	802.08
+1939	2148	(2356, ' W. Ash St Hilsboro, UT')	2014-09-13	2014-09-18	3	1563.53
+1994	2149	(779, ' S. OC Works Dr London, GA')	1996-08-02	1996-08-07	1	422.95
+1373	2150	(2331, ' S. Cert Dr Tucson, KN')	2000-11-03	2000-11-08	2	251.19
+1306	2151	(560, ' W. Francis St St. Petersburg, DE')	2022-01-01	2022-01-06	2	1106.48
+1890	2152	(2407, ' S. Myrtle Ave London, VT')	2021-06-05	2021-06-10	2	584.09
+1706	2153	(1955, ' N. Dobson Rd Phoenix, NY')	1993-03-08	1993-03-13	5	2394.23
+1554	2154	(109, ' E. Letter St Plano, AR')	1993-07-16	1993-07-21	3	2606.02
+1443	2155	(1015, ' E. Main Dr New York, TX')	2006-01-13	2006-01-18	3	1853.24
+1043	2156	(2049, ' W. Gilbert Rd Encinitas, NY')	2000-02-24	2000-02-29	3	929
+1594	2157	(751, ' E. Letter St Durham, OH')	1993-08-25	1993-09-25	1	302.77
+1270	2158	(2348, ' W. Myrtle Ave Phoenix, GA')	1997-08-14	1997-08-19	5	529.84
+1850	2159	(1765, ' W. Letter St Tucson, CA')	2022-09-10	2022-09-15	5	562.07
+1815	2160	(999, ' W. Rural Rd New York, NY')	2015-02-15	2015-02-20	1	854.46
+1561	2161	(2636, ' N. Silly Dr London, KN')	2013-01-19	2013-01-24	5	2697.06
+1064	2162	(2383, ' S. Letter St Durham, UT')	2004-09-05	2004-09-10	2	1493.7
+1888	2163	(216, ' W. OC Works Dr Houston, AR')	2013-08-11	2013-08-16	1	404.81
+1075	2164	(898, ' W. Fun St Buffalo, MA')	1993-05-18	1993-05-23	5	3609.3
+1636	2165	(2972, ' E. Dobson Rd St. Petersburg, KS')	2012-06-05	2012-06-10	3	1737.22
+1871	2166	(2009, ' N. Cert Dr Chandler, WY')	2002-06-20	2002-06-25	2	975.36
+1813	2167	(1359, ' N. Francis St Alma, AR')	2017-01-15	2017-01-20	5	1958.02
+1172	2168	(1267, ' S. Wabash St Buffalo, UT')	2009-09-05	2009-09-10	2	1609.83
+1956	2169	(2126, ' W. Rural Rd Buffalo, GA')	2011-03-12	2011-03-17	2	1955.68
+1854	2170	(110, ' W. Myrtle Ave Orton, OH')	2005-09-10	2005-09-15	4	2949.55
+1382	2171	(1004, ' N. OC Works Dr Durham, NY')	2000-11-03	2000-11-08	1	627.15
+1964	2172	(837, ' S. Gilbert Rd El Paso, AZ')	2010-01-06	2010-01-11	1	185.93
+1719	2173	(2300, ' W. Myrtle Ave Alma, ID')	2018-04-26	2018-05-26	4	1618.59
+1484	2174	(2460, ' N. Gilbert Rd New York, KS')	1996-03-05	1996-03-10	4	1220.73
+1953	2175	(2199, ' E. University Dr Memphis, GA')	1993-01-03	1993-01-08	5	3103.27
+1490	2176	(2643, ' E. OC Works Dr Buffalo, KS')	2003-10-08	2003-10-13	1	131.7
+1893	2177	(2932, ' N. Francis St Alma, CO')	1999-05-08	1999-05-13	5	4807.11
+1307	2178	(2216, ' W. Gilbert Rd Wellys, FL')	1992-11-06	1992-11-11	5	4607.9
+1366	2179	(2080, ' W. Francis St St. Petersburg, VT')	2011-10-14	2011-10-19	3	2843.15
+1229	2180	(813, ' E. Gilbert Rd Chandler, AZ')	2004-05-04	2004-05-09	2	946.37
+1872	2181	(232, ' S. Ash St Durham, MA')	2012-07-15	2012-07-20	5	4470.56
+1099	2182	(2256, ' E. Myrtle Ave Encinitas, TX')	2012-10-09	2012-10-14	5	2168.47
+1701	2183	(2151, ' W. Fun St El Paso, KN')	2007-02-08	2007-02-13	4	1008.65
+1649	2184	(2242, ' W. Wabash St Phoenix, NJ')	2021-09-23	2021-09-28	5	1821.86
+1451	2185	(1795, ' S. Mean St Hilsboro, NY')	2021-08-05	2021-08-10	1	292.43
+1086	2186	(257, ' N. Letter St Chandler, CO')	2009-06-18	2009-06-23	4	3353.33
+1646	2187	(782, ' N. OC Works Dr Memphis, DE')	2000-05-09	2000-05-14	4	1656.77
+1719	2188	(1660, ' W. Fun St Hilsboro, WY')	2018-10-03	2018-10-08	3	1704.53
+1288	2189	(102, ' N. OC Works Dr Buffalo, AL')	2001-04-07	2001-04-12	1	398.59
+1656	2190	(2999, ' E. Ash St Memphis, NM')	2014-07-15	2014-07-20	1	364.25
+1095	2191	(1114, ' E. Gilbert Rd Alma, OR')	2022-07-07	2022-07-12	3	1290.89
+1045	2192	(1921, ' S. Uee Rd New York, AR')	2020-01-15	2020-01-20	3	2549.88
+1581	2193	(1676, ' W. Francis St Hilsboro, TX')	2015-06-06	2015-06-11	5	945.54
+1444	2194	(2739, ' W. Myrtle Ave Hilsboro, KS')	2010-09-01	2010-09-06	3	1893.91
+1797	2195	(1846, ' E. Wabash St Chandler, UT')	2019-01-19	2019-01-24	2	1039.05
+1738	2196	(1813, ' W. Mean St Durham, ID')	2001-08-10	2001-08-15	2	411.73
+1352	2197	(1023, ' N. Letter St Orton, NV')	2004-06-27	2004-07-27	2	880.76
+1920	2198	(2577, ' E. Ash St Wellys, KS')	1999-09-03	1999-09-08	5	2432.77
+1597	2199	(1504, ' S. Mean St Hilsboro, KN')	2001-04-22	2001-04-27	1	887.07
+1575	2200	(1092, ' E. Gilbert Rd Phoenix, OH')	1998-01-15	1998-01-20	5	2463.24
+1071	2201	(217, ' W. Rural Rd London, UT')	2017-05-24	2017-05-29	4	1725.2
+1045	2202	(454, ' W. Letter St Tucson, NV')	2017-07-19	2017-07-24	5	4470.67
+1015	2203	(730, ' N. Dobson Rd St. Petersburg, VT')	2011-06-05	2011-06-10	1	881.46
+1977	2204	(289, ' W. Myrtle Ave Hilsboro, NM')	1993-01-21	1993-01-26	1	834.46
+1014	2205	(1945, ' E. Gilbert Rd Chandler, VT')	2005-11-10	2005-11-15	2	235.68
+1430	2206	(506, ' E. Letter St Encinitas, AR')	2012-05-28	2012-06-28	2	1208.94
+1224	2207	(1573, ' S. Fun St Memphis, KS')	2009-03-14	2009-03-19	3	2064.89
+1857	2208	(958, ' W. Rural Rd Encinitas, TX')	2007-10-02	2007-10-07	4	1481.78
+1034	2209	(1761, ' S. Alma School St Memphis, WA')	1993-10-04	1993-10-09	1	171.57
+1238	2210	(1760, ' N. Letter St New York, WY')	1994-10-22	1994-10-27	1	987.94
+1341	2211	(1498, ' N. Alma School St Alma, WY')	2021-01-09	2021-01-14	1	678.51
+1369	2212	(1780, ' W. Ash St Phoenix, AZ')	2020-06-15	2020-06-20	2	739.87
+1181	2213	(982, ' N. Gilbert Rd Chandler, NJ')	2015-04-28	2015-05-28	5	4582.74
+1178	2214	(2423, ' S. Uee Rd Orton, AL')	1992-07-25	1992-08-25	1	794.66
+1137	2215	(2555, ' N. Main Dr Encinitas, OH')	1995-11-15	1995-11-20	4	3578.73
+1609	2216	(1256, ' N. Francis St Attica, KN')	2011-02-03	2011-02-08	3	641.45
+1466	2217	(2517, ' E. Silly Dr Tucson, GA')	1997-02-02	1997-02-07	4	2025.01
+1849	2218	(2351, ' N. Fun St Orton, KN')	2004-08-28	2004-09-28	1	448.12
+1104	2219	(1150, ' E. Cert Dr Attica, NM')	2017-09-12	2017-09-17	4	2130.23
+1985	2220	(2227, ' S. Alma School St Orton, MI')	2013-11-21	2013-11-26	5	2780.18
+1373	2221	(1109, ' S. Myrtle Ave Phoenix, AZ')	2009-02-14	2009-02-19	2	1354.53
+1687	2222	(1178, ' E. Wabash St Durham, OR')	1993-04-21	1993-04-26	3	759.7
+1187	2223	(862, ' E. Letter St Alma, KN')	2021-01-24	2021-01-29	2	403.6
+1182	2224	(2604, ' W. Cert Dr Wellys, OH')	2014-08-08	2014-08-13	4	1994.74
+1417	2225	(1968, ' S. Cert Dr Attica, OR')	2009-07-11	2009-07-16	4	2859.2
+1922	2226	(1793, ' S. Alma School St Alma, MA')	2014-09-17	2014-09-22	1	925.13
+1141	2227	(2618, ' S. Wabash St Encinitas, OR')	1995-02-25	1995-03-25	5	2312.85
+1876	2228	(1279, ' S. Dobson Rd Chandler, CA')	1995-04-07	1995-04-12	5	4273.43
+1145	2229	(407, ' W. Cert Dr Wellys, NY')	2019-11-26	2019-12-26	1	867.78
+1564	2230	(155, ' S. Letter St St. Petersburg, NJ')	2012-07-25	2012-08-25	5	1589.97
+1336	2231	(574, ' N. Silly Dr Durham, WA')	1991-11-06	1991-11-11	1	750.99
+1960	2232	(2452, ' N. Main Dr St. Petersburg, CO')	1995-06-28	1995-07-28	5	3745.49
+1449	2233	(1002, ' S. Rural Rd Hilsboro, CO')	1996-02-20	1996-02-25	1	883.77
+1610	2234	(842, ' N. Mean St Tucson, OR')	2016-10-11	2016-10-16	3	790.73
+1995	2235	(801, ' S. Cert Dr Alma, NV')	2008-05-17	2008-05-22	1	189.22
+1623	2236	(862, ' S. Ash St Memphis, CO')	2010-10-24	2010-10-29	3	1707.03
+1327	2237	(101, ' S. Alma School St Attica, NY')	2011-07-21	2011-07-26	3	2461.48
+1367	2238	(2082, ' S. Gilbert Rd Tucson, OR')	1998-07-23	1998-07-28	4	2041.57
+1659	2239	(1175, ' S. Mean St Houston, DE')	2000-01-04	2000-01-09	3	2869.61
+1045	2240	(1746, ' E. OC Works Dr Attica, ID')	2004-10-20	2004-10-25	4	2607.91
+1853	2241	(100, ' N. Main Dr Buffalo, AL')	1997-02-04	1997-02-09	3	1004.3
+1614	2242	(397, ' S. Wabash St Attica, WY')	2006-06-07	2006-06-12	2	880.13
+1144	2243	(2350, ' N. Uee Rd Wellys, OR')	2012-03-22	2012-03-27	5	1929.75
+1107	2244	(101, ' W. Wabash St Houston, MA')	2022-11-25	2022-12-25	1	380.06
+1503	2245	(2690, ' W. Letter St Buffalo, NV')	2009-11-21	2009-11-26	1	452.2
+1597	2246	(837, ' E. Dobson Rd Alma, MI')	2015-04-02	2015-04-07	5	3838.84
+1218	2247	(1174, ' W. Wabash St Durham, ID')	2000-11-15	2000-11-20	4	2009.25
+1213	2248	(126, ' E. Gilbert Rd Attica, GA')	2020-10-08	2020-10-13	3	1930.11
+1534	2249	(2055, ' W. OC Works Dr Tucson, NJ')	1995-07-28	1995-08-28	4	1030.55
+1308	2250	(2557, ' W. Myrtle Ave Phoenix, GA')	1998-02-01	1998-02-06	1	291.42
+1107	2251	(648, ' W. Letter St London, NM')	2004-06-15	2004-06-20	3	1183.19
+1734	2252	(2308, ' S. Main Dr Chandler, MI')	1993-05-11	1993-05-16	1	203.24
+1491	2253	(738, ' S. Gilbert Rd Orton, OH')	1990-09-27	1990-10-27	2	1836.24
+1441	2254	(1601, ' N. Francis St Phoenix, DE')	1999-03-18	1999-03-23	2	1762.42
+1037	2255	(2625, ' S. Francis St Orton, WY')	1990-11-09	1990-11-14	1	374.99
+1372	2256	(1683, ' E. Alma School St Buffalo, KN')	2013-11-03	2013-11-08	5	1740.5
+1717	2257	(2507, ' E. Uee Rd Encinitas, NM')	2009-07-20	2009-07-25	5	1650.27
+1312	2258	(2282, ' S. Letter St Orton, NM')	1997-04-22	1997-04-27	4	1809.7
+1147	2259	(508, ' S. Francis St Attica, WA')	2011-03-24	2011-03-29	5	1726.68
+1812	2260	(1773, ' W. Uee Rd El Paso, AL')	1998-10-01	1998-10-06	3	2333.92
+1809	2261	(2363, ' E. Wabash St London, VT')	2013-08-27	2013-09-27	2	556.72
+1150	2262	(1500, ' W. Cert Dr Memphis, CO')	2009-08-10	2009-08-15	1	124.6
+1022	2263	(1271, ' E. Wabash St Tucson, VT')	2003-09-18	2003-09-23	2	1812.87
+1464	2264	(974, ' W. Myrtle Ave Durham, VT')	2016-05-22	2016-05-27	4	1117.05
+1105	2265	(1893, ' W. Wabash St Hilsboro, ID')	2014-08-28	2014-09-28	5	3970.92
+1558	2266	(325, ' N. Uee Rd Orton, VT')	2020-03-10	2020-03-15	5	4405.8
+1170	2267	(1197, ' W. Ash St St. Petersburg, KN')	2001-11-08	2001-11-13	4	1934.1
+1904	2268	(2112, ' N. Cert Dr Encinitas, GA')	2007-06-16	2007-06-21	4	481.62
+1220	2269	(1281, ' S. Gilbert Rd St. Petersburg, KS')	2022-02-16	2022-02-21	4	2723.83
+1029	2270	(2679, ' W. University Dr Phoenix, GA')	2015-11-10	2015-11-15	3	1420.53
+1688	2271	(1242, ' S. Cert Dr Phoenix, DE')	1997-04-27	1997-05-27	2	1852.59
+1169	2272	(2922, ' W. Francis St Hilsboro, NJ')	2003-08-27	2003-09-27	2	530.86
+1577	2273	(349, ' N. University Dr Plano, FL')	2019-10-04	2019-10-09	3	2982.55
+1513	2274	(858, ' W. Uee Rd Durham, OH')	2004-04-13	2004-04-18	4	2068
+1269	2275	(2986, ' E. Wabash St Chandler, NM')	1992-01-16	1992-01-21	2	1497.59
+1269	2276	(1250, ' W. Dobson Rd St. Petersburg, MI')	1993-07-24	1993-07-29	4	1728.08
+1478	2277	(2401, ' N. Dobson Rd Attica, OR')	1992-11-13	1992-11-18	3	2592.15
+1661	2278	(2623, ' S. OC Works Dr El Paso, TX')	2021-09-27	2021-10-27	3	2228.45
+1329	2279	(2566, ' S. Wabash St Orton, NJ')	1995-02-23	1995-02-28	5	2484.86
+1981	2280	(2649, ' E. Fun St Attica, KS')	1998-03-02	1998-03-07	1	967.49
+1099	2281	(2328, ' E. OC Works Dr Wellys, WY')	2018-02-12	2018-02-17	4	1743.24
+1475	2282	(1558, ' N. Myrtle Ave Memphis, GA')	1996-09-24	1996-09-29	4	1203.85
+1975	2283	(2841, ' N. Main Dr Houston, UT')	2016-03-15	2016-03-20	5	2300.04
+1536	2284	(1043, ' S. Myrtle Ave Plano, CA')	1997-01-21	1997-01-26	2	874.2
+1193	2285	(1459, ' W. Uee Rd Tucson, ID')	2009-03-11	2009-03-16	4	2590.14
+1898	2286	(1697, ' S. Rural Rd New York, VT')	2022-02-01	2022-02-06	3	1520.07
+1551	2287	(1264, ' E. Cert Dr Alma, FL')	1992-03-27	1992-04-27	4	1097.89
+1545	2288	(2298, ' W. Dobson Rd Hilsboro, AR')	1994-03-06	1994-03-11	1	878.26
+1828	2289	(2086, ' S. Gilbert Rd St. Petersburg, WA')	2014-08-22	2014-08-27	5	2095.12
+1222	2290	(394, ' E. Dobson Rd Houston, DE')	1999-03-14	1999-03-19	5	3333.2
+1169	2291	(1932, ' S. Main Dr London, CA')	2012-05-11	2012-05-16	1	504.46
+1929	2292	(141, ' W. Main Dr St. Petersburg, TX')	2011-08-25	2011-09-25	5	3423.7
+1721	2293	(2705, ' E. Alma School St Memphis, DE')	1999-01-03	1999-01-08	3	489.21
+1901	2294	(1432, ' N. Main Dr Durham, KS')	1995-11-28	1995-12-28	2	1869.41
+1611	2295	(669, ' N. Mean St Houston, AR')	2009-01-26	2009-02-26	2	1538.77
+1402	2296	(2792, ' E. Alma School St El Paso, AZ')	2020-07-11	2020-07-16	1	606.08
+1487	2297	(1024, ' W. Uee Rd Buffalo, KS')	2002-03-20	2002-03-25	1	501.83
+1234	2298	(2171, ' E. Alma School St Durham, OR')	1995-10-03	1995-10-08	2	1378.5
+1207	2299	(1556, ' N. Main Dr Orton, KS')	1993-03-19	1993-03-24	1	839.02
+1259	2300	(2931, ' E. Mean St Tucson, NJ')	2001-07-04	2001-07-09	4	665.09
+1684	2301	(527, ' W. Ash St St. Petersburg, NM')	2021-09-27	2021-10-27	2	752.83
+1283	2302	(2819, ' E. Cert Dr Alma, NJ')	2012-10-12	2012-10-17	4	1560.89
+1752	2303	(151, ' S. Main Dr Attica, ID')	2014-10-14	2014-10-19	4	1188.29
+1264	2304	(2581, ' E. Uee Rd Buffalo, NY')	2010-04-28	2010-05-28	4	406.51
+1407	2305	(2912, ' N. Ash St Plano, ID')	2007-10-09	2007-10-14	4	1472.43
+1316	2306	(315, ' S. Gilbert Rd St. Petersburg, VT')	2000-09-15	2000-09-20	2	1775.85
+1409	2307	(741, ' N. OC Works Dr Encinitas, ID')	2003-05-24	2003-05-29	5	3911.31
+1911	2308	(1694, ' W. Uee Rd Tucson, VT')	1996-05-22	1996-05-27	5	1804.41
+1885	2309	(2857, ' E. Letter St New York, MA')	2006-02-05	2006-02-10	2	215
+1432	2310	(1695, ' S. Gilbert Rd London, AR')	2000-01-12	2000-01-17	5	686.23
+1014	2311	(742, ' S. Wabash St Orton, UT')	2019-04-23	2019-04-28	1	224.04
+1836	2312	(122, ' N. Francis St Memphis, FL')	2018-09-22	2018-09-27	1	989.55
+1312	2313	(552, ' N. Wabash St Chandler, OR')	2005-08-02	2005-08-07	3	1061.58
+1195	2314	(1874, ' N. Gilbert Rd New York, AL')	2013-09-18	2013-09-23	5	4971.54
+1746	2315	(550, ' N. Rural Rd Attica, OH')	2010-02-28	2010-03-28	5	2556.25
+1729	2316	(1054, ' S. Alma School St Phoenix, OR')	1996-06-17	1996-06-22	4	2735.74
+1335	2317	(1803, ' N. Letter St El Paso, AZ')	2016-08-19	2016-08-24	4	2647.9
+1320	2318	(456, ' S. Wabash St Houston, TX')	2012-01-04	2012-01-09	1	665.92
+1861	2319	(1244, ' E. OC Works Dr Houston, AZ')	2001-03-04	2001-03-09	5	1333.42
+1451	2320	(1220, ' W. Gilbert Rd Plano, KN')	1999-01-10	1999-01-15	2	441.47
+1629	2321	(2747, ' S. University Dr Phoenix, AZ')	2006-09-10	2006-09-15	4	3238.66
+1198	2322	(295, ' S. University Dr Hilsboro, MI')	1990-08-01	1990-08-06	1	481.3
+1304	2323	(2447, ' S. Silly Dr Wellys, NM')	2011-05-03	2011-05-08	3	2079.16
+1764	2324	(1444, ' S. Cert Dr St. Petersburg, WY')	2021-10-28	2021-11-28	5	2521.51
+1410	2325	(426, ' N. Cert Dr Chandler, AR')	2000-10-23	2000-10-28	5	1909.16
+1019	2326	(400, ' E. Dobson Rd Alma, VT')	2002-06-05	2002-06-10	3	1099.58
+1382	2327	(2727, ' E. Letter St Encinitas, KN')	2013-05-06	2013-05-11	5	3947.42
+1648	2328	(2199, ' N. Francis St Plano, KS')	2021-01-19	2021-01-24	1	405.7
+1524	2329	(1746, ' N. Gilbert Rd Plano, ID')	2011-10-25	2011-11-25	4	1931.07
+1856	2330	(1970, ' E. Cert Dr Houston, UT')	2016-08-28	2016-09-28	2	1940.57
+1817	2331	(2712, ' S. Silly Dr Alma, NY')	2020-05-21	2020-05-26	1	613.98
+1787	2332	(1094, ' S. Alma School St St. Petersburg, OR')	2001-10-28	2001-11-28	5	2142.71
+1026	2333	(895, ' W. Silly Dr Attica, ID')	2010-10-09	2010-10-14	3	2253.94
+1728	2334	(836, ' E. University Dr Encinitas, WY')	2021-10-24	2021-10-29	4	634.76
+1582	2335	(815, ' N. Mean St Chandler, MA')	1990-05-01	1990-05-06	3	1700.27
+1302	2336	(1038, ' E. Cert Dr London, WA')	1994-07-24	1994-07-29	1	376.74
+1768	2337	(2369, ' N. Alma School St Buffalo, OR')	2003-09-25	2003-10-25	2	1607.28
+1573	2338	(1647, ' W. Mean St London, VT')	2017-10-16	2017-10-21	1	860.4
+1663	2339	(2991, ' W. Ash St Phoenix, CO')	2009-02-11	2009-02-16	5	4354.95
+1364	2340	(2259, ' S. Letter St Houston, CO')	2010-06-23	2010-06-28	2	1265.14
+1656	2341	(2047, ' E. Francis St London, AR')	1995-11-17	1995-11-22	1	696.22
+1530	2342	(1023, ' E. University Dr Hilsboro, KN')	1998-10-18	1998-10-23	5	2786.95
+1405	2343	(2128, ' N. University Dr Orton, ID')	2019-06-28	2019-07-28	4	1796.57
+1697	2344	(1536, ' W. Mean St Phoenix, UT')	1994-07-26	1994-08-26	2	1986.73
+1308	2345	(2512, ' N. Uee Rd Plano, NV')	2018-05-22	2018-05-27	5	1608.56
+1631	2346	(2876, ' W. University Dr Orton, NJ')	2006-04-01	2006-04-06	1	412.72
+1280	2347	(420, ' W. University Dr Durham, ID')	2013-05-24	2013-05-29	2	749.71
+1763	2348	(2559, ' E. Mean St El Paso, AL')	2009-05-25	2009-06-25	2	1061.22
+1505	2349	(366, ' E. Wabash St Chandler, NV')	2006-11-18	2006-11-23	3	1718.21
+1851	2350	(684, ' N. Uee Rd Tucson, TX')	1992-07-28	1992-08-28	2	1187.23
+1639	2351	(587, ' E. Myrtle Ave Tucson, UT')	2019-09-18	2019-09-23	5	2698.4
+1515	2352	(2042, ' S. Gilbert Rd Phoenix, DE')	2019-06-02	2019-06-07	3	360.88
+1345	2353	(1387, ' W. Uee Rd St. Petersburg, AZ')	2022-10-25	2022-11-25	4	1358.74
+1829	2354	(2988, ' E. Rural Rd Durham, AR')	2013-11-17	2013-11-22	1	800.71
+1901	2355	(1022, ' E. Ash St Encinitas, KS')	2002-09-24	2002-09-29	1	679.46
+1138	2356	(1178, ' E. Francis St Phoenix, ID')	2016-07-22	2016-07-27	3	557.76
+1915	2357	(1531, ' W. Alma School St Phoenix, KS')	2022-06-25	2022-07-25	4	2902.69
+1787	2358	(165, ' N. Mean St Alma, KS')	2006-07-06	2006-07-11	1	350.67
+1614	2359	(1746, ' E. Fun St St. Petersburg, AL')	1997-09-27	1997-10-27	5	1936.75
+1473	2360	(158, ' W. Cert Dr Houston, WY')	2004-04-26	2004-05-26	1	549.89
+1556	2361	(1727, ' N. Rural Rd Chandler, OH')	2002-01-12	2002-01-17	5	1675.15
+1502	2362	(504, ' S. Main Dr Phoenix, KS')	2013-11-09	2013-11-14	3	809.3
+1094	2363	(1974, ' W. Letter St Attica, AZ')	2016-07-21	2016-07-26	5	4494.34
+1961	2364	(738, ' E. OC Works Dr Tucson, VT')	1997-08-28	1997-09-28	5	2777.15
+1873	2365	(377, ' W. Rural Rd El Paso, OH')	2007-01-11	2007-01-16	1	321.08
+1955	2366	(1086, ' E. University Dr El Paso, GA')	2011-10-06	2011-10-11	2	1874.71
+1072	2367	(1227, ' W. Dobson Rd London, MA')	1992-07-18	1992-07-23	5	1859.29
+1242	2368	(1474, ' E. Letter St New York, NV')	1991-07-27	1991-08-27	3	2473.95
+1686	2369	(2670, ' E. Rural Rd Encinitas, NJ')	2022-05-11	2022-05-16	5	623.95
+1234	2370	(2027, ' E. Rural Rd Attica, NY')	2010-11-13	2010-11-18	1	188.19
+1873	2371	(999, ' S. Uee Rd Alma, KS')	2010-05-27	2010-06-27	2	645.29
+1635	2372	(1247, ' E. Ash St Phoenix, GA')	2006-08-18	2006-08-23	1	757.18
+1296	2373	(2114, ' S. Ash St Phoenix, KN')	2013-02-18	2013-02-23	1	825.34
+1941	2374	(339, ' S. Ash St London, MA')	2007-10-18	2007-10-23	5	2498.08
+1367	2375	(2063, ' N. Myrtle Ave St. Petersburg, WA')	2013-05-19	2013-05-24	4	908.06
+1293	2376	(1842, ' W. Letter St El Paso, DE')	2013-08-21	2013-08-26	2	868.53
+1211	2377	(1484, ' W. Francis St Phoenix, NJ')	1992-05-26	1992-06-26	3	2737.78
+1174	2378	(836, ' S. Main Dr Durham, KS')	2007-10-28	2007-11-28	5	4043.61
+1366	2379	(2786, ' N. Wabash St El Paso, AL')	2001-03-04	2001-03-09	5	1579.99
+1605	2380	(1920, ' S. Alma School St Durham, CO')	2005-07-23	2005-07-28	1	806.87
+1561	2381	(1359, ' S. Myrtle Ave Alma, OR')	2015-01-14	2015-01-19	4	1349.2
+1408	2382	(1325, ' N. Main Dr El Paso, NY')	2000-07-02	2000-07-07	4	808.09
+1227	2383	(1595, ' E. Myrtle Ave Hilsboro, CA')	2013-08-21	2013-08-26	2	799.46
+1553	2384	(1275, ' W. Uee Rd Alma, NY')	2019-06-24	2019-06-29	1	555.8
+1534	2385	(2445, ' E. Gilbert Rd Houston, TX')	2004-06-07	2004-06-12	4	1327.28
+1289	2386	(507, ' W. University Dr New York, NY')	2005-07-15	2005-07-20	4	1293.83
+1897	2387	(1209, ' N. OC Works Dr Attica, DE')	1994-05-07	1994-05-12	2	854.31
+1673	2388	(1963, ' S. Dobson Rd London, OH')	2021-05-17	2021-05-22	5	2620.39
+1240	2389	(1310, ' N. University Dr Alma, TX')	2008-09-03	2008-09-08	2	510.24
+1665	2390	(2384, ' S. Fun St El Paso, KN')	2001-09-06	2001-09-11	2	1074.8
+1660	2391	(415, ' S. Ash St Memphis, NV')	2005-03-22	2005-03-27	3	1390.03
+1735	2392	(2181, ' N. University Dr Phoenix, VT')	2008-07-22	2008-07-27	2	1890.44
+1516	2393	(2362, ' N. University Dr New York, OR')	2012-07-20	2012-07-25	2	747.55
+1804	2394	(173, ' W. Wabash St Phoenix, TX')	2005-06-14	2005-06-19	5	3646.59
+1526	2395	(618, ' S. Francis St El Paso, WA')	1995-04-20	1995-04-25	4	3227.16
+1077	2397	(1387, ' E. OC Works Dr Phoenix, AZ')	2009-07-26	2009-08-26	5	1337.64
+1785	2398	(182, ' E. Ash St Chandler, KN')	2021-06-23	2021-06-28	3	1819.37
+1227	2399	(1840, ' S. Mean St Durham, DE')	2002-01-22	2002-01-27	2	1959.36
+1786	2400	(201, ' N. Myrtle Ave Alma, AL')	2004-08-09	2004-08-14	1	932.33
+1269	2401	(472, ' E. Rural Rd Memphis, NY')	2015-03-04	2015-03-09	3	2631.99
+1327	2402	(1495, ' E. Myrtle Ave Wellys, AR')	2017-11-03	2017-11-08	4	2893.94
+1624	2403	(2164, ' S. Ash St New York, NY')	2002-10-08	2002-10-13	1	329.88
+1457	2404	(2413, ' N. Francis St Houston, FL')	1990-06-21	1990-06-26	1	952.67
+1618	2405	(2332, ' S. OC Works Dr London, TX')	2005-07-20	2005-07-25	4	401.33
+1434	2406	(730, ' S. University Dr Alma, FL')	1994-01-21	1994-01-26	1	688.05
+1257	2407	(1803, ' S. Ash St Alma, FL')	2017-08-22	2017-08-27	5	3368.79
+1958	2408	(1863, ' N. Cert Dr London, GA')	2011-09-12	2011-09-17	4	790.11
+1906	2409	(1959, ' E. Silly Dr New York, FL')	2013-01-28	2013-02-28	1	285.02
+1603	2410	(163, ' W. Myrtle Ave Encinitas, KS')	2005-02-03	2005-02-08	3	2925.52
+1255	2411	(1678, ' E. Letter St Orton, AZ')	2018-03-07	2018-03-12	5	4827.07
+1231	2412	(2724, ' W. Francis St Buffalo, WA')	2014-06-04	2014-06-09	4	3067.6
+1081	2413	(224, ' E. Rural Rd Memphis, AR')	1990-06-16	1990-06-21	1	563.9
+1798	2414	(963, ' N. Fun St Phoenix, MA')	2016-07-12	2016-07-17	1	473.21
+1705	2415	(1030, ' S. Alma School St El Paso, ID')	2005-01-22	2005-01-27	3	2222.15
+1563	2416	(2188, ' W. Gilbert Rd Memphis, CO')	1993-05-18	1993-05-23	2	1568.92
+1008	2417	(619, ' E. Silly Dr Houston, CA')	2019-07-14	2019-07-19	3	2886.94
+1447	2418	(100, ' N. Main Dr Houston, AZ')	2022-07-09	2022-07-14	4	1213.36
+1385	2419	(2996, ' E. Alma School St Alma, AL')	2016-02-25	2016-03-25	4	2208.9
+1798	2420	(256, ' N. Myrtle Ave Wellys, ID')	1992-07-05	1992-07-10	2	1473.43
+1641	2421	(1743, ' E. Cert Dr St. Petersburg, UT')	1996-05-11	1996-05-16	3	2930.42
+1626	2422	(1565, ' E. Wabash St St. Petersburg, CA')	2017-02-08	2017-02-13	2	840.06
+1245	2423	(195, ' W. Mean St Durham, TX')	1995-06-02	1995-06-07	1	844.99
+1421	2424	(1172, ' S. Mean St Tucson, KS')	2013-09-10	2013-09-15	3	1544.54
+1884	2425	(2788, ' E. Mean St London, TX')	1990-11-09	1990-11-14	1	718.31
+1501	2426	(2189, ' S. Gilbert Rd El Paso, TX')	1996-06-15	1996-06-20	2	935.36
+1781	2427	(1082, ' W. Fun St Tucson, AR')	2011-07-18	2011-07-23	4	2987.69
+1193	2428	(962, ' N. Mean St Buffalo, CO')	2018-02-21	2018-02-26	3	815.19
+1441	2429	(615, ' E. Cert Dr Houston, WA')	2018-07-27	2018-08-27	2	406.09
+1226	2430	(1252, ' E. Gilbert Rd Attica, NJ')	2002-02-13	2002-02-18	1	406.65
+1702	2431	(1865, ' E. Silly Dr El Paso, CA')	1999-08-18	1999-08-23	1	616.69
+1243	2432	(2110, ' N. Francis St Wellys, NY')	2009-05-17	2009-05-22	1	870.09
+1011	2433	(1936, ' S. Uee Rd Houston, MI')	2006-08-22	2006-08-27	5	837.48
+1934	2434	(2977, ' N. Ash St El Paso, KN')	2022-01-17	2022-01-22	4	2634.25
+1593	2435	(1044, ' E. Cert Dr Phoenix, AR')	1990-04-11	1990-04-16	1	177.58
+1515	2436	(1771, ' S. Letter St Tucson, FL')	2006-11-19	2006-11-24	2	498.44
+1066	2437	(267, ' N. Cert Dr London, WY')	2014-09-20	2014-09-25	5	4936.3
+1175	2438	(473, ' S. Letter St Alma, MI')	2006-06-12	2006-06-17	2	1823.46
+1797	2439	(830, ' E. University Dr Attica, AZ')	1990-06-02	1990-06-07	2	1605.74
+1807	2440	(2572, ' N. Myrtle Ave Attica, AR')	1994-02-23	1994-02-28	4	1245.76
+1357	2441	(2880, ' N. Myrtle Ave Attica, ID')	2007-08-22	2007-08-27	4	1507.96
+1669	2442	(2744, ' N. Gilbert Rd Alma, MA')	2000-03-11	2000-03-16	5	3824.52
+1506	2443	(465, ' N. Alma School St Memphis, WA')	2000-05-16	2000-05-21	3	1916.85
+1467	2444	(236, ' W. Main Dr Tucson, VT')	1991-06-01	1991-06-06	2	1719.92
+1527	2445	(1249, ' W. Fun St New York, FL')	2019-05-10	2019-05-15	4	843.6
+1109	2446	(2823, ' N. Dobson Rd Orton, WA')	2014-03-09	2014-03-14	3	406.47
+1487	2447	(2145, ' W. Mean St El Paso, GA')	2002-09-06	2002-09-11	5	3975.97
+1302	2448	(977, ' S. Myrtle Ave Memphis, MA')	2010-08-03	2010-08-08	4	509.36
+1231	2449	(1959, ' N. Silly Dr Chandler, NM')	2015-10-10	2015-10-15	3	794.21
+1563	2450	(2840, ' S. OC Works Dr Wellys, NV')	2014-09-01	2014-09-06	2	1798.68
+1727	2451	(1787, ' N. Wabash St Phoenix, CO')	2004-02-09	2004-02-14	4	1518.35
+1705	2452	(844, ' S. Gilbert Rd Hilsboro, AR')	2016-06-24	2016-06-29	1	554.08
+1884	2453	(785, ' W. Uee Rd El Paso, AL')	2017-05-26	2017-06-26	5	1376.7
+1166	2454	(2266, ' N. Letter St Plano, TX')	1995-03-08	1995-03-13	2	1734.03
+1168	2455	(1819, ' N. Ash St St. Petersburg, WA')	1996-08-28	1996-09-28	5	664.08
+1801	2456	(215, ' W. Dobson Rd New York, UT')	2000-05-04	2000-05-09	5	3188.45
+1296	2457	(965, ' W. Uee Rd London, OH')	2003-06-10	2003-06-15	3	2385.82
+1151	2458	(1484, ' W. Rural Rd Durham, NJ')	2019-10-22	2019-10-27	5	3955.49
+1966	2459	(2194, ' E. Dobson Rd New York, AL')	2002-07-03	2002-07-08	1	794.37
+1934	2460	(739, ' S. Francis St Hilsboro, OR')	1992-02-26	1992-03-26	2	256.85
+1281	2461	(1089, ' N. OC Works Dr New York, WA')	2014-11-26	2014-12-26	4	3910.55
+1222	2462	(1139, ' E. Silly Dr El Paso, GA')	2015-01-05	2015-01-10	2	1475.97
+1594	2463	(660, ' W. Ash St Wellys, ID')	1993-09-08	1993-09-13	3	1022.91
+1688	2464	(2729, ' S. Rural Rd Durham, KS')	1994-09-09	1994-09-14	1	244.15
+1451	2465	(972, ' N. Mean St New York, AL')	2021-11-25	2021-12-25	5	4041.53
+1406	2466	(2034, ' S. Uee Rd Encinitas, UT')	2004-01-21	2004-01-26	3	926.94
+1224	2467	(1085, ' S. Wabash St El Paso, KS')	2004-05-08	2004-05-13	3	933.33
+1224	2468	(2298, ' N. Alma School St Chandler, KS')	1995-11-24	1995-11-29	1	414.29
+1378	2469	(2460, ' E. Alma School St Wellys, AL')	2004-02-25	2004-03-25	3	2900.61
+1109	2470	(2325, ' E. Francis St El Paso, AZ')	2015-02-14	2015-02-19	3	1389.9
+1889	2471	(1619, ' N. Francis St Tucson, AZ')	1998-01-09	1998-01-14	1	213.19
+1171	2472	(268, ' N. Fun St London, VT')	2015-04-01	2015-04-06	2	1321.1
+1517	2473	(1061, ' N. Alma School St Attica, VT')	2001-08-16	2001-08-21	2	786.67
+1071	2474	(619, ' N. Alma School St Alma, OH')	2012-02-19	2012-02-24	2	795.85
+1028	2475	(1081, ' E. Gilbert Rd Houston, AL')	2016-09-10	2016-09-15	2	704.1
+1487	2476	(732, ' E. Francis St Tucson, OR')	2005-05-14	2005-05-19	4	2383.03
+1638	2477	(1855, ' W. Silly Dr Memphis, AR')	2012-09-17	2012-09-22	5	524.77
+1517	2478	(1862, ' W. Rural Rd Alma, VT')	2015-09-16	2015-09-21	5	3239.49
+1742	2479	(436, ' E. Uee Rd Durham, UT')	2002-07-19	2002-07-24	3	2351.37
+1070	2480	(2440, ' E. University Dr Houston, MI')	2006-11-11	2006-11-16	3	1485.86
+1734	2481	(1007, ' N. Dobson Rd Alma, AR')	2017-03-11	2017-03-16	1	392.36
+1642	2482	(861, ' N. Letter St Durham, VT')	1990-11-18	1990-11-23	1	550.62
+1909	2483	(2702, ' E. Cert Dr London, AR')	2007-02-22	2007-02-27	5	1175.62
+1571	2484	(2288, ' N. Silly Dr Hilsboro, UT')	1992-04-11	1992-04-16	5	1401.52
+1839	2485	(602, ' N. Ash St Phoenix, UT')	2020-02-11	2020-02-16	4	1753.99
+1140	2486	(2846, ' E. Myrtle Ave Durham, AR')	2002-04-27	2002-05-27	4	1380.64
+1033	2487	(960, ' N. Francis St Attica, MA')	1996-09-02	1996-09-07	1	914.53
+1796	2488	(1822, ' S. Alma School St Orton, OH')	2003-07-09	2003-07-14	4	1682.84
+1015	2489	(994, ' E. Dobson Rd Hilsboro, NM')	1992-01-06	1992-01-11	4	2135.52
+1557	2490	(1906, ' E. Silly Dr Orton, NV')	1997-08-17	1997-08-22	3	1511.7
+1509	2491	(2372, ' E. Uee Rd El Paso, AZ')	2022-08-17	2022-08-22	4	3719.16
+1265	2492	(669, ' W. Uee Rd El Paso, OR')	2018-07-23	2018-07-28	1	339.61
+1183	2493	(2164, ' E. Francis St Tucson, NM')	2004-07-25	2004-08-25	2	1252.36
+1555	2494	(2490, ' E. Myrtle Ave Memphis, WA')	2001-03-09	2001-03-14	5	4601.38
+1505	2495	(1664, ' W. Dobson Rd Memphis, KS')	2000-07-13	2000-07-18	2	1606.37
+1036	2496	(511, ' E. Wabash St Attica, WY')	1997-11-25	1997-12-25	3	2424.13
+1935	2497	(1251, ' W. Mean St Orton, MA')	2001-05-28	2001-06-28	2	593.24
+1652	2498	(2639, ' W. Mean St Houston, WA')	2017-09-13	2017-09-18	3	2410.89
+1274	2499	(1868, ' E. Alma School St Alma, ID')	1990-06-03	1990-06-08	1	145.94
+1283	2500	(2888, ' N. Rural Rd Hilsboro, MI')	1991-03-02	1991-03-07	5	3969.3
+1958	2501	(473, ' W. Alma School St Durham, CA')	1994-03-13	1994-03-18	2	1644.54
+1162	2502	(1066, ' N. Mean St Chandler, AZ')	2021-11-22	2021-11-27	2	1084.89
+1722	2503	(2547, ' W. Dobson Rd Hilsboro, ID')	2016-05-02	2016-05-07	4	3545.63
+1792	2504	(2351, ' N. Gilbert Rd Buffalo, VT')	2015-08-28	2015-09-28	2	1084.91
+1676	2505	(2795, ' S. Dobson Rd Encinitas, AL')	2010-07-20	2010-07-25	5	4499.14
+1445	2506	(1431, ' E. OC Works Dr New York, AR')	2007-01-27	2007-02-27	2	1917.44
+1335	2507	(779, ' W. Fun St Tucson, NM')	2005-04-11	2005-04-16	1	499.61
+1327	2508	(2225, ' W. Cert Dr Alma, AR')	2013-09-13	2013-09-18	4	3385.43
+1199	2509	(1400, ' W. Wabash St Alma, VT')	2017-11-26	2017-12-26	5	953.14
+1920	2510	(2300, ' W. Myrtle Ave Houston, ID')	1991-10-25	1991-11-25	4	3416.4
+1843	2511	(519, ' W. Letter St London, AL')	2008-10-25	2008-11-25	3	570.55
+1041	2512	(1426, ' S. Letter St Buffalo, NM')	1992-06-22	1992-06-27	2	902.86
+1261	2513	(1999, ' E. Main Dr Chandler, WA')	1996-07-09	1996-07-14	2	1063.9
+1954	2514	(2478, ' S. Ash St Buffalo, MA')	2008-05-07	2008-05-12	5	3486.39
+1617	2515	(127, ' E. Francis St Tucson, GA')	2004-05-24	2004-05-29	3	566.37
+1234	2516	(1855, ' N. Myrtle Ave St. Petersburg, NJ')	1995-01-19	1995-01-24	1	993.14
+1795	2517	(2184, ' W. Mean St Encinitas, NY')	1991-02-06	1991-02-11	3	2677.68
+1689	2518	(601, ' W. Alma School St Attica, CA')	2013-09-02	2013-09-07	1	994.13
+1400	2519	(2746, ' W. Cert Dr Houston, AR')	2016-11-19	2016-11-24	3	1204.64
+1688	2520	(2418, ' N. Rural Rd Houston, FL')	1991-09-27	1991-10-27	2	848.98
+1130	2521	(2228, ' E. Francis St Memphis, NJ')	1990-10-11	1990-10-16	5	2199.7
+1070	2522	(266, ' W. Letter St New York, AL')	1992-08-27	1992-09-27	1	177.73
+1774	2524	(764, ' N. OC Works Dr Houston, WY')	2022-05-24	2022-05-29	2	1679.16
+1707	2526	(2471, ' E. Silly Dr St. Petersburg, ID')	1995-05-09	1995-05-14	2	462.28
+1426	2527	(1539, ' W. Rural Rd Chandler, DE')	2008-03-19	2008-03-24	3	963.05
+1799	2528	(1466, ' E. Uee Rd Encinitas, ID')	2010-11-13	2010-11-18	4	900.62
+1448	2529	(1669, ' W. Cert Dr Orton, AL')	2005-09-05	2005-09-10	1	781.47
+1465	2530	(931, ' E. Alma School St New York, NM')	2019-08-07	2019-08-12	3	1555.15
+1373	2531	(231, ' E. Silly Dr El Paso, ID')	2000-11-28	2000-12-28	2	843.97
+1915	2532	(2318, ' S. University Dr Orton, AZ')	2020-02-07	2020-02-12	2	1605.67
+1134	2533	(2658, ' E. Uee Rd Attica, UT')	2021-10-18	2021-10-23	4	3250.46
+1941	2535	(2928, ' E. Wabash St London, KS')	1993-10-08	1993-10-13	2	1228.05
+1927	2536	(2305, ' N. Dobson Rd Buffalo, AZ')	2001-09-05	2001-09-10	3	2941.14
+1095	2537	(2279, ' W. Mean St Memphis, KS')	2002-04-22	2002-04-27	4	1552.17
+1838	2538	(2604, ' S. Main Dr Plano, ID')	1994-07-07	1994-07-12	1	921.9
+1521	2539	(470, ' E. Myrtle Ave Encinitas, OR')	1991-03-01	1991-03-06	3	2485.94
+1246	2540	(1950, ' W. Wabash St New York, OR')	2010-09-02	2010-09-07	4	3622.89
+1910	2541	(1083, ' W. University Dr Memphis, CO')	2004-08-18	2004-08-23	4	3400.84
+1526	2542	(1909, ' W. Fun St Chandler, KN')	1996-01-08	1996-01-13	3	2358.3
+1265	2543	(522, ' N. Ash St Phoenix, NM')	2004-05-15	2004-05-20	3	1684.61
+1762	2544	(2879, ' S. Francis St Houston, DE')	2017-02-11	2017-02-16	1	321.7
+1024	2545	(490, ' N. Gilbert Rd Orton, OH')	1995-03-01	1995-03-06	3	547.78
+1932	2546	(175, ' N. Uee Rd St. Petersburg, MI')	1996-02-24	1996-02-29	3	2325.25
+1609	2547	(1897, ' E. Ash St Phoenix, GA')	2006-06-09	2006-06-14	3	1416.55
+1052	2548	(1636, ' E. Gilbert Rd El Paso, KN')	2001-10-08	2001-10-13	4	2657.52
+1926	2549	(1692, ' E. Dobson Rd Tucson, CO')	2008-04-18	2008-04-23	3	751.84
+1550	2550	(1726, ' W. Gilbert Rd Tucson, NM')	1994-05-21	1994-05-26	3	885.01
+1262	2551	(1243, ' W. OC Works Dr Attica, NM')	2014-11-19	2014-11-24	1	333.75
+1507	2552	(915, ' N. Fun St London, VT')	1991-03-21	1991-03-26	4	1774.2
+1550	2553	(1777, ' W. Wabash St Houston, VT')	2020-09-24	2020-09-29	3	2464.02
+1059	2554	(886, ' N. Main Dr Attica, AL')	1991-09-23	1991-09-28	4	1385.39
+1301	2555	(1742, ' E. Myrtle Ave London, NV')	2021-02-21	2021-02-26	2	678.88
+1598	2556	(1449, ' E. Wabash St St. Petersburg, DE')	2020-10-25	2020-11-25	3	2745.52
+1339	2557	(2444, ' S. Wabash St Tucson, NY')	1990-10-27	1990-11-27	1	815.48
+1609	2558	(2855, ' N. Uee Rd Attica, WY')	1997-03-22	1997-03-27	3	2961.95
+1732	2559	(740, ' N. OC Works Dr Encinitas, WA')	2006-08-26	2006-09-26	1	559.21
+1822	2560	(1367, ' W. Dobson Rd Orton, NM')	2010-03-27	2010-04-27	5	4323.84
+1699	2561	(782, ' W. Silly Dr Durham, TX')	2010-01-11	2010-01-16	2	1709.84
+1617	2562	(643, ' W. Gilbert Rd Houston, NM')	1999-07-19	1999-07-24	3	1617.91
+1546	2563	(2703, ' S. Dobson Rd Attica, KN')	2021-08-02	2021-08-07	2	429.46
+1982	2564	(1625, ' E. Rural Rd Encinitas, WA')	1997-01-04	1997-01-09	1	461.1
+1935	2565	(345, ' W. Letter St St. Petersburg, AR')	2004-07-09	2004-07-14	1	146.09
+1485	2566	(2135, ' S. Myrtle Ave Plano, CA')	1997-11-26	1997-12-26	4	2498.4
+1734	2567	(396, ' S. Silly Dr Plano, NY')	2004-06-05	2004-06-10	4	2384.99
+1501	2568	(2498, ' N. University Dr Memphis, AR')	1990-03-08	1990-03-13	3	1521.47
+1117	2569	(139, ' S. Uee Rd Buffalo, AR')	2008-08-26	2008-09-26	5	2504.39
+1801	2570	(1486, ' E. Silly Dr Hilsboro, GA')	1998-07-09	1998-07-14	2	1660.58
+1187	2571	(1043, ' E. Letter St Tucson, WA')	1993-04-23	1993-04-28	3	2243.47
+1087	2572	(2408, ' E. Alma School St Wellys, UT')	2009-08-27	2009-09-27	1	975.48
+1844	2573	(1235, ' W. Francis St New York, NV')	2020-05-21	2020-05-26	2	1134.02
+1600	2574	(1470, ' N. Uee Rd Alma, VT')	2019-03-26	2019-04-26	2	1297.81
+1258	2575	(2918, ' W. Rural Rd Wellys, FL')	2011-08-21	2011-08-26	3	1890.84
+1877	2576	(693, ' N. Fun St Alma, NV')	1991-11-19	1991-11-24	3	617.72
+1979	2577	(1976, ' S. Gilbert Rd Durham, WA')	2022-11-01	2022-11-06	2	978.43
+1470	2578	(1398, ' N. Letter St Phoenix, OR')	2020-07-14	2020-07-19	4	2693.69
+1323	2579	(1475, ' S. Uee Rd Tucson, OR')	2000-10-10	2000-10-15	3	2845.36
+1511	2580	(2064, ' E. Gilbert Rd El Paso, MA')	2015-04-16	2015-04-21	2	315.6
+1751	2581	(968, ' E. University Dr Buffalo, FL')	1997-06-03	1997-06-08	5	1562.04
+1471	2582	(2893, ' E. Uee Rd Hilsboro, AL')	2022-05-02	2022-05-07	4	435.19
+1955	2583	(2987, ' W. Uee Rd Memphis, UT')	2012-09-10	2012-09-15	3	2627.03
+1852	2584	(1505, ' W. Letter St Plano, CA')	2020-08-08	2020-08-13	5	1752.3
+1221	2585	(1822, ' E. Francis St Tucson, WA')	1992-01-23	1992-01-28	1	680.41
+1723	2586	(2878, ' S. Alma School St New York, OH')	2012-08-25	2012-09-25	3	1296.56
+1676	2587	(635, ' E. Dobson Rd Memphis, KS')	2018-04-16	2018-04-21	4	3680.66
+1170	2588	(2607, ' W. Main Dr Houston, FL')	2005-03-10	2005-03-15	3	1050.92
+1042	2589	(1997, ' S. University Dr El Paso, NV')	2012-08-12	2012-08-17	2	1398.93
+1857	2590	(2666, ' N. Myrtle Ave Attica, NJ')	1990-05-06	1990-05-11	4	2926.53
+1597	2591	(738, ' N. Alma School St Orton, ID')	2009-07-27	2009-08-27	1	894.22
+1040	2592	(436, ' W. Letter St New York, FL')	1990-05-07	1990-05-12	4	725.92
+1911	2593	(134, ' N. Alma School St Alma, GA')	1992-01-05	1992-01-10	1	161.68
+1870	2594	(779, ' W. Gilbert Rd Encinitas, OR')	2019-06-20	2019-06-25	4	1597.29
+1117	2595	(616, ' S. Letter St Chandler, WY')	2009-11-17	2009-11-22	3	1595.18
+1863	2596	(825, ' W. Alma School St Encinitas, VT')	2002-06-11	2002-06-16	1	763.27
+1047	2597	(2995, ' E. Wabash St Tucson, VT')	2011-05-28	2011-06-28	2	1689.76
+1608	2598	(213, ' E. OC Works Dr Tucson, NJ')	1995-08-17	1995-08-22	5	541.52
+1334	2599	(632, ' W. Francis St Phoenix, DE')	2012-01-09	2012-01-14	3	1376.39
+1853	2600	(1982, ' S. OC Works Dr Phoenix, CA')	1997-09-02	1997-09-07	3	1613.47
+1951	2601	(2571, ' W. Cert Dr Tucson, OH')	2004-07-27	2004-08-27	2	1765.39
+1210	2602	(2243, ' N. Cert Dr New York, NY')	2017-10-28	2017-11-28	5	3375.13
+1863	2603	(1788, ' W. Wabash St New York, NM')	2010-08-04	2010-08-09	5	3469.88
+1337	2604	(168, ' N. Rural Rd Orton, CA')	1994-01-14	1994-01-19	1	825.79
+1537	2605	(1660, ' E. Dobson Rd Plano, FL')	2022-03-05	2022-03-10	1	149.16
+1270	2606	(960, ' W. Gilbert Rd Orton, KN')	2020-02-28	2020-03-28	1	674
+1115	2607	(1137, ' N. Myrtle Ave Attica, VT')	2012-01-07	2012-01-12	2	1449.36
+1814	2608	(1353, ' W. Cert Dr Orton, MI')	1999-10-25	1999-11-25	2	294.76
+1405	2609	(1820, ' S. Cert Dr Memphis, TX')	2003-08-09	2003-08-14	1	319.38
+1576	2610	(1669, ' E. OC Works Dr London, AR')	2006-06-26	2006-07-26	1	714.61
+1764	2611	(591, ' E. Cert Dr Phoenix, OR')	2006-02-21	2006-02-26	2	1602.71
+1286	2612	(1912, ' N. Alma School St Plano, AZ')	2012-01-21	2012-01-26	4	3358.86
+1699	2613	(2266, ' S. University Dr Hilsboro, KN')	1997-07-03	1997-07-08	5	2935.53
+1409	2614	(207, ' W. Myrtle Ave Phoenix, MA')	2002-07-04	2002-07-09	1	353.01
+1212	2615	(1197, ' W. Uee Rd New York, ID')	2013-10-27	2013-11-27	1	177.07
+1221	2616	(2160, ' E. Wabash St Orton, CA')	2015-08-10	2015-08-15	3	532.79
+1413	2617	(302, ' N. Wabash St Encinitas, MI')	2011-08-16	2011-08-21	4	1560.84
+1294	2618	(1144, ' E. Silly Dr London, AZ')	2021-09-08	2021-09-13	3	1752.17
+1839	2619	(1960, ' S. Ash St St. Petersburg, WA')	2000-05-10	2000-05-15	4	2412.78
+1353	2620	(2482, ' N. Alma School St Memphis, KS')	2004-03-01	2004-03-06	1	196.85
+1765	2621	(2798, ' N. Main Dr Chandler, NM')	2005-03-20	2005-03-25	2	793.39
+1289	2622	(2767, ' S. Ash St New York, DE')	2005-09-05	2005-09-10	1	279.36
+1976	2623	(2189, ' W. Rural Rd Tucson, DE')	2004-09-09	2004-09-14	1	259.42
+1772	2624	(2403, ' S. Uee Rd Attica, WA')	2004-11-22	2004-11-27	2	386.49
+1923	2625	(557, ' N. Fun St Phoenix, GA')	1995-06-07	1995-06-12	4	1779.82
+1455	2626	(2337, ' N. Rural Rd Houston, WA')	1992-02-16	1992-02-21	3	1272.8
+1228	2627	(641, ' W. Gilbert Rd Hilsboro, NJ')	2011-07-28	2011-08-28	2	1982.33
+1164	2628	(628, ' N. Dobson Rd Hilsboro, NM')	2022-10-16	2022-10-21	1	659.59
+1817	2629	(1663, ' N. Wabash St Attica, MA')	1996-05-04	1996-05-09	4	1201.04
+1248	2630	(827, ' N. Rural Rd Buffalo, AL')	1991-03-04	1991-03-09	4	1707.34
+1922	2631	(300, ' W. Silly Dr Memphis, KS')	2006-03-23	2006-03-28	1	748.69
+1530	2632	(1846, ' N. OC Works Dr Encinitas, TX')	1990-08-08	1990-08-13	2	1528.61
+1953	2633	(2158, ' N. Francis St Memphis, KS')	2020-03-20	2020-03-25	4	2806.6
+1208	2634	(396, ' N. Rural Rd Memphis, DE')	2021-09-12	2021-09-17	3	1776.72
+1943	2635	(2099, ' S. Dobson Rd Memphis, NV')	2022-10-01	2022-10-06	2	1908.7
+1223	2636	(2163, ' N. Dobson Rd Orton, AR')	1997-11-10	1997-11-15	3	2191.12
+1866	2637	(661, ' S. Wabash St Chandler, NJ')	1997-08-02	1997-08-07	2	1980.86
+1235	2638	(2285, ' S. Fun St Alma, MI')	2013-06-07	2013-06-12	1	101.51
+1374	2639	(237, ' W. Letter St Encinitas, KN')	1991-03-21	1991-03-26	1	677.54
+1016	2640	(1791, ' S. Main Dr Phoenix, UT')	2002-01-18	2002-01-23	5	1743.58
+1928	2641	(1612, ' W. Rural Rd Wellys, WA')	2014-08-03	2014-08-08	3	2057.16
+1385	2642	(2679, ' W. Fun St Chandler, OH')	2007-10-18	2007-10-23	2	261.88
+1000	2643	(1497, ' W. Silly Dr Tucson, WA')	2018-02-23	2018-02-28	4	921.4
+1459	2644	(2797, ' W. Alma School St Houston, OR')	2018-10-11	2018-10-16	1	968.88
+1910	2645	(1302, ' N. Uee Rd Orton, MA')	2001-11-08	2001-11-13	1	896.92
+1070	2646	(1297, ' N. Dobson Rd Hilsboro, TX')	2001-05-14	2001-05-19	4	863.55
+1622	2647	(1536, ' N. Gilbert Rd Wellys, KN')	2001-04-16	2001-04-21	2	1113.86
+1109	2648	(391, ' W. Dobson Rd Encinitas, NV')	2010-08-25	2010-09-25	1	925.1
+1993	2649	(1285, ' N. Mean St St. Petersburg, NM')	2014-10-01	2014-10-06	2	741.02
+1385	2650	(846, ' S. University Dr Wellys, FL')	1996-01-11	1996-01-16	1	782.03
+1163	2651	(1102, ' N. Rural Rd Wellys, VT')	1999-05-08	1999-05-13	1	232.14
+1030	2652	(2157, ' W. Mean St Hilsboro, MA')	1996-06-28	1996-07-28	5	1195.56
+1594	2653	(1382, ' E. Dobson Rd El Paso, MA')	2001-01-26	2001-02-26	3	2594
+1668	2654	(276, ' E. Wabash St Wellys, AR')	1990-08-10	1990-08-15	1	385.94
+1189	2655	(1673, ' W. Ash St Alma, MI')	1992-03-05	1992-03-10	4	1877.39
+1595	2656	(1745, ' W. Francis St Alma, NJ')	2013-09-12	2013-09-17	5	3169.16
+1124	2657	(842, ' S. Rural Rd Memphis, MI')	2017-04-14	2017-04-19	3	1181.41
+1747	2658	(1687, ' S. Dobson Rd Plano, NJ')	1997-11-05	1997-11-10	5	3941.86
+1725	2659	(167, ' S. Main Dr Plano, ID')	2012-01-20	2012-01-25	5	1403.51
+1115	2660	(2331, ' W. Letter St Chandler, NM')	2013-11-15	2013-11-20	4	1178.89
+1050	2661	(2087, ' E. Myrtle Ave Buffalo, MA')	1997-06-21	1997-06-26	4	892.6
+1945	2662	(2593, ' N. University Dr Plano, GA')	2015-09-22	2015-09-27	4	3099.38
+1310	2663	(1630, ' S. University Dr Durham, OR')	2012-11-25	2012-12-25	1	276.72
+1261	2664	(754, ' S. Dobson Rd Houston, KN')	2007-09-14	2007-09-19	5	3779.36
+1559	2665	(242, ' N. Wabash St Hilsboro, NV')	2018-09-28	2018-10-28	4	2565.05
+1322	2666	(1229, ' W. Uee Rd Buffalo, VT')	2008-08-13	2008-08-18	2	668.45
+1218	2667	(1979, ' W. Wabash St St. Petersburg, OH')	1992-02-06	1992-02-11	3	1691.6
+1933	2668	(2809, ' S. Letter St Houston, VT')	2001-11-16	2001-11-21	5	3401.21
+1019	2669	(2061, ' N. Letter St Alma, AL')	1997-03-10	1997-03-15	1	411.69
+1116	2670	(1420, ' S. Silly Dr Wellys, UT')	1993-11-25	1993-12-25	4	2642.16
+1080	2671	(1047, ' S. Fun St Phoenix, OR')	1993-07-18	1993-07-23	2	1304.44
+1092	2672	(2271, ' E. Mean St Durham, CA')	2013-01-22	2013-01-27	3	2060.64
+1747	2673	(117, ' S. Rural Rd Encinitas, NY')	2011-01-24	2011-01-29	4	1206.55
+1510	2674	(1956, ' W. Fun St Attica, ID')	2013-06-05	2013-06-10	4	895.17
+1525	2675	(1491, ' N. Rural Rd Hilsboro, KN')	2022-10-26	2022-11-26	1	515.04
+1679	2676	(1415, ' N. Main Dr Wellys, AR')	1991-02-18	1991-02-23	1	284.32
+1193	2677	(2648, ' N. Letter St Durham, ID')	2010-05-02	2010-05-07	5	834.82
+1123	2678	(1672, ' N. Mean St Memphis, VT')	1990-03-21	1990-03-26	1	612.59
+1682	2679	(2961, ' N. Francis St Durham, DE')	2000-02-02	2000-02-07	2	1621.57
+1839	2680	(858, ' W. Ash St New York, WY')	2003-10-26	2003-11-26	1	816.85
+1252	2681	(516, ' E. Dobson Rd Alma, NM')	1998-07-21	1998-07-26	4	3246.74
+1818	2682	(693, ' N. Main Dr El Paso, OH')	1991-08-14	1991-08-19	2	451.99
+1820	2683	(883, ' W. Mean St London, NJ')	2021-09-07	2021-09-12	4	3217.02
+1975	2684	(2990, ' W. Cert Dr Phoenix, DE')	1990-01-23	1990-01-28	5	1081.32
+1503	2685	(2861, ' E. University Dr Phoenix, VT')	2008-02-10	2008-02-15	3	2678.92
+1121	2686	(953, ' N. Myrtle Ave Wellys, GA')	2006-06-09	2006-06-14	1	450.16
+1587	2687	(413, ' W. Dobson Rd St. Petersburg, AZ')	2004-02-10	2004-02-15	2	434
+1064	2688	(294, ' S. Letter St Chandler, GA')	2018-11-21	2018-11-26	4	1357.78
+1941	2689	(1645, ' W. Silly Dr Buffalo, NY')	2014-02-28	2014-03-28	2	1343.6
+1780	2690	(668, ' W. Silly Dr Wellys, TX')	1995-11-14	1995-11-19	2	686.58
+1751	2691	(2517, ' W. Uee Rd Wellys, AR')	2005-05-06	2005-05-11	3	1583.08
+1831	2692	(1116, ' E. Rural Rd Attica, AL')	2001-09-26	2001-10-26	1	938.47
+1692	2693	(2826, ' W. Francis St Houston, CO')	2015-02-23	2015-02-28	5	3337
+1349	2694	(2213, ' W. Main Dr El Paso, FL')	2015-07-13	2015-07-18	2	1818.16
+1500	2695	(212, ' S. Gilbert Rd Wellys, WY')	2002-09-26	2002-10-26	5	4116.96
+1833	2696	(2564, ' W. Myrtle Ave Durham, TX')	2004-11-20	2004-11-25	1	860.3
+1270	2697	(2693, ' N. Letter St Chandler, AR')	1994-04-07	1994-04-12	4	1851.61
+1630	2698	(976, ' E. Cert Dr Orton, TX')	2001-05-02	2001-05-07	3	2194.97
+1561	2699	(219, ' W. Silly Dr St. Petersburg, AZ')	2004-11-18	2004-11-23	1	219.35
+1905	2700	(821, ' N. University Dr Orton, GA')	2001-05-21	2001-05-26	3	2832.17
+1489	2701	(686, ' S. Fun St Memphis, AZ')	1994-01-23	1994-01-28	5	4443.98
+1239	2702	(2623, ' N. Dobson Rd Wellys, NY')	2006-07-03	2006-07-08	5	2631.87
+1659	2703	(508, ' N. Dobson Rd London, VT')	1994-08-20	1994-08-25	3	1885.47
+1641	2704	(2387, ' S. Fun St St. Petersburg, NV')	1999-01-20	1999-01-25	2	275.02
+1944	2705	(1732, ' S. Fun St Wellys, ID')	1990-03-21	1990-03-26	5	3334.85
+1580	2706	(270, ' S. University Dr Plano, WA')	2018-07-22	2018-07-27	4	2766.62
+1996	2707	(571, ' N. Francis St London, UT')	2021-10-25	2021-11-25	2	311.17
+1870	2708	(1781, ' S. Rural Rd Plano, NY')	2012-03-02	2012-03-07	4	3947.91
+1887	2709	(1673, ' E. Fun St Hilsboro, AZ')	2005-04-26	2005-05-26	3	461.78
+1952	2710	(1348, ' W. Dobson Rd Memphis, MI')	2002-03-16	2002-03-21	1	599.16
+1939	2711	(2460, ' N. Francis St Tucson, MI')	1998-01-28	1998-02-28	5	964.83
+1213	2712	(2812, ' E. Uee Rd St. Petersburg, VT')	2001-02-27	2001-03-27	5	1590.78
+1561	2713	(236, ' N. Dobson Rd Wellys, CA')	1998-02-18	1998-02-23	4	3350.59
+1288	2714	(2973, ' W. Cert Dr Wellys, WY')	1995-08-08	1995-08-13	4	1636.22
+1480	2715	(2152, ' E. Main Dr El Paso, GA')	1999-09-26	1999-10-26	3	1558.1
+1997	2716	(1242, ' S. Ash St Chandler, AR')	2020-08-03	2020-08-08	2	1946.57
+1753	2717	(2357, ' W. Letter St Tucson, KS')	2019-06-28	2019-07-28	4	3361.01
+1633	2718	(400, ' N. Fun St Wellys, CA')	1997-10-06	1997-10-11	1	705.16
+1898	2719	(1328, ' N. Letter St Alma, WY')	2010-04-04	2010-04-09	3	2657.64
+1859	2720	(2820, ' E. Wabash St Attica, TX')	2014-02-24	2014-02-24	2	1203.57
+1001	2721	(1439, ' W. Rural Rd St. Petersburg, TX')	1998-07-14	1998-07-19	3	633.3
+1798	2722	(1837, ' W. Dobson Rd Wellys, CO')	1992-05-09	1992-05-14	1	595.61
+1476	2723	(2664, ' E. Rural Rd Alma, ID')	2005-05-24	2005-05-29	2	1554.81
+1632	2724	(2797, ' S. Alma School St Encinitas, ID')	2008-07-27	2008-08-27	4	2775.92
+1174	2725	(1134, ' W. Uee Rd Phoenix, MI')	1999-08-24	1999-08-29	1	769.92
+1676	2726	(388, ' E. OC Works Dr Houston, GA')	2011-09-14	2011-09-19	1	675.31
+1829	2727	(1931, ' W. Fun St Encinitas, WY')	2004-08-13	2004-08-18	1	688.81
+1969	2728	(514, ' W. Alma School St New York, OR')	2017-02-19	2017-02-24	3	474.73
+1572	2729	(1667, ' S. Fun St Alma, VT')	1990-11-19	1990-11-24	5	3845.84
+1088	2730	(2487, ' E. Gilbert Rd Tucson, OR')	2003-09-14	2003-09-19	1	953.27
+1203	2731	(977, ' N. Ash St Memphis, CO')	2014-06-06	2014-06-11	1	114.45
+1095	2732	(309, ' S. Main Dr St. Petersburg, VT')	1991-01-20	1991-01-25	4	1079.81
+1705	2733	(417, ' W. Letter St Encinitas, OR')	2014-11-10	2014-11-15	5	4044.99
+1884	2734	(1710, ' E. Cert Dr Attica, AZ')	2011-03-16	2011-03-21	3	2248.73
+1710	2735	(1589, ' N. Myrtle Ave Wellys, NY')	1992-01-03	1992-01-08	3	2608.43
+1583	2736	(718, ' E. Rural Rd Memphis, UT')	1994-04-27	1994-05-27	3	626.34
+1499	2737	(1498, ' N. Ash St New York, VT')	2022-02-01	2022-02-06	2	1576.76
+1045	2738	(1694, ' W. Letter St Hilsboro, OR')	2018-01-02	2018-01-07	3	901.74
+1149	2739	(1318, ' S. Francis St Buffalo, CA')	2015-03-21	2015-03-26	2	1793.76
+1892	2740	(2160, ' N. Letter St London, NV')	2000-06-08	2000-06-13	2	241.37
+1277	2741	(560, ' W. Rural Rd Orton, AZ')	1999-03-24	1999-03-29	2	1484.92
+1189	2742	(1398, ' N. Mean St Alma, AL')	2010-02-18	2010-02-23	1	813.98
+1092	2743	(588, ' E. Rural Rd Alma, KS')	2006-05-13	2006-05-18	4	3850.21
+1876	2744	(1661, ' S. Alma School St London, AR')	2013-05-02	2013-05-07	5	4918.52
+1657	2745	(1773, ' W. Ash St Wellys, UT')	2012-02-05	2012-02-10	2	325.98
+1911	2746	(2365, ' E. Dobson Rd Orton, NM')	2006-05-26	2006-06-26	4	827.02
+1855	2747	(408, ' N. Ash St Durham, TX')	2020-02-12	2020-02-17	3	2244.83
+1881	2748	(1810, ' N. Dobson Rd Encinitas, OR')	1991-11-04	1991-11-09	4	1834.1
+1206	2749	(2740, ' N. Gilbert Rd Encinitas, AZ')	2018-03-22	2018-03-27	1	303
+1317	2750	(2673, ' E. Mean St Chandler, NY')	1994-07-10	1994-07-15	3	1094.91
+1707	2751	(945, ' S. Letter St El Paso, NM')	2006-05-20	2006-05-25	5	2631.47
+1354	2752	(2630, ' N. Mean St Encinitas, TX')	2002-03-12	2002-03-17	3	2413.48
+1258	2753	(2028, ' W. Alma School St Encinitas, CA')	2020-04-03	2020-04-08	1	595.6
+1339	2754	(787, ' E. Silly Dr Buffalo, WY')	1998-02-24	1998-02-24	3	1119.86
+1596	2755	(582, ' N. Dobson Rd Encinitas, ID')	1997-05-18	1997-05-23	3	1618.87
+1018	2756	(140, ' E. Silly Dr St. Petersburg, DE')	2001-07-11	2001-07-16	2	1078.39
+1067	2757	(908, ' S. Silly Dr Durham, MI')	2003-02-23	2003-02-28	4	2315.15
+1934	2758	(1657, ' W. Mean St Attica, ID')	1997-09-28	1997-10-28	4	1949.18
+1122	2759	(1512, ' S. Francis St New York, MI')	1996-01-02	1996-01-07	2	1532.71
+1412	2760	(1470, ' E. Francis St Tucson, NM')	2017-04-19	2017-04-24	4	2184.79
+1054	2761	(2548, ' N. Fun St Memphis, NV')	2016-09-24	2016-09-29	1	959.85
+1839	2762	(1891, ' E. Gilbert Rd Chandler, TX')	2001-07-01	2001-07-06	1	755.86
+1056	2763	(1791, ' S. Dobson Rd Encinitas, NJ')	1997-06-12	1997-06-17	3	2908.33
+1545	2764	(224, ' S. Dobson Rd London, WY')	1990-11-25	1990-12-25	5	3462.44
+1576	2765	(1996, ' E. University Dr Hilsboro, DE')	2013-07-24	2013-07-29	2	403.93
+1585	2766	(1345, ' W. Main Dr London, AR')	2001-02-15	2001-02-20	2	1092.49
+1822	2767	(1330, ' E. University Dr El Paso, NY')	2007-06-19	2007-06-24	4	827.75
+1709	2768	(264, ' S. University Dr Wellys, ID')	1992-10-02	1992-10-07	5	2091.9
+1570	2769	(936, ' E. University Dr Chandler, NJ')	2000-08-10	2000-08-15	3	2393.35
+1676	2770	(702, ' E. University Dr Houston, AZ')	2009-08-13	2009-08-18	4	3813.65
+1955	2771	(2549, ' N. Cert Dr Plano, NV')	2012-07-08	2012-07-13	1	239.7
+1075	2772	(2285, ' N. Wabash St London, OR')	2010-02-16	2010-02-21	1	154.42
+1842	2773	(568, ' N. Wabash St London, NM')	2004-03-19	2004-03-24	2	725.16
+1980	2774	(1865, ' E. Letter St Tucson, KS')	2019-06-08	2019-06-13	1	390.87
+1472	2775	(1722, ' N. Gilbert Rd Houston, AZ')	2012-10-13	2012-10-18	1	155.2
+1466	2776	(1261, ' N. Ash St Plano, KN')	1999-09-20	1999-09-25	5	2499.32
+1009	2777	(2174, ' W. OC Works Dr Alma, KN')	2010-10-20	2010-10-25	2	1266.95
+1937	2778	(2106, ' E. Dobson Rd Wellys, ID')	1992-01-02	1992-01-07	4	2511.35
+1039	2779	(2847, ' W. Mean St Hilsboro, KN')	2022-11-06	2022-11-11	5	2908.74
+1794	2780	(354, ' N. Main Dr Hilsboro, NV')	2001-04-04	2001-04-09	4	3168.01
+1275	2781	(2491, ' E. Francis St Hilsboro, AR')	2011-07-23	2011-07-28	2	1661.08
+1768	2782	(2180, ' E. Gilbert Rd Alma, AZ')	2014-05-26	2014-06-26	2	867.94
+1468	2783	(2119, ' E. Main Dr Chandler, KN')	2015-06-04	2015-06-09	5	4219.39
+1593	2784	(1797, ' E. Wabash St London, KN')	1995-06-11	1995-06-16	3	2034.93
+1503	2785	(2274, ' N. Cert Dr Houston, GA')	2017-09-05	2017-09-10	4	1145.26
+1057	2786	(1544, ' E. Fun St Hilsboro, KS')	2017-06-21	2017-06-26	1	901.42
+1851	2787	(1999, ' S. Ash St Durham, NY')	2010-08-02	2010-08-07	1	182.85
+1682	2788	(1642, ' N. Mean St Hilsboro, VT')	2016-08-13	2016-08-18	3	2707.19
+1427	2789	(1151, ' W. Wabash St Phoenix, KN')	2004-05-07	2004-05-12	1	818.66
+1787	2790	(2218, ' N. Dobson Rd Encinitas, KN')	2016-06-22	2016-06-27	4	466.64
+1024	2791	(2010, ' S. Letter St Buffalo, TX')	1996-10-20	1996-10-25	4	3475.53
+1261	2792	(2083, ' N. Francis St Encinitas, AR')	2001-01-14	2001-01-19	1	662.04
+1673	2793	(1045, ' W. Fun St Tucson, TX')	2000-10-21	2000-10-26	5	3902.03
+1544	2794	(2898, ' W. Letter St El Paso, KS')	2019-07-15	2019-07-20	3	1041.63
+1202	2795	(1487, ' W. Main Dr New York, CO')	2013-03-23	2013-03-28	3	1085.8
+1368	2796	(341, ' N. Main Dr Encinitas, NV')	2014-07-13	2014-07-18	5	1540.99
+\.
+
+
+--
+-- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: farhath
+--
+
+COPY public.customer (cid, password, email, first_name, last_name, phone_number) FROM stdin;
+1000	EzX85RJk	JoeWalker@gmail.com	Mohhamed	Lopez	6872342545
+1001	5NAKVBrk	MohhamedOnell@gmail	Byron	Pare	1770860621
+1002	q3mvaEH0	ByronBlondeel@gmail	Lauren	Guelich	6306770625
+1003	5UXAHCVt	EthanNordy@gmail.co	Allysa	Guelich	1351395911
+1004	mrJUXQsG	JacobSmith@gmail.co	Ethan	Guelich	2130559235
+1005	ZwYeA4jE	MichealGuelich@gmai	Byron	Anwar	2873800005
+1006	aZUhR6DE	AllenFord@gmail.com	Miguel	Johnson	3067322179
+1007	ptnCjWfx	ByronFord@gmail.com	Farhath	Walker	7874548851
+1008	Sy6o3bah	JohnGuelich@gmail.c	Joe	Williams	7162363645
+1009	KrAuzQNb	NealOnell@gmail.com	Mohhamed	Smith	3330377202
+1010	M7wrErjo	MichealNordy@gmail.	Neal	Clark	5413794555
+1011	qB0CRN9V	LaurenWalker@gmail.	Adam	Clark	9618953276
+1012	TonZdzQO	LaurenLalani@gmail.	Farhath	Hon	1810163941
+1013	mena3QbU	AllenHon@gmail.com	Micheal	Huh	5192772104
+1014	AoEpIHf6	MohhamedJohnson@gma	Jade	Pare	5850272780
+1015	RL6jOVKd	AndyNordy@gmail.com	Miguel	Johnson	3691577785
+1016	A7Kj9fqC	JinseokHuh@gmail.co	Jacob	Anwar	2708547892
+1017	Tt1YeSXH	JinseokWilliams@gma	Mohhamed	Guelich	1381102460
+1018	H1xTvAXR	LaurenLalani@gmail.	Miguel	Onell	9739949383
+1019	xr7B0xRS	MikeHon@gmail.com	Andy	Smith	1299713045
+1020	lf7pPhCE	ByronNordy@gmail.co	Byron	Guelich	4827589362
+1021	ihPmqA0g	AdamRangel@gmail.co	Mohhamed	Pare	3643879731
+1022	zfTswm1m	EthanSmith@gmail.co	Allen	Lalani	6631982647
+1023	HO90HuSX	JoeNordy@gmail.com	Jacob	Walker	6219210060
+1024	cQdh8tBq	AllenPare@gmail.com	Joe	Onell	5341152533
+1025	WQuZIrIr	AdamAnwar@gmail.com	Farhath	Williams	6621353807
+1026	XW228uXQ	AdamClark@gmail.com	Mohhamed	Nordy	4617897105
+1027	K0lGKb0z	MohhamedLalani@gmai	Andy	Nordy	8455106909
+1028	iBwaWWyu	MiguelBlondeel@gmai	Jacob	Guelich	9573668454
+1029	qVzsQXaH	MadyAnwar@gmail.com	Neal	Blondeel	9982728731
+1030	ZlVJaL0M	LaurenHon@gmail.com	Allysa	Williams	9125648739
+1031	mc4fdd2w	MikeLopez@gmail.com	Allen	Anwar	2867972917
+1032	D650yQGo	JinseokSmith@gmail.	Jade	Guelich	1563519133
+1033	bCdvc0p3	EthanHon@gmail.com	Miguel	Huh	8402534172
+1034	uPf5D23Y	MiguelWilliams@gmai	Mohhamed	Lopez	4151435259
+1035	mS9pK70x	JinseokClark@gmail.	Farhath	Nordy	9876926554
+1036	p7MHBerS	JacobSmith@gmail.co	Jinseok	Williams	7256404269
+1037	8MFXnDks	EthanClark@gmail.co	Jacob	Ford	7334120886
+1038	JdcxPAOh	AdamHon@gmail.com	Mike	Huh	7622621890
+1039	f3Wfp7qd	JinseokOnell@gmail.	Miguel	Blondeel	4772842513
+1040	DAAsVbLC	AndyLopez@gmail.com	Mike	Walker	9155038442
+1041	gkP46uwg	ByronRangel@gmail.c	Ethan	Guelich	5951753514
+1042	UtjCWlpR	LaurenWalker@gmail.	Adam	Anwar	1056153258
+1043	b7PQNyr0	LaurenLopez@gmail.c	Adam	Onell	4578731606
+1044	7OZpZ0nC	AdamHon@gmail.com	Adam	Lalani	7680966906
+1045	SpgLlnaQ	MiguelHon@gmail.com	Miguel	Guelich	9886841185
+1046	x32P2C8C	ByronSmith@gmail.co	Farhath	Rangel	2823451075
+1047	wFlzkc1w	AdamWalker@gmail.co	Miguel	Hon	7714848690
+1048	VHfeSIBb	MikeHuh@gmail.com	Jade	Rangel	7038001614
+1049	TSpjuUrW	EthanLopez@gmail.co	Allen	Smith	4883308714
+1050	fFByfpqV	JinseokNordy@gmail.	Mohhamed	Lopez	5208389423
+1051	EuC6hePE	LaurenWilliams@gmai	Allysa	Pare	2724301679
+1052	ssVPLqQI	AllysaHuh@gmail.com	Mady	Walker	7865312867
+1053	p4tWPaNV	JadeGuelich@gmail.c	Jacob	Pare	2510634891
+1054	3oS7PipJ	MiguelAnwar@gmail.c	Neal	Nordy	3372481124
+1055	LjTEqCNW	FarhathClark@gmail.	Allysa	Lopez	9709053167
+1056	QYGcS44a	JoeWalker@gmail.com	Jade	Rangel	3041262137
+1057	PYW5XTUr	MichealSmith@gmail.	Neal	Nordy	6272439955
+1058	bAQXoMUL	JohnOnell@gmail.com	Andy	Hon	5288150875
+1059	fxuJBX4O	LaurenBlondeel@gmai	Lauren	Guelich	2627498511
+1060	80TWmPF9	MohhamedRangel@gmai	Jacob	Lalani	4203688344
+1061	O0gi2Rfo	ByronGuelich@gmail.	Byron	Lopez	5740798223
+1062	SAH4Zzut	JoeBlondeel@gmail.c	Jacob	Nordy	9621232246
+1063	2Gvd644x	NealOnell@gmail.com	Jacob	Blondeel	3639698512
+1064	K9tFkHFs	JoeSmith@gmail.com	Jade	Anwar	4098359771
+1065	mTxIyxiU	MohhamedSmith@gmail	Lauren	Lalani	1013112484
+1066	4jxmyio3	ByronRangel@gmail.c	Byron	Clark	9404639363
+1067	NJND41aJ	AndyClark@gmail.com	Andy	Pare	3996860071
+1068	PfgrSCXk	LaurenRangel@gmail.	Miguel	Walker	9011531760
+1069	JDqcQX8S	AllysaLopez@gmail.c	Micheal	Nordy	1985318288
+1070	APLEypZU	FarhathSmith@gmail.	Ethan	Williams	1530846318
+1071	j18bXOa8	LaurenRangel@gmail.	Farhath	Lalani	5453480455
+1072	x1JT7Yqx	JadeLalani@gmail.co	Allysa	Lopez	4845702561
+1073	FnA9dQaq	NealSmith@gmail.com	Mike	Lopez	2807841102
+1074	9oqGkzgZ	AllysaHon@gmail.com	Adam	Smith	4434530388
+1075	DcvvHBre	MohhamedLopez@gmail	Lauren	Clark	1625805497
+1076	3W8OyhH0	LaurenOnell@gmail.c	Jinseok	Williams	3848875929
+1077	2f9QRtAv	MadySmith@gmail.com	Ethan	Williams	8343266442
+1078	PUESlvvL	AllenWalker@gmail.c	Jade	Onell	3929459504
+1079	sSopCnVe	MikeBlondeel@gmail.	Andy	Rangel	3379451052
+1080	o8mZeeoG	MikeAnwar@gmail.com	Lauren	Lalani	9266966957
+1081	r1fZ3jhx	MohhamedLopez@gmail	Allysa	Onell	2555891494
+1082	pVM8p5kV	NealLalani@gmail.co	Neal	Clark	5215735395
+1083	ytyzb4ec	FarhathClark@gmail.	Micheal	Johnson	2950709136
+1084	vkemVaNh	AdamNordy@gmail.com	Miguel	Smith	5714428753
+1085	gpg3deDz	EthanFord@gmail.com	Neal	Johnson	1284123312
+1086	vU0Htz84	MikeOnell@gmail.com	Neal	Rangel	3611188126
+1087	m0ovtuLY	NealHuh@gmail.com	Byron	Hon	6357782117
+1088	YaJVo415	JadeHon@gmail.com	Allen	Pare	1256965373
+1089	0T8eJ5Ae	JoeHon@gmail.com	Neal	Lopez	8826719857
+1090	bXPSIToS	MiguelOnell@gmail.c	Joe	Walker	4464821169
+1091	PDzGMcdk	JadeWalker@gmail.co	Joe	Anwar	9847917483
+1092	sTu5tHmr	AndyWilliams@gmail.	Andy	Blondeel	2767756432
+1093	gxjCRWmK	JacobWilliams@gmail	John	Guelich	6800336900
+1094	t8PpQcrm	JinseokGuelich@gmai	Farhath	Onell	7092846713
+1095	IuHFpLLx	LaurenNordy@gmail.c	Byron	Hon	9819353194
+1096	pN3fK4ba	MiguelOnell@gmail.c	Andy	Rangel	6263157914
+1097	E07cIYY3	JacobJohnson@gmail.	Joe	Ford	5498240832
+1098	3cs05DBw	ByronGuelich@gmail.	Lauren	Hon	2040760260
+1099	TQCnBxEJ	AndyHuh@gmail.com	Adam	Huh	9764956694
+1100	FPtsys7M	AllysaClark@gmail.c	John	Ford	8015667295
+1101	D314E2aQ	AdamWilliams@gmail.	Adam	Lalani	5142027714
+1102	RC1CfLYi	AndyLalani@gmail.co	Ethan	Hon	4525753171
+1103	MoX5ca2k	JohnHon@gmail.com	Mady	Pare	4306863423
+1104	bqfSmnWI	AllysaOnell@gmail.c	Allen	Onell	3407361987
+1105	cF2bD6vW	JadeBlondeel@gmail.	Mike	Johnson	5131544581
+1106	Mb0n2IKF	FarhathWalker@gmail	Adam	Huh	8338501797
+1107	0gV3kK1u	ByronClark@gmail.co	Mike	Lopez	4388549692
+1108	HI4adsjI	EthanRangel@gmail.c	Miguel	Huh	4618363215
+1109	DzqEk8Rg	EthanSmith@gmail.co	Miguel	Lalani	3561419769
+1110	SuAbAxUV	JoeHon@gmail.com	Allen	Williams	9919867146
+1111	WM6Tb7nn	AdamClark@gmail.com	Ethan	Lopez	9149796383
+1112	w8JPgTlM	JinseokLopez@gmail.	Farhath	Lopez	4685697064
+1113	kjSijOVb	JadePare@gmail.com	Allen	Guelich	2955986205
+1114	VC2TnHaD	MichealBlondeel@gma	Ethan	Hon	4903035926
+1115	fvw0maSN	AllysaRangel@gmail.	Adam	Huh	8468443407
+1116	hQFv0XPU	LaurenWilliams@gmai	Allysa	Walker	1339818734
+1117	X2los5t1	MikeLopez@gmail.com	Mike	Williams	9703271205
+1118	Pr891VmS	AndyAnwar@gmail.com	Allysa	Williams	8215231084
+1119	XRBj1Wcv	EthanWilliams@gmail	Byron	Huh	5038846211
+1120	JF4zRVQW	AdamLalani@gmail.co	Lauren	Pare	2731554804
+1121	Bxn0YR4y	ByronLalani@gmail.c	Mike	Lopez	2196069872
+1122	Kyw08cIm	JinseokWilliams@gma	Miguel	Hon	9555542217
+1123	DYrWxZqY	MohhamedAnwar@gmail	Jade	Anwar	7060529618
+1124	HAdSSgkR	FarhathOnell@gmail.	Farhath	Lopez	4954977568
+1125	nK5ielBr	JadeOnell@gmail.com	Byron	Walker	8847942552
+1126	zhL7XZax	MikeWilliams@gmail.	Andy	Rangel	9675201685
+1127	JSFwZiA7	JohnAnwar@gmail.com	Joe	Ford	5301913283
+1128	o5wUD3g3	MadyBlondeel@gmail.	Allen	Blondeel	7093668240
+1129	Ztb5U4hJ	LaurenLalani@gmail.	Farhath	Anwar	6432122764
+1130	Da4QcsfV	JadeJohnson@gmail.c	Jade	Ford	2084440979
+1131	BrFXEzuO	JacobLalani@gmail.c	Allen	Blondeel	9963241862
+1132	IXiOY5kx	AndyWalker@gmail.co	Allen	Johnson	6190315300
+1133	Q4U70Opi	MikePare@gmail.com	Allen	Hon	3513659090
+1134	pTfconfn	FarhathHuh@gmail.co	Allen	Onell	8161531971
+1135	vXFD7raj	JoeHuh@gmail.com	Mady	Onell	3972512767
+1136	LbkMJs1E	MiguelWilliams@gmai	Allen	Lalani	8305314388
+1137	rDZhnh1Y	JoeRangel@gmail.com	John	Guelich	8329779014
+1138	aX4MgFQx	EthanNordy@gmail.co	Allen	Williams	8872627917
+1139	V6P3HG1v	MichealJohnson@gmai	Allysa	Huh	8804459488
+1140	r5XckNbC	MadyHon@gmail.com	Ethan	Pare	3258462647
+1141	v7EYfDrk	AdamHuh@gmail.com	Jinseok	Guelich	3955705470
+1142	PRAyrzMo	JadeLopez@gmail.com	Byron	Blondeel	5604537936
+1143	sHc4Op6q	FarhathHuh@gmail.co	Farhath	Rangel	6002677114
+1144	jnzFIuWU	LaurenClark@gmail.c	Mohhamed	Smith	2889646267
+1145	nXFa0hkI	JoeHuh@gmail.com	Jinseok	Hon	9756209211
+1146	ULgDFcda	JinseokLalani@gmail	Mohhamed	Nordy	1174243717
+1147	4r7KOuaU	AndySmith@gmail.com	Ethan	Walker	9437939121
+1148	iRtnRkYm	JoeLalani@gmail.com	Joe	Huh	8324187091
+1149	1tH60YYM	JohnLalani@gmail.co	Farhath	Hon	4312052358
+1150	OHPiIDIl	AllenHon@gmail.com	Allen	Blondeel	4743896352
+1151	hCzgL0ML	JohnClark@gmail.com	Jade	Rangel	8077010650
+1152	0EL6N1yp	AllenWilliams@gmail	Jinseok	Williams	1759795244
+1153	zgoriJoK	ByronJohnson@gmail.	Ethan	Smith	2746143619
+1154	1U2G9Zrs	AllenGuelich@gmail.	Joe	Williams	5653407566
+1155	b0bUMxJg	AllenHuh@gmail.com	Farhath	Huh	8570018085
+1156	KNDzW8To	JoeWalker@gmail.com	Jinseok	Ford	2962080339
+1157	iouTNLwP	NealWilliams@gmail.	Byron	Smith	5355881145
+1158	ATB5GOoE	FarhathWalker@gmail	Miguel	Nordy	8421347886
+1159	pbuPhKE6	JoePare@gmail.com	Ethan	Ford	3485804693
+1160	F4yjnW3f	JinseokRangel@gmail	Andy	Walker	7169851907
+1161	agrUdp8s	MadyHon@gmail.com	Farhath	Pare	8235267028
+1162	ykyr1pvS	MichealBlondeel@gma	Mike	Ford	6376190935
+1163	0cSJXOQz	EthanHon@gmail.com	Mike	Blondeel	2418898401
+1164	tgUmDlta	JinseokLopez@gmail.	Allysa	Hon	4065847914
+1165	upQWcJta	NealBlondeel@gmail.	Andy	Onell	6534040725
+1166	d9wbpFaU	MadyHuh@gmail.com	Neal	Blondeel	1036155033
+1167	pdVRSS2A	MikeSmith@gmail.com	Joe	Williams	6379411157
+1168	gnythdRZ	EthanWilliams@gmail	Allysa	Nordy	8038512811
+1169	YtZMamr1	AndyClark@gmail.com	Ethan	Blondeel	3480191634
+1170	VhsRA8SO	ByronClark@gmail.co	Adam	Nordy	9191735138
+1171	QqhDxvDS	MichealLopez@gmail.	Micheal	Clark	1408720831
+1172	JmoiYp9f	FarhathLalani@gmail	Neal	Lalani	5106662572
+1173	HubreKCt	AllysaNordy@gmail.c	Adam	Lopez	7194169513
+1174	ZlB6OUGJ	MikeBlondeel@gmail.	Adam	Blondeel	2568265666
+1175	VlNZOSb7	MadyJohnson@gmail.c	Farhath	Anwar	1727535134
+1176	4bYZlzhg	NealNordy@gmail.com	Farhath	Hon	3752944858
+1177	7xX0JZSk	AllenHuh@gmail.com	Allen	Huh	4759223974
+1178	xVLMBeAU	LaurenBlondeel@gmai	Jade	Hon	9973368512
+1179	2mc992oe	LaurenSmith@gmail.c	Allysa	Williams	9762262519
+1180	SfyRznMB	JinseokLalani@gmail	Mady	Clark	5149334358
+1181	ooj7wrwt	AllysaSmith@gmail.c	Lauren	Onell	6106856994
+1182	60lHpl2g	MikeHuh@gmail.com	Adam	Rangel	4212804011
+1183	obcbOJjk	AllenAnwar@gmail.co	Adam	Williams	9798657290
+1184	6XJaE9on	MadyBlondeel@gmail.	John	Pare	2068220554
+1185	8pkc9xZy	LaurenHuh@gmail.com	Neal	Lalani	9814789279
+1186	Q6Y6Pwyl	LaurenOnell@gmail.c	Byron	Lopez	6386165024
+1187	krC2Jm03	JohnAnwar@gmail.com	Jade	Rangel	1845822682
+1188	Z3PCDQY9	MikeRangel@gmail.co	Byron	Blondeel	6464087901
+1189	YFwmW2lV	FarhathBlondeel@gma	Mohhamed	Lopez	3468310429
+1190	n35idKjd	AllysaLopez@gmail.c	Neal	Rangel	1358052126
+1191	geRDTtar	AllenLopez@gmail.co	Mike	Smith	1576021605
+1192	h2rCjNxi	LaurenLopez@gmail.c	Lauren	Onell	4724066058
+1193	NbhzZTtF	AllenJohnson@gmail.	Jade	Smith	4121876195
+1194	DOMqUIVr	ByronBlondeel@gmail	Ethan	Rangel	9321658654
+1195	RZQvZWzm	LaurenOnell@gmail.c	Byron	Huh	6973399940
+1196	fWghSwky	AndyPare@gmail.com	Mady	Blondeel	7069255764
+1197	a2qvElDk	MichealClark@gmail.	Neal	Huh	6121024412
+1198	BecOyoFB	AndyPare@gmail.com	Allen	Blondeel	6583157018
+1199	CtU1PHCi	JadeGuelich@gmail.c	Allen	Anwar	7559240633
+1200	dcRUL4ZY	JohnLopez@gmail.com	Mike	Lalani	8594102901
+1201	lxEiesFW	MadyLopez@gmail.com	Lauren	Ford	8536781594
+1202	ri97dLxE	MikeHuh@gmail.com	Ethan	Onell	6263583693
+1203	LAQFcRqw	MiguelOnell@gmail.c	Mohhamed	Smith	1913043859
+1204	tUSxZYoV	MohhamedGuelich@gma	John	Pare	2240081213
+1205	N9xJk0eH	FarhathClark@gmail.	Micheal	Blondeel	6922150540
+1206	3ErO8NIS	MikeAnwar@gmail.com	Mady	Williams	5124578830
+1207	sDx0LwOs	EthanHuh@gmail.com	Andy	Blondeel	2196023495
+1208	M0N6HH2J	MadyWilliams@gmail.	Micheal	Williams	6090120790
+1209	mfAeB1LJ	ByronLopez@gmail.co	Micheal	Clark	3149509382
+1210	b2A2BGNM	JoeFord@gmail.com	Mike	Lalani	7444735057
+1211	SCF7IIVu	AllysaLalani@gmail.	Mike	Smith	5433635422
+1212	ZA3NB4Sk	MiguelHon@gmail.com	Micheal	Ford	7601432408
+1213	BWEMwGqf	FarhathNordy@gmail.	Allysa	Pare	7516807370
+1214	kLBexqGf	MohhamedOnell@gmail	Jade	Lopez	9687265253
+1215	HkC18fGx	EthanLalani@gmail.c	Jade	Lopez	7881714030
+1216	WuEcnT5N	AllenFord@gmail.com	Jinseok	Huh	6566703692
+1217	Ka9prZxM	JadeBlondeel@gmail.	Byron	Clark	3240115819
+1218	YLyA5fzM	NealRangel@gmail.co	Farhath	Guelich	6968853291
+1219	uREWWUaR	AdamFord@gmail.com	Ethan	Guelich	6111716195
+1220	i5j1tUxt	AllysaOnell@gmail.c	Jinseok	Johnson	8730640815
+1221	JBvKYKYL	LaurenRangel@gmail.	Miguel	Ford	2192801840
+1222	wcNGf94Y	JacobBlondeel@gmail	Jacob	Smith	3054926645
+1223	Yiy657gI	JinseokWilliams@gma	Byron	Anwar	5226581012
+1224	utQS6eqA	MichealPare@gmail.c	Jade	Huh	6028034187
+1225	iNWWudVQ	AllenRangel@gmail.c	Mady	Lalani	9420304261
+1226	zXOqxAoz	MichealHuh@gmail.co	Jacob	Blondeel	6795250257
+1227	KW2ZS9RC	MadyOnell@gmail.com	Adam	Onell	8456196485
+1228	hOVmiJpg	NealLalani@gmail.co	Lauren	Anwar	4053563861
+1229	evPOC1iJ	LaurenGuelich@gmail	Byron	Lalani	4870871556
+1230	V6nC7HFV	NealWalker@gmail.co	Micheal	Rangel	5710117492
+1231	oPB3WSqE	JinseokFord@gmail.c	Mady	Smith	1207967923
+1232	iQThiggX	MiguelClark@gmail.c	Jinseok	Guelich	3246851521
+1233	55maRitj	AllysaHuh@gmail.com	Adam	Johnson	9187207163
+1234	tdMRj8C1	AllysaBlondeel@gmai	Joe	Smith	6059529143
+1235	NdMOpESK	ByronJohnson@gmail.	Mike	Pare	1389655706
+1236	O3CvNvv6	EthanHuh@gmail.com	Jinseok	Walker	9066183174
+1237	KOzpt0sZ	JadeBlondeel@gmail.	Miguel	Nordy	1122498170
+1238	myBV7lRI	EthanSmith@gmail.co	Mady	Clark	1210895508
+1239	sWaTnmu8	AndyPare@gmail.com	Joe	Hon	3496770368
+1240	7sOIIbNd	AllysaNordy@gmail.c	Mady	Blondeel	3609322299
+1241	mHBay7WB	JinseokBlondeel@gma	Mike	Williams	4881365949
+1242	6HzAUDfA	ByronWilliams@gmail	Jacob	Ford	9382826845
+1243	EjgQdsdt	AdamLalani@gmail.co	Byron	Johnson	9809084032
+1244	FatOcRjE	JadeClark@gmail.com	Allysa	Lalani	9823889647
+1245	yetvKJ0T	FarhathSmith@gmail.	Adam	Blondeel	8363807829
+1246	4Xm5xnXB	FarhathHuh@gmail.co	Allen	Anwar	1963301083
+1247	Bh7PAqHX	NealJohnson@gmail.c	Lauren	Huh	8443256804
+1248	sqobZlBR	NealJohnson@gmail.c	Jade	Clark	5550450866
+1249	4AwDXeAt	LaurenLopez@gmail.c	Mohhamed	Lopez	7371278500
+1250	QfJBfori	JohnFord@gmail.com	Micheal	Smith	9922365493
+1251	Oh1SAKx4	JacobOnell@gmail.co	Neal	Hon	9395520788
+1252	RX7IVb1C	ByronClark@gmail.co	Jinseok	Huh	7275213711
+1253	M9gfv25j	AllenPare@gmail.com	Allysa	Anwar	6759081606
+1254	aXR0ird5	AllysaAnwar@gmail.c	John	Anwar	2768914188
+1255	OKeRwGzU	AdamFord@gmail.com	Lauren	Clark	5570493508
+1256	pzMqWUUO	AndySmith@gmail.com	Adam	Nordy	3089510298
+1257	k6bXjboi	LaurenSmith@gmail.c	Ethan	Williams	3218147977
+1258	saDiEMzt	AndyWilliams@gmail.	Micheal	Anwar	5969529663
+1259	VlHsZjUL	JinseokWalker@gmail	Mike	Rangel	6895596118
+1260	iGO1lIuA	MadyHon@gmail.com	Jinseok	Guelich	6207396109
+1261	fmeNLNNp	AdamClark@gmail.com	Allysa	Guelich	8238439633
+1262	kY3PfSvR	JohnWalker@gmail.co	Mady	Clark	6979296654
+1263	OOEoIKkT	ByronPare@gmail.com	Mike	Pare	2499080079
+1264	jcKpfpFi	MichealPare@gmail.c	Mohhamed	Lalani	3960453893
+1265	X2OCIAhp	AndyWalker@gmail.co	Jade	Pare	3532728311
+1266	IETReIAi	AdamFord@gmail.com	Lauren	Hon	7656047212
+1267	fuTik45w	AllenSmith@gmail.co	Miguel	Lalani	4669706174
+1268	A0smVHkQ	MohhamedSmith@gmail	Adam	Nordy	4714172134
+1269	7FeAu7Uy	JinseokGuelich@gmai	Ethan	Pare	5619779728
+1270	4uhKLy0M	JacobJohnson@gmail.	Andy	Ford	2487892474
+1271	zoh5i1cm	JinseokAnwar@gmail.	Mady	Walker	7749967761
+1272	jLIcun8k	JadeRangel@gmail.co	Miguel	Williams	4932753630
+1273	ziWlDBLB	JadeFord@gmail.com	Allen	Johnson	8118508241
+1274	965SXQSX	NealOnell@gmail.com	Allysa	Lopez	3040063169
+1275	S22lxJ5m	AllysaPare@gmail.co	Allysa	Nordy	1578934881
+1276	cajUpOwZ	LaurenPare@gmail.co	Ethan	Smith	3710560062
+1277	NhnC9skt	JohnAnwar@gmail.com	Ethan	Pare	2515977441
+1278	in6V1142	AndyBlondeel@gmail.	Ethan	Nordy	7549278482
+1279	i0crnJeS	MiguelWalker@gmail.	Jacob	Johnson	6626437843
+1280	BQA65L0M	NealWalker@gmail.co	Neal	Anwar	6622670067
+1281	7mH1FwPx	MadyBlondeel@gmail.	Mohhamed	Blondeel	3619124853
+1282	QklOvvjb	EthanHuh@gmail.com	Allysa	Hon	4351656250
+1283	fGR8hezx	MohhamedOnell@gmail	Allysa	Clark	8604245220
+1284	ottVpZE4	MiguelHuh@gmail.com	Allysa	Anwar	8543280805
+1285	5nyw0WkB	ByronLalani@gmail.c	Ethan	Lopez	7804452058
+1286	ILwIur9e	JinseokFord@gmail.c	Byron	Johnson	7570026381
+1287	940VO2Rv	AllysaNordy@gmail.c	Mady	Guelich	3807810853
+1288	6dt9mZAe	FarhathFord@gmail.c	Neal	Anwar	6552733081
+1289	gzWuEAL8	MadyWilliams@gmail.	Farhath	Huh	4046857777
+1290	vXGwx0U2	NealHuh@gmail.com	Byron	Lalani	5263396629
+1291	MyfYXGKw	JadeLalani@gmail.co	Allen	Smith	6758967337
+1292	AaPxl7Yg	JohnWilliams@gmail.	Farhath	Onell	2933834295
+1293	jYuowWJ1	FarhathSmith@gmail.	Mike	Hon	2784427319
+1294	6AuZyPnn	JacobPare@gmail.com	Jinseok	Blondeel	5640359896
+1295	EhJqZtK4	MadyHuh@gmail.com	Andy	Anwar	4035996127
+1296	L4Geu4ic	MadyAnwar@gmail.com	Jacob	Onell	1807738765
+1297	l8C23DQu	JohnWalker@gmail.co	Miguel	Clark	8995072208
+1298	3fHuQugp	LaurenWilliams@gmai	Mike	Williams	3649320060
+1299	8XhCA5i9	AdamAnwar@gmail.com	Byron	Hon	2208713840
+1300	N8DRlWQE	AdamLalani@gmail.co	Lauren	Hon	2474087826
+1301	YQrbdaPS	MikeWilliams@gmail.	Miguel	Hon	4935345692
+1302	GjKcsMJX	JoeHon@gmail.com	Jade	Walker	9200311547
+1303	EH4lH3xI	JadePare@gmail.com	Allysa	Pare	9289116538
+1304	xT71AxNj	FarhathAnwar@gmail.	Miguel	Pare	4423028463
+1305	zXjuy22C	LaurenPare@gmail.co	Jinseok	Lalani	1622667555
+1306	1C5CSn8Y	LaurenRangel@gmail.	Micheal	Pare	1797199241
+1307	b3VUM9wU	AllenPare@gmail.com	Ethan	Williams	7427851439
+1308	gQm7K7UX	JoeGuelich@gmail.co	Miguel	Huh	3280433904
+1309	04Tc6OU8	AllysaBlondeel@gmai	Byron	Pare	8954724490
+1310	zcfb6eW9	JohnOnell@gmail.com	Joe	Johnson	3028785844
+1311	cCYG5NLI	ByronHon@gmail.com	Miguel	Lopez	9004974910
+1312	h2jgHc8v	AllenNordy@gmail.co	Ethan	Pare	3359914920
+1313	vSlG7dGf	MiguelLopez@gmail.c	Ethan	Hon	4262712455
+1314	Z3vyGxAv	AndyRangel@gmail.co	Mady	Guelich	4411796140
+1315	BXQL2kIs	ByronNordy@gmail.co	Allen	Clark	3413590595
+1316	OXaKcmei	ByronBlondeel@gmail	Miguel	Lopez	5645559621
+1317	7iraLcx9	NealLalani@gmail.co	Allysa	Rangel	2265911254
+1318	eaqWbk6N	MohhamedWalker@gmai	Mike	Rangel	5915311283
+1319	oelvSVaO	EthanWilliams@gmail	Allysa	Johnson	8462284718
+1320	7LrEs0Xk	JadeLalani@gmail.co	Andy	Smith	1657673317
+1321	CWIBeoOl	JohnBlondeel@gmail.	Jade	Lopez	8358663946
+1322	T2Stx52c	MiguelFord@gmail.co	Jacob	Anwar	4837080183
+1323	JhcWoIdv	MikeWilliams@gmail.	Jinseok	Walker	7324653250
+1324	9cfPniLM	AndyPare@gmail.com	Mike	Nordy	8193469283
+1325	yDXwFO92	JadeRangel@gmail.co	Joe	Ford	8324992087
+1326	ST9YSQkM	LaurenSmith@gmail.c	Neal	Rangel	7701143831
+1327	waKkszxi	AndyAnwar@gmail.com	Mady	Nordy	3488169770
+1328	BDa8cEk1	LaurenWalker@gmail.	Andy	Rangel	3095482341
+1329	YCxuip45	AndyNordy@gmail.com	Mike	Huh	5588561947
+1330	hEAUeqH5	AllenWilliams@gmail	Andy	Nordy	1599185941
+1331	8i5392PK	NealWilliams@gmail.	Jinseok	Rangel	6605225735
+1332	hkuImH3W	AdamHon@gmail.com	Andy	Onell	5868214849
+1333	FbRxkf1B	LaurenWalker@gmail.	Miguel	Onell	6686255628
+1334	XIBELew2	MikePare@gmail.com	Jinseok	Hon	8326056113
+1335	S72la6QN	JacobWilliams@gmail	Andy	Guelich	1667995834
+1336	oLmOd7dV	LaurenBlondeel@gmai	Mady	Smith	5082200047
+1337	u8rOdCVG	AllenHuh@gmail.com	Neal	Smith	4702850210
+1338	OZLfAIwJ	AndyHuh@gmail.com	Micheal	Williams	9477126814
+1339	2IjDy4Hd	AllysaHon@gmail.com	Ethan	Guelich	1176844401
+1340	Kg5QQKql	MiguelHuh@gmail.com	Lauren	Nordy	2537444632
+1341	vFSPlMGU	JacobWalker@gmail.c	Jinseok	Johnson	5574652819
+1342	ExTAm5I3	MohhamedBlondeel@gm	Neal	Blondeel	5480703648
+1343	v9wg6n7O	JacobJohnson@gmail.	Jacob	Johnson	9756701312
+1344	xVDcAlk6	AllenFord@gmail.com	Jacob	Williams	8142010813
+1345	ZTaCoY6h	JoeSmith@gmail.com	Mohhamed	Guelich	9962585761
+1346	qzcsnRAZ	JinseokClark@gmail.	Joe	Rangel	5219238506
+1347	c6HXEQBs	AllysaAnwar@gmail.c	Miguel	Huh	5182918975
+1348	2lWa2UO8	MichealAnwar@gmail.	Adam	Guelich	7111824663
+1349	ogDORZUj	MikePare@gmail.com	Jacob	Johnson	8316816481
+1350	QhDwu9ym	AndyClark@gmail.com	Joe	Williams	8936277248
+1351	EidLP3x1	LaurenOnell@gmail.c	Allysa	Onell	7850139584
+1352	9hSQRatU	JinseokSmith@gmail.	Jade	Huh	3319925450
+1353	ViiTwynj	JinseokLopez@gmail.	Jade	Williams	9831260368
+1354	QLws5mIq	ByronOnell@gmail.co	Farhath	Johnson	4086014060
+1355	87yUuJBP	JohnHuh@gmail.com	Ethan	Huh	7708892785
+1356	DDlZcFEh	MohhamedGuelich@gma	Jade	Blondeel	1107158035
+1357	iPAi3zVg	MikePare@gmail.com	Jinseok	Williams	9523235869
+1358	r3CuPe1U	AndyClark@gmail.com	Mady	Johnson	8845236097
+1359	pkTuN93X	AllenWilliams@gmail	John	Pare	6981034412
+1360	9bbjfGS6	FarhathBlondeel@gma	Byron	Anwar	1602995968
+1361	iHDACy7G	FarhathClark@gmail.	Adam	Hon	6003693413
+1362	Ep17C8aV	JoeLalani@gmail.com	Byron	Onell	9965022609
+1363	kM6QuvsR	AndyHon@gmail.com	John	Anwar	4376381773
+1364	8qGDYHxX	JinseokClark@gmail.	Micheal	Anwar	8537167500
+1365	A8JXBVod	AndyLopez@gmail.com	Ethan	Rangel	2676629746
+1366	sp7Ckgvr	ByronWilliams@gmail	John	Pare	9646391748
+1367	pHdSEf8U	JohnHon@gmail.com	Neal	Guelich	7869247171
+1368	xL9tssi2	JohnNordy@gmail.com	Farhath	Lalani	1300142008
+1369	6goapkHO	JadeRangel@gmail.co	Byron	Lalani	3134375388
+1370	UfV6cV13	MichealClark@gmail.	Joe	Blondeel	9181908221
+1371	kFcSUUsY	JinseokWalker@gmail	Mady	Hon	9212555052
+1372	SxHhyLb2	AdamFord@gmail.com	Allen	Hon	8242585189
+1373	yQrZlyB5	NealSmith@gmail.com	Jade	Lopez	3684534010
+1374	azcW4Jea	MiguelLopez@gmail.c	Lauren	Walker	4721327429
+1375	nGFUDRut	AndyLalani@gmail.co	Jade	Rangel	6076433498
+1376	VveI7Grf	AdamGuelich@gmail.c	Jacob	Walker	4192029307
+1377	OpRzIpRJ	ByronOnell@gmail.co	Miguel	Guelich	5945649761
+1378	b9tbpNB1	NealBlondeel@gmail.	Allysa	Lopez	4780524861
+1379	cMHqnHER	JohnFord@gmail.com	Ethan	Ford	1024681271
+1380	v3BZXbcM	AdamPare@gmail.com	Lauren	Rangel	2121761400
+1381	C3LPl8TD	JoeNordy@gmail.com	Mohhamed	Nordy	5768552711
+1382	aIqJL8dd	ByronBlondeel@gmail	Mohhamed	Johnson	4710670850
+1383	phOL7juw	AdamClark@gmail.com	Lauren	Onell	1035459650
+1384	vYfq3THI	JohnNordy@gmail.com	John	Rangel	6830189703
+1385	Tybx5Ydj	LaurenLalani@gmail.	Ethan	Rangel	6473904473
+1386	waj04tOI	AllysaSmith@gmail.c	Allen	Smith	8806621709
+1387	dV0tHyyg	JinseokGuelich@gmai	Adam	Anwar	3041105923
+1388	J0XTya61	AllysaAnwar@gmail.c	Jade	Walker	8777746757
+1389	jm5zLlXO	JadeLopez@gmail.com	Miguel	Hon	6354616281
+1390	rm5G7K9M	AndyFord@gmail.com	Joe	Nordy	7233201608
+1391	6EllDdki	JoeSmith@gmail.com	Farhath	Johnson	5940830354
+1392	32W0U4Zz	AllenGuelich@gmail.	Jinseok	Johnson	6651852254
+1393	D7tJQ9T5	MohhamedFord@gmail.	Andy	Blondeel	7224824981
+1394	CcgvtEJJ	JoeWilliams@gmail.c	Lauren	Lopez	1073075934
+1395	eD52MovM	ByronGuelich@gmail.	Lauren	Nordy	2889062697
+1396	mYao92Ut	JinseokWalker@gmail	Jade	Clark	3070269716
+1397	vIzSyXOO	JinseokHuh@gmail.co	Neal	Clark	4002002789
+1398	s8puUsaS	NealAnwar@gmail.com	Farhath	Williams	4333425953
+1399	4muBAnHt	MichealHuh@gmail.co	Jacob	Nordy	8047946806
+1400	l4g6DAyM	EthanHuh@gmail.com	Miguel	Nordy	1378270529
+1401	iDDF0z8K	JinseokLopez@gmail.	Byron	Lopez	1137938771
+1402	FAdN7ece	AllenJohnson@gmail.	Jinseok	Smith	2181767250
+1403	hQ2PavEt	AndyWalker@gmail.co	Adam	Rangel	7475132733
+1404	kwIPFwhf	EthanFord@gmail.com	Joe	Nordy	5210965271
+1405	ElNoT86X	AllenClark@gmail.co	Miguel	Ford	8853479420
+1406	dPZu0vqh	JinseokNordy@gmail.	Adam	Walker	8016959589
+1407	fjCoey0z	JoeLopez@gmail.com	Mohhamed	Hon	1096190642
+1408	zjtJiRET	EthanSmith@gmail.co	Byron	Guelich	2990324997
+1409	HgCSr1nT	AndyFord@gmail.com	Mady	Walker	7696286866
+1410	B5K7Oarj	AllenWalker@gmail.c	Lauren	Blondeel	2219968578
+1411	9roiwI98	AllysaHon@gmail.com	Jade	Blondeel	6669802520
+1412	3LnpwFQ0	AdamBlondeel@gmail.	Mike	Nordy	9803443312
+1413	c2W7MzwV	FarhathWilliams@gma	Byron	Williams	2195800058
+1414	ZET4CoMN	JacobSmith@gmail.co	Neal	Onell	1558824131
+1415	wxYRMYPa	JacobPare@gmail.com	Allysa	Guelich	7248437610
+1416	ZgMUhS8P	MadyOnell@gmail.com	Byron	Smith	1319051454
+1417	qeLGATit	MikeLopez@gmail.com	Micheal	Williams	5178514194
+1418	b6bUsZiO	AllysaFord@gmail.co	Miguel	Huh	2971850631
+1419	hVKvu4ai	MadyGuelich@gmail.c	Jade	Lalani	7336239891
+1420	7a7ap486	AdamNordy@gmail.com	Ethan	Nordy	8977037343
+1421	ZpUIrUTj	AndySmith@gmail.com	Jinseok	Walker	9378953710
+1422	Z0BKFUfq	NealSmith@gmail.com	Byron	Rangel	5677368247
+1423	vfEJdaji	MiguelRangel@gmail.	Mike	Onell	5216448995
+1424	XH3paiIc	FarhathRangel@gmail	Allen	Johnson	8863886656
+1425	Nj27nk6H	JacobFord@gmail.com	Allen	Onell	7931151972
+1426	7XewJDwt	MadyOnell@gmail.com	Micheal	Guelich	1390976515
+1427	eajP6pgm	MichealClark@gmail.	Ethan	Onell	7958390355
+1428	K0PFjp9k	ByronSmith@gmail.co	John	Hon	2824280537
+1429	SUQMs4Zd	FarhathGuelich@gmai	Jinseok	Clark	7120747702
+1430	gqyNJ194	AdamHuh@gmail.com	Micheal	Pare	7798684791
+1431	fYr8YT1p	AdamJohnson@gmail.c	Mady	Hon	6880546079
+1432	rYU6014f	FarhathLalani@gmail	Mohhamed	Clark	9469685091
+1433	kbmyfKK0	MichealHon@gmail.co	Adam	Smith	9741682867
+1434	w4pK25QD	JoeLalani@gmail.com	Mike	Pare	8956204200
+1435	fmysVS06	MikeGuelich@gmail.c	Ethan	Rangel	8948694348
+1436	o8ZzLnmV	MikeClark@gmail.com	Adam	Clark	5249108418
+1437	JXnWc6P1	AndyAnwar@gmail.com	Micheal	Hon	7115525635
+1438	DCHoyCNu	MiguelClark@gmail.c	Allen	Lopez	1806894667
+1439	4G3NnnMw	JinseokPare@gmail.c	Jade	Williams	6545454700
+1440	TQiceu7N	NealClark@gmail.com	Allen	Lalani	5114288605
+1441	al4Pq71r	MadySmith@gmail.com	Mike	Onell	8762466028
+1442	QQVD7bWZ	MikeRangel@gmail.co	Adam	Lopez	2369512030
+1443	v5jDJlTM	AllenRangel@gmail.c	Adam	Lopez	2094470784
+1444	FI4lCWsu	JohnLalani@gmail.co	Mike	Rangel	2831695644
+1445	ryX4xtNS	NealWalker@gmail.co	Farhath	Ford	1828383433
+1446	Wm7so0k2	AllenFord@gmail.com	Lauren	Hon	4625660718
+1447	S9E7zdAH	AndyFord@gmail.com	Jacob	Huh	1656720840
+1448	6CsuZpGj	MichealSmith@gmail.	Farhath	Onell	6206002874
+1449	qFd1hRoD	JinseokHuh@gmail.co	Lauren	Johnson	7417399055
+1450	Vi5ptAzT	JinseokLalani@gmail	Mike	Hon	6407547753
+1451	1rccdCKc	JadeFord@gmail.com	Jade	Lalani	5584455819
+1452	4R9BVwpW	JinseokLalani@gmail	Lauren	Guelich	5701518682
+1453	7xGnig7c	AdamNordy@gmail.com	Miguel	Walker	2562308293
+1454	U8iC4JdD	JoeOnell@gmail.com	Ethan	Blondeel	5428162884
+1455	rAsuPohF	JoeJohnson@gmail.co	Micheal	Huh	2527331917
+1456	CJfGeF48	MohhamedAnwar@gmail	Miguel	Ford	4470923980
+1457	Sv7EY8v7	NealGuelich@gmail.c	Neal	Pare	6416043797
+1458	Qbn6VHuY	JacobClark@gmail.co	Farhath	Anwar	2738733031
+1459	NQfVipWj	MichealGuelich@gmai	Andy	Lopez	7465537443
+1460	QmQboqw0	MichealHon@gmail.co	Neal	Anwar	1620609750
+1461	NhzCnwpP	MikeSmith@gmail.com	Mike	Lalani	9546630081
+1462	O4tUfZQn	MohhamedWalker@gmai	Allysa	Lopez	7925038238
+1463	J82mAxLo	MikeWalker@gmail.co	Mohhamed	Pare	3850179224
+1464	CQQHsLPV	JinseokWilliams@gma	Neal	Johnson	2210702120
+1465	Wm08sGze	NealLopez@gmail.com	Farhath	Hon	4283454528
+1466	6RV9m1qy	ByronOnell@gmail.co	Allysa	Blondeel	6707302343
+1467	tD1xQhfV	JacobAnwar@gmail.co	Ethan	Walker	8999595393
+1468	emqi5v6l	JoeClark@gmail.com	Mike	Anwar	1481624762
+1469	aUpuzrmL	AndyBlondeel@gmail.	Lauren	Guelich	4605045462
+1470	PdjHnFrO	LaurenHon@gmail.com	Mohhamed	Smith	6487206625
+1471	C4gUUgDf	JacobClark@gmail.co	Allen	Guelich	2923062289
+1472	3ntThi5y	AllysaClark@gmail.c	Jacob	Guelich	7178304806
+1473	rFyqicFA	JinseokJohnson@gmai	Farhath	Lopez	5161844355
+1474	HVVCbYBn	AdamGuelich@gmail.c	Farhath	Lalani	2299129493
+1475	dElo9TXh	LaurenLalani@gmail.	Mike	Guelich	7647412436
+1476	kjYh3Zdp	JadeOnell@gmail.com	Mike	Blondeel	8520032457
+1477	3D2Meb9I	MikeLalani@gmail.co	Farhath	Walker	5155281225
+1478	inWs3U7J	JacobLalani@gmail.c	Andy	Ford	5177952468
+1479	IAqi3Q3J	MiguelNordy@gmail.c	Micheal	Pare	8757637241
+1480	2WembXiM	ByronLopez@gmail.co	Allen	Johnson	1733969342
+1481	9qHPr6bu	MadyOnell@gmail.com	Farhath	Lalani	2710339385
+1482	6BwAZkAJ	AllenWilliams@gmail	John	Blondeel	1068537911
+1483	qBQFVY4I	MiguelLopez@gmail.c	Allysa	Hon	3788921868
+1484	sXEYx9cX	JoeRangel@gmail.com	Mady	Lalani	2501006622
+1485	FKh45tHA	MiguelNordy@gmail.c	Allen	Smith	1322903619
+1486	hV44esRp	LaurenSmith@gmail.c	Adam	Johnson	6667544337
+1487	x67WK3s0	MiguelWilliams@gmai	Jinseok	Smith	3567699776
+1488	4bSsNg6n	JohnJohnson@gmail.c	Joe	Johnson	7603214044
+1489	cIF9KW9m	MadyLalani@gmail.co	Farhath	Lalani	3835822818
+1490	CaiBLoDd	JinseokGuelich@gmai	Allen	Nordy	8860414741
+1491	BpvNb2iv	EthanAnwar@gmail.co	Mike	Williams	1121261443
+1492	464mSXJs	AllysaRangel@gmail.	Neal	Huh	4589178950
+1493	MqzB4WvJ	MadyGuelich@gmail.c	Allen	Onell	9209080118
+1494	CFKCk2c7	AndyJohnson@gmail.c	Miguel	Guelich	6048318014
+1495	lj10H9vO	AllenSmith@gmail.co	Mike	Lalani	9462073004
+1496	HNeGGEan	MichealPare@gmail.c	Byron	Blondeel	7305687287
+1497	g9wyrtoD	JadeFord@gmail.com	Lauren	Nordy	4095875866
+1498	9G5Ox3EC	NealPare@gmail.com	Andy	Nordy	6167256345
+1499	YOxgdOOV	MichealJohnson@gmai	Andy	Huh	9576728195
+1500	plPXwk5L	MadyBlondeel@gmail.	Miguel	Rangel	9814578261
+1501	SHTQKGO9	MichealWilliams@gma	Byron	Blondeel	5288836073
+1502	XRl6I2OG	AllysaBlondeel@gmai	Jade	Williams	8851254868
+1503	l8JHipbo	JacobJohnson@gmail.	Miguel	Walker	8522074762
+1504	0oOh1mN5	NealLopez@gmail.com	Mohhamed	Ford	5267296085
+1505	DL8RGHKR	FarhathWalker@gmail	Joe	Lopez	3058307083
+1506	qEzM9WYi	LaurenWalker@gmail.	Jade	Onell	4490389617
+1507	5vC4wOKh	MohhamedHon@gmail.c	Allen	Nordy	2848395157
+1508	RqllF2qd	MadyHuh@gmail.com	Jade	Smith	8365898182
+1509	nSg5KQIA	MiguelPare@gmail.co	Jacob	Ford	9605803095
+1510	Thw5zIEW	JinseokLopez@gmail.	Miguel	Anwar	1135706709
+1511	z15tTu5q	AllysaJohnson@gmail	Miguel	Nordy	8506884579
+1512	3bdxzitN	AndyLopez@gmail.com	Adam	Clark	1443870837
+1513	wz3xZmcb	AndyClark@gmail.com	Andy	Onell	9595733211
+1514	WJAvy2x4	MikeLopez@gmail.com	Jacob	Anwar	8897667463
+1515	OBmECMYV	AndyAnwar@gmail.com	Adam	Lalani	6728485984
+1516	NrcbBrIR	EthanBlondeel@gmail	Jinseok	Rangel	9331438814
+1517	26AmVNnz	MadyGuelich@gmail.c	Joe	Smith	5362579882
+1518	ozjnii7T	AllenLalani@gmail.c	Byron	Johnson	2648920397
+1519	MnnvUQo9	JohnBlondeel@gmail.	Andy	Onell	8639575314
+1520	15ZsEQjW	JinseokWalker@gmail	Micheal	Ford	4815744974
+1521	HwG9JR9J	EthanGuelich@gmail.	Andy	Lalani	2350674406
+1522	QKVVIyDF	JacobRangel@gmail.c	Jinseok	Johnson	8685249830
+1523	JGMVypFJ	AllenGuelich@gmail.	Miguel	Onell	7885635944
+1524	wszXuaGo	NealBlondeel@gmail.	Jacob	Smith	1318897905
+1525	6owNHG2D	MadyBlondeel@gmail.	Allen	Smith	7343105966
+1526	w7ItBKbL	AllenClark@gmail.co	Jacob	Lalani	9076491048
+1527	xl1n1sXL	JinseokBlondeel@gma	Jacob	Pare	8186787188
+1528	wOi07uI4	AdamFord@gmail.com	Andy	Blondeel	3846806568
+1529	VLMUQlJh	MohhamedGuelich@gma	Jade	Williams	9029111533
+1530	rOEIwaZC	AdamBlondeel@gmail.	Allen	Smith	8863719221
+1531	4pbg2r56	LaurenRangel@gmail.	Miguel	Walker	7012321296
+1532	hE1XfPv8	NealLalani@gmail.co	Jacob	Nordy	1521189986
+1533	pgvkzWYU	EthanLopez@gmail.co	Ethan	Lalani	4808668190
+1534	qEbyzEgV	EthanLopez@gmail.co	John	Blondeel	3474610120
+1535	9nr9SnPR	LaurenFord@gmail.co	Farhath	Onell	1467689162
+1536	Dtn2vVdX	LaurenHon@gmail.com	Jade	Pare	2541497092
+1537	sHxcKOvH	MiguelClark@gmail.c	Neal	Lopez	7801657355
+1538	KRHH6pAi	AllysaNordy@gmail.c	Mohhamed	Hon	9070059112
+1539	r3GM8xFf	MohhamedSmith@gmail	Joe	Nordy	8504466686
+1540	FL6AwGW4	MikeLalani@gmail.co	Mike	Smith	8149174185
+1541	0gXgykyr	EthanBlondeel@gmail	Neal	Johnson	8343009283
+1542	HpHZ6GuH	AllysaWilliams@gmai	Andy	Williams	2804763010
+1543	Rugw8FV2	AllysaLalani@gmail.	Joe	Clark	1178312778
+1544	bKqzClfQ	JohnHon@gmail.com	Mike	Smith	4181931543
+1545	JlzePAQV	JinseokOnell@gmail.	Byron	Walker	9165050942
+1546	Vq4TJOjl	JoeLalani@gmail.com	Mohhamed	Huh	8208373680
+1547	rbiul1i6	LaurenWilliams@gmai	Allen	Pare	8504277861
+1548	MXUMK1kn	JadeLopez@gmail.com	Mike	Williams	9104621523
+1549	26csEJdt	JoePare@gmail.com	Miguel	Johnson	5038806959
+1550	fCKUyLFE	MichealJohnson@gmai	John	Nordy	7830712282
+1551	V7xje6LU	MiguelLopez@gmail.c	Joe	Blondeel	3069108651
+1552	2ccJ5wL9	JadeBlondeel@gmail.	Mohhamed	Walker	9611827102
+1553	PXQGjST5	ByronLalani@gmail.c	Mady	Johnson	4064126683
+1554	O8tJYLIh	JohnLopez@gmail.com	Lauren	Onell	3529999608
+1555	cOaGkXji	MohhamedLopez@gmail	Byron	Hon	2833747637
+1556	kCGFtBsX	JacobPare@gmail.com	Ethan	Smith	2149837952
+1557	12k3AC3e	JoeNordy@gmail.com	Neal	Lopez	5223706926
+1558	of80vV0y	JacobClark@gmail.co	Jade	Clark	2706346024
+1559	37oI6Cmh	JoeRangel@gmail.com	Joe	Huh	6725158632
+1560	DseXZaBr	NealGuelich@gmail.c	Jinseok	Lalani	1728134972
+1561	uDJUUcOy	JohnFord@gmail.com	Mohhamed	Rangel	1515207854
+1562	nvPZPRyp	EthanClark@gmail.co	Mady	Clark	1904464075
+1563	3Ou8dqan	MiguelWalker@gmail.	Allen	Williams	9330918234
+1564	ZqguvEoF	JoeRangel@gmail.com	Andy	Johnson	5622894078
+1565	Y12soOts	EthanWalker@gmail.c	Allysa	Lopez	6340082193
+1566	VH3BGU9q	AllysaOnell@gmail.c	Lauren	Johnson	2694244916
+1567	EFm4qDCm	MohhamedHon@gmail.c	Allen	Johnson	2509097369
+1568	8DFsB6qX	LaurenRangel@gmail.	Mady	Hon	1808895690
+1569	F64Vw4JM	LaurenBlondeel@gmai	Mike	Lopez	9395183048
+1570	WQf5k1o1	AndyHuh@gmail.com	Lauren	Clark	2123821236
+1571	MGeyQVeM	JohnOnell@gmail.com	Micheal	Lopez	7953293374
+1572	jU83P7zm	AdamLopez@gmail.com	Neal	Pare	2218149607
+1573	MwNjgMzQ	ByronLopez@gmail.co	Allen	Guelich	8014234126
+1574	JUd5yQo9	NealHuh@gmail.com	Adam	Nordy	7410369089
+1575	DRpaRm0i	JadeClark@gmail.com	Neal	Nordy	4476706809
+1576	DM7zC8M6	LaurenPare@gmail.co	Jade	Blondeel	7953315504
+1577	NlOiwo9m	MichealSmith@gmail.	Mady	Ford	5045009235
+1578	a0cCQPoN	EthanJohnson@gmail.	Mohhamed	Ford	6696310571
+1579	iQeknYeP	MichealFord@gmail.c	Jacob	Blondeel	9405487981
+1580	s0Riux26	JohnLalani@gmail.co	Mike	Nordy	7810487682
+1581	OiCUbaOf	AllenLopez@gmail.co	Mike	Walker	8475066011
+1582	OSY7QtI4	EthanHuh@gmail.com	Allen	Williams	4289217624
+1583	pB21VjVS	JadePare@gmail.com	Mike	Hon	9657816905
+1584	Te0XyhJV	AllenLalani@gmail.c	Miguel	Lalani	1441902327
+1585	yJqIKXAO	JadeLalani@gmail.co	Neal	Ford	7799256913
+1586	A4Fz8yXa	JinseokFord@gmail.c	Allysa	Hon	9002780556
+1587	8RDRsUbh	MadySmith@gmail.com	Jacob	Lalani	8536191213
+1588	SdEuSiBP	MikeClark@gmail.com	John	Ford	3079281663
+1589	eRFkqhqK	JoeWilliams@gmail.c	Neal	Clark	1329313489
+1590	o9R8ityk	EthanGuelich@gmail.	Mike	Rangel	6495619808
+1591	PZOKv0On	MikeAnwar@gmail.com	Mohhamed	Huh	7995916205
+1592	cMJNkDjK	ByronRangel@gmail.c	Allen	Onell	7342493806
+1593	Xbf7oexx	JohnWilliams@gmail.	Adam	Onell	2031706894
+1594	THJGQ17c	JacobSmith@gmail.co	Mady	Guelich	7009797142
+1595	fGJBuQK0	JoeLalani@gmail.com	Mohhamed	Clark	8304846308
+1596	G59egQbE	JinseokPare@gmail.c	Adam	Nordy	5915795865
+1597	hnvfp3Ww	ByronBlondeel@gmail	Lauren	Smith	5279641992
+1598	ULxfJTbC	ByronRangel@gmail.c	Farhath	Guelich	8808841051
+1599	RBFfKvSl	JohnBlondeel@gmail.	Farhath	Smith	2624248101
+1600	FTo4WTAs	FarhathJohnson@gmai	Jinseok	Walker	6304362505
+1601	4GrDZHST	MichealHon@gmail.co	Allen	Rangel	5519774123
+1602	EEtJi5EO	MadySmith@gmail.com	Micheal	Lalani	7159453984
+1603	NkWKJ3qm	EthanRangel@gmail.c	Mady	Johnson	4049945828
+1604	Q4E9lAzY	NealFord@gmail.com	Byron	Lalani	1230295291
+1605	K1fF2VAY	AllenGuelich@gmail.	Allen	Williams	7927128980
+1606	Vt68r29k	JadeClark@gmail.com	Farhath	Anwar	3510811806
+1607	S8Qeanxn	JadeBlondeel@gmail.	Miguel	Guelich	3433592581
+1608	cXrQ2Xx0	LaurenAnwar@gmail.c	Neal	Lopez	5381163320
+1609	AzkczGBz	AdamHon@gmail.com	Jinseok	Lopez	5201624545
+1610	JYhffFbj	JadePare@gmail.com	Mohhamed	Guelich	4111563586
+1611	Jx5dUCZD	ByronWilliams@gmail	Mohhamed	Pare	3779233493
+1612	Vf9c0o7R	AllenHuh@gmail.com	Miguel	Smith	3156845069
+1613	voNeYoKf	JohnFord@gmail.com	Allysa	Anwar	6227399428
+1614	Cwiorj74	MohhamedJohnson@gma	Farhath	Huh	3858623631
+1615	Jv6nFhzT	ByronRangel@gmail.c	Ethan	Lalani	3343505612
+1616	tisAXmaO	MichealGuelich@gmai	Neal	Ford	5903581745
+1617	WU0pO6Ch	AndyWilliams@gmail.	Jinseok	Williams	1191975515
+1618	LZJNVGU2	AndyJohnson@gmail.c	Mady	Lalani	2851483484
+1619	g8hnXAjr	ByronLalani@gmail.c	Ethan	Guelich	4982090702
+1620	mbYULYKF	MikeWilliams@gmail.	Mohhamed	Smith	3586395896
+1621	5fu1ZUFB	LaurenFord@gmail.co	Andy	Blondeel	5378230899
+1622	LVU6GXs5	MohhamedClark@gmail	Mady	Lalani	4111707170
+1623	yvsae02V	ByronRangel@gmail.c	Allysa	Smith	1878917315
+1624	UKRrjJ9k	JacobWilliams@gmail	Ethan	Blondeel	3560562885
+1625	hWLDlT4p	EthanGuelich@gmail.	Jade	Guelich	7234921586
+1626	GQ306WpV	EthanJohnson@gmail.	Neal	Lalani	2631845720
+1627	vjdrnhg8	ByronPare@gmail.com	Mady	Walker	6071205909
+1628	0XYA8ra6	JoeOnell@gmail.com	Allysa	Walker	6747544674
+1629	4fMerXnQ	AdamJohnson@gmail.c	Jade	Anwar	8143083743
+1630	007P3U3X	EthanNordy@gmail.co	Byron	Smith	8031460494
+1631	gmh89lSk	NealWilliams@gmail.	Jinseok	Smith	6955712514
+1632	c4w1YiZP	MikeWalker@gmail.co	Neal	Hon	5032205884
+1633	Zf8cINmP	JohnWalker@gmail.co	Jacob	Huh	7594160982
+1634	Fx6uOrRY	JohnRangel@gmail.co	Neal	Pare	8145205076
+1635	ceP4mHsY	LaurenHuh@gmail.com	Mike	Johnson	6392863423
+1636	02GbliQT	MadyFord@gmail.com	Ethan	Hon	4459636839
+1637	hlgYAqnT	JadeNordy@gmail.com	Mohhamed	Anwar	2487557030
+1638	tDxZFQ13	JadePare@gmail.com	Andy	Guelich	2594334585
+1639	eoFSEwvq	JohnJohnson@gmail.c	Allysa	Johnson	6788952928
+1640	gK723Ci7	EthanWilliams@gmail	Jade	Blondeel	7437312099
+1641	0RIUOotd	AndyWilliams@gmail.	Jade	Ford	3786053405
+1642	FrL1mmwL	MikeSmith@gmail.com	Miguel	Ford	7774843706
+1643	fyTnOqxF	ByronLalani@gmail.c	Mady	Onell	1607384460
+1644	826wLybZ	JohnSmith@gmail.com	Allysa	Nordy	7058262519
+1645	3QgbsHHz	MichealPare@gmail.c	Lauren	Nordy	9430283659
+1646	B1itHw0c	MadyHuh@gmail.com	Mohhamed	Walker	4437660846
+1647	8LbwaJkC	AndyOnell@gmail.com	Lauren	Williams	9692723281
+1648	fOarUziN	EthanSmith@gmail.co	Miguel	Hon	4524311253
+1649	nrFGmxma	MadyFord@gmail.com	Adam	Williams	6467966615
+1650	8Ov55F6H	JacobSmith@gmail.co	Miguel	Lopez	1398146040
+1651	RIbgNdRD	FarhathAnwar@gmail.	Mady	Smith	9457655161
+1652	U91V2Czs	AndyLalani@gmail.co	Jacob	Pare	6758313302
+1653	vKR2175x	AdamJohnson@gmail.c	Mike	Johnson	2544254788
+1654	GfXuIFGb	AllysaLopez@gmail.c	Jade	Lopez	3730727900
+1655	qGnR61EC	JadeSmith@gmail.com	Joe	Walker	6813738405
+1656	JH3Tdalq	MiguelJohnson@gmail	Lauren	Williams	4973679041
+1657	FB68uIwG	LaurenHon@gmail.com	Mohhamed	Hon	1549177034
+1658	V6pPaCIA	MikeHuh@gmail.com	Ethan	Guelich	9481512885
+1659	lQgdaE7Z	JacobJohnson@gmail.	Neal	Clark	1385559794
+1660	2bXYL26Q	FarhathHon@gmail.co	Micheal	Pare	7138466484
+1661	rWJWE0j4	AllysaGuelich@gmail	Ethan	Clark	8381375342
+1662	EbAwEi9d	NealOnell@gmail.com	Joe	Lalani	6382348125
+1663	hki6abFc	MohhamedHuh@gmail.c	Allen	Rangel	5037886415
+1664	n9RIwk5A	MadyNordy@gmail.com	Allysa	Lalani	2529517857
+1665	OiG4g9gM	JinseokClark@gmail.	Mike	Anwar	3167738267
+1666	05a0Dksg	ByronFord@gmail.com	Jinseok	Pare	7354083801
+1667	Nb25AFar	JadeFord@gmail.com	Lauren	Onell	6685680024
+1668	bcmfLQPY	JohnFord@gmail.com	Jade	Clark	1191080309
+1669	BYAnajg2	AdamGuelich@gmail.c	Andy	Clark	5449442817
+1670	iuvo9Xp5	ByronHon@gmail.com	Lauren	Blondeel	1530844226
+1671	KteYCvD7	LaurenGuelich@gmail	Allen	Hon	3292014840
+1672	sTD4tTDZ	MiguelJohnson@gmail	Jinseok	Walker	4955779999
+1673	F1sfLA0T	AllysaFord@gmail.co	Andy	Johnson	8720960877
+1674	rtWVtg92	MohhamedBlondeel@gm	Byron	Anwar	8114623763
+1675	wf88iIET	MichealLopez@gmail.	Allysa	Rangel	7938946385
+1676	meN6AuwB	JohnOnell@gmail.com	Allen	Guelich	5576971336
+1677	ZreEOhfP	JadeJohnson@gmail.c	Joe	Pare	1197145821
+1678	aquQvxtn	MohhamedClark@gmail	John	Nordy	1649576943
+1679	VHRRlsWb	MikeAnwar@gmail.com	Mady	Lalani	6926527367
+1680	r8jiRvRI	ByronFord@gmail.com	John	Huh	2192030184
+1681	ZRXSWfhV	ByronNordy@gmail.co	Farhath	Guelich	7358450938
+1682	SLMn4cPi	JohnHuh@gmail.com	Jinseok	Williams	1485252598
+1683	6T3PR0tu	AdamLopez@gmail.com	Joe	Johnson	1144046593
+1684	vBwfyH4Q	JoeLopez@gmail.com	Micheal	Lalani	8380022984
+1685	TUS5Qsa0	AndyHuh@gmail.com	Neal	Huh	8762017520
+1686	t1dntYLo	JadePare@gmail.com	Allen	Lopez	1171281520
+1687	AYk2cGrc	JadeWilliams@gmail.	Adam	Walker	3750270500
+1688	bdZ2L1Lh	MiguelSmith@gmail.c	Byron	Lalani	1788437686
+1689	KfxunCaS	MikeJohnson@gmail.c	Neal	Lalani	5389188562
+1690	Pnb7CXS8	JacobBlondeel@gmail	Mike	Rangel	2880617541
+1691	7Ok6oK0k	JacobRangel@gmail.c	Neal	Onell	8027051247
+1692	LjzhPMoI	ByronLopez@gmail.co	Jinseok	Williams	8171313229
+1693	PomPRlzo	MadyWilliams@gmail.	Allen	Onell	3030365795
+1694	EjtrwWOV	JadeSmith@gmail.com	Lauren	Williams	4927501984
+1695	e25An8e4	EthanClark@gmail.co	Jade	Onell	5471832078
+1696	rBgxVxNi	MohhamedRangel@gmai	Allen	Blondeel	2614543585
+1697	KVM1w0dO	LaurenPare@gmail.co	Allysa	Onell	8731073657
+1698	Bj6wET5L	AndyBlondeel@gmail.	Adam	Walker	1828380561
+1699	mPhedvub	EthanNordy@gmail.co	Lauren	Anwar	3516154443
+1700	ig0t6zvX	MichealGuelich@gmai	Mady	Clark	8362964868
+1701	RfCC0URT	NealSmith@gmail.com	Allysa	Lalani	6322189366
+1702	dDlx8KFk	JohnNordy@gmail.com	Micheal	Blondeel	9557924356
+1703	3cNDsEQP	AllenNordy@gmail.co	Miguel	Rangel	4237182485
+1704	rX6qqlE4	FarhathGuelich@gmai	Byron	Walker	1818832875
+1705	bJuYHpOz	AdamJohnson@gmail.c	Joe	Hon	9821567977
+1706	B3HzzpLB	AdamWalker@gmail.co	Mike	Huh	6543317044
+1707	n9CqaN32	JoeAnwar@gmail.com	Farhath	Lalani	4060954252
+1708	r85IDe8p	JadeLalani@gmail.co	Joe	Smith	8358354737
+1709	49oAYroO	MikeAnwar@gmail.com	Micheal	Smith	6467390330
+1710	thnXlGE5	JohnAnwar@gmail.com	Miguel	Williams	2730629690
+1711	S8WW9Qvu	MikeAnwar@gmail.com	Lauren	Williams	6681827231
+1712	8fU8UjJc	JinseokAnwar@gmail.	Neal	Anwar	6813250675
+1713	6er5KRoQ	MadyClark@gmail.com	Neal	Ford	7604422352
+1714	lJluzWKt	JacobHuh@gmail.com	Mike	Lopez	3236238591
+1715	7O62XNr7	JacobOnell@gmail.co	Mady	Pare	1230870558
+1716	f8lbcQF5	MadyBlondeel@gmail.	Jade	Rangel	7823102743
+1717	d8F1sA2f	MikeBlondeel@gmail.	Micheal	Smith	9357019239
+1718	wox9HkZ6	JinseokJohnson@gmai	Neal	Clark	8493921966
+1719	Ua2BrQ0m	ByronJohnson@gmail.	Mady	Smith	7709526226
+1720	QFgMZKyz	AndySmith@gmail.com	Ethan	Blondeel	2538223008
+1721	lD2SGOoc	FarhathFord@gmail.c	Micheal	Smith	3206500300
+1722	744HMPs3	NealNordy@gmail.com	Jinseok	Ford	5010610617
+1723	wd5gE1ZR	MikeClark@gmail.com	Mike	Guelich	8789046142
+1724	tQB5u0MP	NealLopez@gmail.com	Allen	Clark	8968357192
+1725	GZroQB9Q	JohnLalani@gmail.co	Allen	Smith	7399196088
+1726	faQQ8AbH	ByronPare@gmail.com	Allysa	Rangel	7135670485
+1727	kCFl8O1x	JohnLopez@gmail.com	John	Huh	2571940029
+1728	YU3tzvIQ	JinseokRangel@gmail	Jacob	Rangel	7872091450
+1729	9vVSsplM	MichealOnell@gmail.	Mohhamed	Onell	3734633140
+1730	uiv2N4dE	AllysaClark@gmail.c	Andy	Clark	8915604081
+1731	UvRWBVMN	AndyLopez@gmail.com	Miguel	Johnson	2737140540
+1732	gCxez652	MohhamedHuh@gmail.c	John	Hon	1515939813
+1733	AoS3FYZv	JohnRangel@gmail.co	Lauren	Onell	3074380231
+1734	24vsWfp1	MohhamedSmith@gmail	John	Guelich	8341544851
+1735	kA7Ab1kB	AdamSmith@gmail.com	Byron	Johnson	6174351439
+1736	qlponrQC	MadyJohnson@gmail.c	Jade	Walker	4061169773
+1737	QWa8JYIU	ByronSmith@gmail.co	Ethan	Onell	6893980798
+1738	8Wy7qVuw	NealBlondeel@gmail.	Jacob	Johnson	8748314976
+1739	aisjlWDq	AdamLalani@gmail.co	Andy	Nordy	2350342947
+1740	pLaFdr6v	AdamSmith@gmail.com	Micheal	Nordy	1303589486
+1741	eiM23N3G	MohhamedHuh@gmail.c	Joe	Smith	6496565206
+1742	WobHPpnk	AllysaPare@gmail.co	Mady	Guelich	1018811797
+1743	b4xO9Zn7	NealLalani@gmail.co	Allysa	Williams	8846630235
+1744	86L4TQNe	JoeBlondeel@gmail.c	John	Johnson	6098148935
+1745	ChLS94d4	JacobBlondeel@gmail	Jade	Hon	2889862534
+1746	B0B9MZQp	AllysaClark@gmail.c	Mady	Lopez	5120591636
+1747	ApsdVRkx	AllenWilliams@gmail	Farhath	Nordy	3388392005
+1748	Bzbniyob	NealHon@gmail.com	Miguel	Hon	8783188230
+1749	64KbXYWt	JacobWalker@gmail.c	Mike	Williams	1442817337
+1750	ReGfQgP9	JohnNordy@gmail.com	Jinseok	Walker	6699607542
+1751	c3EgtMQK	AndyAnwar@gmail.com	Allysa	Rangel	6322347548
+1752	KOVnA6oq	JinseokOnell@gmail.	Mike	Blondeel	9288056026
+1753	nP6KCZQn	MadyClark@gmail.com	Jacob	Nordy	4818716513
+1754	MYcYkXrO	EthanNordy@gmail.co	Jacob	Onell	5057130105
+1755	nrXjLDB7	AndySmith@gmail.com	Allen	Lopez	6098454662
+1756	teWVp7ML	EthanJohnson@gmail.	John	Onell	2234224503
+1757	dW1vj7gy	MichealHuh@gmail.co	Jade	Onell	4433107713
+1758	g6Qq9k9X	JoeLalani@gmail.com	Micheal	Lalani	1219176831
+1759	8NcW4XXK	NealOnell@gmail.com	Neal	Lopez	8751278897
+1760	yuNN5Mwz	MiguelWilliams@gmai	Mike	Onell	3001418562
+1761	UDdmIqe7	MichealSmith@gmail.	Lauren	Lalani	9163583235
+1762	2D4njmJO	AndyPare@gmail.com	Jinseok	Clark	2566640925
+1763	bZ7GFbWD	ByronLalani@gmail.c	John	Huh	5260353388
+1764	LsI2ChNY	JohnHuh@gmail.com	Byron	Anwar	6613072625
+1765	0UA3QQQP	FarhathSmith@gmail.	Lauren	Onell	8002150168
+1766	LyWo9pcG	JohnAnwar@gmail.com	Micheal	Anwar	7061465310
+1767	uIuuTGnN	JohnWilliams@gmail.	Jinseok	Lalani	7601053605
+1768	qnUsKREm	LaurenFord@gmail.co	Byron	Williams	3563832878
+1769	PFZdmRxG	JohnLopez@gmail.com	Miguel	Johnson	6492430014
+1770	VSayfeMP	MohhamedPare@gmail.	Mike	Williams	9202198106
+1771	scaN5bVY	MichealHon@gmail.co	Allysa	Lalani	6094270681
+1772	sqO5Vg34	JoeAnwar@gmail.com	Jacob	Clark	7081252310
+1773	RRepytaL	JoeBlondeel@gmail.c	Mike	Smith	1215248325
+1774	xeEgulny	JacobJohnson@gmail.	Jade	Rangel	7648338751
+1775	o3od0iMd	AdamAnwar@gmail.com	Mohhamed	Lalani	7973727798
+1776	NsesuOR1	MadySmith@gmail.com	Jade	Nordy	2499982732
+1777	0XjpxCh8	ByronGuelich@gmail.	Mike	Clark	4575196240
+1778	vbvR8drK	MiguelLopez@gmail.c	Byron	Walker	7906634738
+1779	P8LPpXMk	MadyHon@gmail.com	Jinseok	Guelich	9677282917
+1780	PaHQuSgS	AdamFord@gmail.com	Lauren	Huh	9487795597
+1781	v76olkCA	JohnGuelich@gmail.c	Adam	Williams	4755712152
+1782	L0Rxj4kB	AdamOnell@gmail.com	Byron	Nordy	4892544681
+1783	vuamUw6g	LaurenLopez@gmail.c	Jacob	Onell	6042504290
+1784	Cgi5vv1Y	AdamNordy@gmail.com	Allen	Onell	2926322086
+1785	kknawX4a	JadeAnwar@gmail.com	Joe	Johnson	2472070891
+1786	xGS5WhAw	NealHon@gmail.com	Mady	Williams	3174322623
+1787	ZfBi36EF	MadyLalani@gmail.co	Jinseok	Lopez	4008819830
+1788	YgGNpDqd	AdamRangel@gmail.co	Mike	Johnson	8634986841
+1789	bmzBF4UV	JacobClark@gmail.co	Miguel	Clark	1420473850
+1790	0xJxSDAZ	ByronPare@gmail.com	Mohhamed	Guelich	7789269945
+1791	bVGrFwFk	EthanBlondeel@gmail	Micheal	Lalani	4470406203
+1792	QPiEdtcG	LaurenRangel@gmail.	Farhath	Blondeel	3055032023
+1793	gt98TmyE	LaurenPare@gmail.co	Neal	Clark	1409485132
+1794	OiDz3EhI	AdamAnwar@gmail.com	Jade	Lopez	2088615918
+1795	0LNo3owl	JacobJohnson@gmail.	Jacob	Hon	3973054512
+1796	rKuYpLU2	JadeGuelich@gmail.c	Byron	Pare	8600308185
+1797	G9uFWbYY	MichealRangel@gmail	Mike	Guelich	5358494972
+1798	Wi21ieoz	EthanNordy@gmail.co	Jacob	Lalani	6670794918
+1799	VED4vIEQ	FarhathHuh@gmail.co	Micheal	Rangel	4194659793
+1800	InIzlujc	JinseokFord@gmail.c	Jinseok	Smith	5311156341
+1801	FRalFEk4	NealGuelich@gmail.c	Micheal	Lalani	5734803617
+1802	A6Re3Klg	JinseokWalker@gmail	Andy	Walker	3988536061
+1803	u6M9vVv5	MiguelRangel@gmail.	Micheal	Smith	7471784715
+1804	dCV3p78f	FarhathClark@gmail.	Lauren	Guelich	5336848080
+1805	yukfjO0H	MohhamedWalker@gmai	Mady	Onell	1897614378
+1806	qLAkB7qL	MiguelFord@gmail.co	Allen	Walker	8704139145
+1807	4IR0Pw4h	JoeHuh@gmail.com	Jade	Lopez	9938444249
+1808	DaP1bvAx	AdamSmith@gmail.com	John	Nordy	6555469394
+1809	GZlgGepF	FarhathLopez@gmail.	Farhath	Blondeel	6101152168
+1810	4Ntyewlu	LaurenLopez@gmail.c	Neal	Nordy	8768338280
+1811	sGsvKqIR	LaurenHon@gmail.com	Jade	Nordy	8660183155
+1812	YVTaMJSf	AdamWalker@gmail.co	Jinseok	Blondeel	1161829242
+1813	4Yy9HA5Q	AndyNordy@gmail.com	Byron	Williams	1654058156
+1814	SjO1XJL5	MikeGuelich@gmail.c	John	Onell	2249967349
+1815	COpaiee8	MadyLalani@gmail.co	Mohhamed	Pare	2231681933
+1816	LrGIfoDd	AllenLopez@gmail.co	Mady	Walker	3885676285
+1817	m0c5yGaI	JadeSmith@gmail.com	Ethan	Pare	8809671629
+1818	RGfYsXWW	AllenJohnson@gmail.	Jade	Onell	4371736642
+1819	94dxpFEW	FarhathWilliams@gma	Andy	Clark	1819619097
+1820	ujuA22do	MohhamedGuelich@gma	Andy	Clark	3212610700
+1821	toDtpFpM	EthanLalani@gmail.c	Andy	Nordy	6161887706
+1822	r9bqB6RC	JoePare@gmail.com	Jacob	Rangel	9784795973
+1823	tuuYQGDe	ByronWalker@gmail.c	Mady	Lopez	5381636005
+1824	SVt73R80	AllenWilliams@gmail	Mady	Williams	2141494844
+1825	aSHq781a	MiguelGuelich@gmail	Adam	Smith	8635452655
+1826	6XOyHT8O	JacobHuh@gmail.com	Adam	Lalani	3821067514
+1827	CQa60QPz	JoeLopez@gmail.com	Mohhamed	Pare	6228473906
+1828	Tvrzzceh	MiguelSmith@gmail.c	Byron	Huh	8349156169
+1829	ALgInuGY	AllysaNordy@gmail.c	Joe	Blondeel	5365851586
+1830	Kz5eO6aK	JacobSmith@gmail.co	Joe	Walker	4019159615
+1831	QILrw4iT	MiguelHon@gmail.com	Lauren	Lalani	3272383270
+1832	SxVqanvX	JoeFord@gmail.com	Mike	Clark	7481137049
+1833	FaqWPl6b	MikeLopez@gmail.com	Lauren	Ford	8790929036
+1834	zYpcTA7j	EthanLalani@gmail.c	John	Ford	5949824468
+1835	xrlfJjzv	AdamHuh@gmail.com	Adam	Ford	6370952791
+1836	3Uz6mtJe	MichealNordy@gmail.	Lauren	Lalani	7838507009
+1837	T03o909H	JacobAnwar@gmail.co	Lauren	Johnson	1863701177
+1838	l2sUS2R2	LaurenWilliams@gmai	Allysa	Onell	1903655165
+1839	G2nZXJNZ	EthanPare@gmail.com	Jinseok	Ford	8756012394
+1840	BkCqiqJY	NealGuelich@gmail.c	Jacob	Pare	3020418905
+1841	rkaGjySR	MohhamedRangel@gmai	Ethan	Rangel	8347015012
+1842	ExAqhw08	JinseokFord@gmail.c	Andy	Anwar	9771955871
+1843	OzJxCLME	JadeLalani@gmail.co	Mady	Ford	8217916890
+1844	wbMbqaHL	MiguelWalker@gmail.	Jinseok	Clark	8131476947
+1845	4SmfIXg3	MohhamedJohnson@gma	Miguel	Huh	8096089272
+1846	G27aMXB4	AdamWalker@gmail.co	Jacob	Lalani	8420301427
+1847	e2jF9tIg	JohnFord@gmail.com	Jinseok	Anwar	4263339245
+1848	L6rp7KkH	JadeLopez@gmail.com	Jade	Anwar	5047413167
+1849	Nhr9iXkH	AndyRangel@gmail.co	Andy	Ford	7420240067
+1850	rJIX117x	LaurenSmith@gmail.c	Lauren	Onell	6781341972
+1851	bxsvIRxU	JadeLopez@gmail.com	Jinseok	Smith	9437768749
+1852	uV40k7c2	AllenWilliams@gmail	Lauren	Williams	1749490881
+1853	N3a70ZYl	EthanLalani@gmail.c	Jade	Williams	9995217606
+1854	TqnI4M83	AllysaLalani@gmail.	Allen	Guelich	2132531931
+1855	Fz5O1VE2	AllysaSmith@gmail.c	Byron	Johnson	3740016049
+1856	6gz1WSVP	ByronNordy@gmail.co	Ethan	Ford	9418044342
+1857	qHr0rzcf	MadyJohnson@gmail.c	Ethan	Clark	9874787693
+1858	Qp2kH052	JacobClark@gmail.co	Miguel	Smith	4390500301
+1859	oxpOeigd	AndyRangel@gmail.co	Mohhamed	Hon	9768571192
+1860	NnboQcCx	ByronLalani@gmail.c	Joe	Nordy	1256536248
+1861	8QMszQ7m	LaurenBlondeel@gmai	Mady	Johnson	4845156676
+1862	JAYmJa2A	EthanJohnson@gmail.	Mike	Hon	5491197940
+1863	uHKQjyE2	JoeOnell@gmail.com	Jacob	Hon	2523744941
+1864	i8JvKY5N	MikeSmith@gmail.com	Allysa	Johnson	7270195182
+1865	TEOBUAQA	AdamRangel@gmail.co	Andy	Blondeel	7758550207
+1866	i5fdRgTZ	JadeClark@gmail.com	Farhath	Lalani	2075320897
+1867	rNNesMjm	LaurenPare@gmail.co	Miguel	Onell	2232056849
+1868	IjcZs1aN	JadeHuh@gmail.com	Adam	Ford	2351879585
+1869	aY8U9MXJ	MiguelLopez@gmail.c	Mohhamed	Nordy	4690004394
+1870	E24WDYU7	AndyHuh@gmail.com	John	Pare	9533600187
+1871	bgaIB7ZP	EthanHon@gmail.com	Farhath	Onell	6912900368
+1872	ikDpCLAa	JadePare@gmail.com	Miguel	Walker	6920435725
+1873	7ew3zrl0	JacobAnwar@gmail.co	Farhath	Nordy	8332492303
+1874	PgyE3sXx	MiguelHon@gmail.com	Byron	Blondeel	6663215573
+1875	jbheoFny	AllenGuelich@gmail.	Lauren	Huh	3864838497
+1876	2O7OXuAp	JoeOnell@gmail.com	Allen	Pare	4595589282
+1877	skR8Xgoq	AndyPare@gmail.com	Jacob	Huh	4305934765
+1878	YzHqoq9i	AdamAnwar@gmail.com	Micheal	Williams	8380347046
+1879	krUAZPZF	EthanFord@gmail.com	Lauren	Huh	5605256278
+1880	KlTSNyOl	NealJohnson@gmail.c	Allen	Pare	5194096033
+1881	bVOzAayv	AndyHon@gmail.com	Andy	Lalani	7966779198
+1882	15IaA0X0	MohhamedClark@gmail	Mady	Onell	2265081695
+1883	2OGdKDTr	LaurenSmith@gmail.c	Jacob	Blondeel	1399837375
+1884	6QClJf3O	AllysaRangel@gmail.	Neal	Williams	1275953061
+1885	mPv39q88	NealHuh@gmail.com	Miguel	Smith	6050829988
+1886	SAbErb0L	JadeClark@gmail.com	Jinseok	Lopez	1986893098
+1887	W1odRTPC	JinseokLopez@gmail.	Allysa	Guelich	8330704422
+1888	ZwgOwYUJ	AllysaGuelich@gmail	John	Smith	2373767331
+1889	y1V9Rdvc	AdamHuh@gmail.com	Micheal	Huh	2338268105
+1890	nwwuey8Y	AllysaSmith@gmail.c	Andy	Guelich	2420929997
+1891	s1sBAiyA	NealNordy@gmail.com	Farhath	Walker	3971807159
+1892	2IKff7ce	LaurenClark@gmail.c	Lauren	Johnson	2728049653
+1893	noEDtrSd	MichealWalker@gmail	Farhath	Lalani	5955233243
+1894	IIjYWxID	MohhamedPare@gmail.	Miguel	Johnson	3046515060
+1895	REGjEt2E	JohnAnwar@gmail.com	Joe	Huh	6632152707
+1896	Zr2xAURP	MichealBlondeel@gma	Allen	Smith	3419344489
+1897	eHmPs01a	NealAnwar@gmail.com	Mady	Blondeel	8852782960
+1898	OrxegrDX	AndyWalker@gmail.co	Joe	Johnson	9335171798
+1899	iNjieau9	AllenWalker@gmail.c	Byron	Lopez	7836997794
+1900	qTCacGkg	AdamJohnson@gmail.c	Joe	Hon	1345122289
+1901	un65NkUD	LaurenNordy@gmail.c	Miguel	Walker	4236049770
+1902	zGNOcHGF	AllysaGuelich@gmail	Jacob	Anwar	6926316724
+1903	e61KRQr0	FarhathBlondeel@gma	Miguel	Walker	9565463100
+1904	2sgrEQSi	FarhathAnwar@gmail.	John	Clark	6755503583
+1905	WpIL8MLs	MiguelJohnson@gmail	Joe	Johnson	7023872639
+1906	j1dje5Kk	JinseokFord@gmail.c	Neal	Williams	4077046469
+1907	9iMuymxm	AllenWalker@gmail.c	Joe	Rangel	9941865100
+1908	8RDhVKq9	MohhamedLalani@gmai	Joe	Blondeel	8995199767
+1909	NMozX4BI	FarhathLalani@gmail	Farhath	Blondeel	8001832819
+1910	gnxmXqHP	JoeAnwar@gmail.com	John	Pare	6534371983
+1911	B1ViA1t9	JinseokAnwar@gmail.	Farhath	Clark	6308153363
+1912	RvfSgefB	AdamGuelich@gmail.c	Jade	Pare	4711441182
+1913	c1iHKR0Q	MikeJohnson@gmail.c	John	Williams	2550098945
+1914	OHHlvpOO	JoeJohnson@gmail.co	Jinseok	Rangel	5186336159
+1915	44V6StHh	AdamLopez@gmail.com	Jade	Anwar	2149154474
+1916	lO5CxQKm	MichealLalani@gmail	Mike	Blondeel	8970773005
+1917	jnTWR8oW	MadyAnwar@gmail.com	Allen	Guelich	1743353956
+1918	V2S2BcBQ	EthanHon@gmail.com	Jacob	Guelich	9151191662
+1919	RrwkZJ3n	AllysaRangel@gmail.	Neal	Anwar	3832514321
+1920	wEMinhYX	NealClark@gmail.com	Joe	Lopez	8903847280
+1921	N3F5kmKB	EthanHon@gmail.com	Miguel	Hon	4916846618
+1922	97Yc10wQ	JoeClark@gmail.com	Ethan	Johnson	7278921245
+1923	5idT0rQi	JinseokPare@gmail.c	Mike	Williams	7368942852
+1924	czus6u2K	AllenWilliams@gmail	Neal	Smith	7887021950
+1925	hpVdTHky	MadyLopez@gmail.com	Mady	Ford	4905300460
+1926	kGJl9DY3	LaurenJohnson@gmail	Lauren	Blondeel	9799209816
+1927	VsxtGOf2	AllenJohnson@gmail.	Jacob	Hon	2316479783
+1928	ehno5h3d	AdamGuelich@gmail.c	John	Lalani	4827846729
+1929	xXv7qAZ7	JohnWalker@gmail.co	Allen	Pare	8780583930
+1930	ypxm5Lvs	MichealWalker@gmail	John	Ford	1401873916
+1931	4Aazd2pC	AllenOnell@gmail.co	Allysa	Pare	3571504137
+1932	sokpmuYN	JohnHon@gmail.com	John	Smith	1092286493
+1933	lkKkxZJz	MohhamedOnell@gmail	Micheal	Clark	5745803111
+1934	j17qeDw1	MikeWilliams@gmail.	John	Hon	6855414342
+1935	1g6P9ajF	AllysaHuh@gmail.com	Jinseok	Huh	5526727373
+1936	IfGqakrS	FarhathAnwar@gmail.	Joe	Smith	9962463301
+1937	NVFOOeRZ	JinseokNordy@gmail.	John	Hon	2028257110
+1938	W5iyugWx	JadeOnell@gmail.com	John	Onell	3129457324
+1939	E1PcsL09	JinseokAnwar@gmail.	Miguel	Hon	3716918152
+1940	VR8sBuij	JohnFord@gmail.com	Byron	Smith	5495540371
+1941	jPIHSw6v	LaurenHuh@gmail.com	Allysa	Clark	1064088423
+1942	GVpAocM6	NealOnell@gmail.com	Mady	Onell	8420282930
+1943	FMfIL8wE	JacobNordy@gmail.co	Micheal	Anwar	1366850386
+1944	53cmS1TT	JacobAnwar@gmail.co	Ethan	Smith	9655454353
+1945	MN7QSzYz	MikeRangel@gmail.co	Jinseok	Guelich	3454809726
+1946	AMSPchGC	AdamBlondeel@gmail.	Allysa	Williams	9127744037
+1947	C2ZSdAs7	JacobRangel@gmail.c	Jacob	Ford	9824572738
+1948	6QUsO4qL	JinseokNordy@gmail.	Jinseok	Lalani	1571457172
+1949	XbhXedO6	MadyOnell@gmail.com	Allysa	Johnson	8857151613
+1950	rSMd0YOF	LaurenLopez@gmail.c	Joe	Ford	3567777478
+1951	Bz9UJPds	NealLopez@gmail.com	Joe	Lalani	6522209826
+1952	p1BZmZ1O	JohnClark@gmail.com	Mohhamed	Nordy	7820241256
+1953	HuaizezC	JadeWilliams@gmail.	Ethan	Smith	6085287630
+1954	uF8g477Z	JoeSmith@gmail.com	Adam	Lopez	9807767501
+1955	GIIFtrDp	AllysaGuelich@gmail	Andy	Hon	3467428350
+1956	ebCyEUjk	LaurenWilliams@gmai	Mike	Hon	1389295500
+1957	i9uPgRs2	AllysaSmith@gmail.c	Jacob	Lopez	3945313989
+1958	0TOLfZ20	MohhamedRangel@gmai	Miguel	Walker	8625389408
+1959	nNhwlXaS	MadyOnell@gmail.com	Mohhamed	Ford	9888005822
+1960	py9NrxLA	JadeJohnson@gmail.c	Neal	Anwar	3999993962
+1961	YuRSMxHr	MohhamedHuh@gmail.c	Jade	Guelich	1798454609
+1962	MHNntAgI	AllysaClark@gmail.c	Joe	Guelich	1798073848
+1963	AyOLCjxP	JoeWilliams@gmail.c	Jacob	Pare	7497617546
+1964	RHdap6P2	MichealLalani@gmail	Miguel	Lopez	5774323692
+1965	lIvQBHcC	EthanWilliams@gmail	Byron	Clark	8495952346
+1966	GBfjtD7O	JoeNordy@gmail.com	Farhath	Blondeel	6992990983
+1967	uTxegKhY	FarhathLopez@gmail.	Micheal	Lalani	7579745142
+1968	9b7EShf8	LaurenHon@gmail.com	Miguel	Huh	7905145961
+1969	43DRNa77	MikeSmith@gmail.com	Ethan	Clark	6097836287
+1970	VX71Hero	LaurenSmith@gmail.c	Mady	Rangel	1678692619
+1971	bwp5PzFx	JinseokSmith@gmail.	Jade	Lopez	9755608575
+1972	Fq0Kbx8V	ByronPare@gmail.com	Miguel	Clark	4328386960
+1973	H2MaXdxz	LaurenClark@gmail.c	Mike	Anwar	8874603326
+1974	8uNvdwsz	MadyLalani@gmail.co	Mike	Johnson	5308755864
+1975	Kp6moD0u	LaurenRangel@gmail.	Andy	Pare	4810289446
+1976	kIiVgLV8	MiguelOnell@gmail.c	Farhath	Huh	3591795752
+1977	evAjMT7h	MohhamedSmith@gmail	Allysa	Clark	4119990385
+1978	UBKaB6VX	MohhamedLalani@gmai	Mady	Lopez	2703038523
+1979	2AHKc42w	MadyGuelich@gmail.c	Jinseok	Lalani	7149592240
+1980	PyvNgN4e	MichealAnwar@gmail.	Ethan	Huh	7075853115
+1981	2XPSZNWz	EthanSmith@gmail.co	Lauren	Lalani	6761169247
+1982	QziwNKXd	JacobJohnson@gmail.	Andy	Lalani	9364919391
+1983	udWBQ6tX	MadyGuelich@gmail.c	Adam	Huh	1736540452
+1984	cRyyIlrd	MichealLopez@gmail.	Joe	Pare	1104633608
+1985	jwgTh9Yw	AllenBlondeel@gmail	Mohhamed	Anwar	1326496853
+1986	SMDziHMR	JinseokPare@gmail.c	Lauren	Johnson	3170445229
+1987	YFOOcj08	NealNordy@gmail.com	Ethan	Nordy	8034737295
+1988	AkGcBV55	JoeAnwar@gmail.com	Adam	Ford	7956310118
+1989	rymyeZEx	AllenBlondeel@gmail	Andy	Clark	1753723153
+1990	0QT8aG3P	MikeHon@gmail.com	Byron	Anwar	4389242907
+1991	TiXAj7Cw	MohhamedNordy@gmail	Ethan	Blondeel	3688648618
+1992	TOkNIQcj	MohhamedJohnson@gma	Micheal	Huh	6442998235
+1993	w4PYRFz6	JacobHon@gmail.com	Adam	Guelich	8807822164
+1994	InB88Idz	AdamJohnson@gmail.c	Adam	Williams	5079624599
+1995	qykLbZqA	JadeHon@gmail.com	Jade	Clark	7210522470
+1996	TPZDdpEj	MohhamedNordy@gmail	Mady	Williams	6679899559
+1997	egSFSwmv	NealHuh@gmail.com	Joe	Pare	4614829680
+1998	aQ5qalAx	AdamLopez@gmail.com	Lauren	Rangel	7714120868
+1999	FeCt9odx	JinseokSmith@gmail.	Ethan	Anwar	2383615968
+9088	erdedfr	p6@mufc.com	Paul	Pogba	44453212
+42298	abcdefg	tu@gmail.com	TEST	USER	1233212133
+19055	fubdvnkk	rrrr@rrr.com	TEST2	RRRR	000000000
+13832	TEST	ROONEY	WAYNE		123456
+27199	ewsdd	john.doe@yahoo.com	JOHN	DOE	123123123
+\.
+
+
+--
+-- Data for Name: inventory; Type: TABLE DATA; Schema: public; Owner: farhath
+--
+
+COPY public.inventory (invid, products_sold, future_stock, current_stock, revenue) FROM stdin;
+3000	1752	4639	17960	26053.06087
+3001	7449	18628	22365	224215.4688
+3002	2304	22566	1106	93556.16735
+3003	7129	9435	1655	56022.34396
+3004	15951	11909	12130	245173.0665
+3005	17602	13005	18453	120564.0213
+3006	24515	6328	16378	160959.8615
+3007	20312	4207	16848	157452.5997
+3008	2515	15330	22211	33139.01429
+3009	2225	19547	15723	60972.1995
+3010	16317	3191	8176	61260.09945
+3011	22476	11471	18975	56378.18264
+3012	9835	1879	12403	140704.6785
+3013	12372	14151	21886	113749.2306
+3014	20624	4476	24860	107477.3709
+3015	24768	4537	19564	126702.8485
+3016	9190	4664	22329	226581.0373
+3017	9347	14501	3148	24560.44257
+3018	15254	20748	9999	167093.3665
+3019	13652	8105	4225	63404.20104
+3020	22432	9488	9234	225811.3735
+3021	17425	16200	22901	140363.8168
+3022	18864	12714	21711	64392.32065
+3023	840	5732	6893	249252.3095
+3024	4874	4770	447	96396.81186
+3025	3873	21802	18510	204558.5492
+3026	19277	18280	14845	22425.89544
+3027	2892	11466	7678	87195.05664
+3028	10593	10887	22025	183464.383
+3029	3971	24730	18555	13737.66082
+3030	20647	14438	7170	56756.38994
+3031	7404	8453	24350	130770.0231
+3032	119	17478	24194	193735.6316
+3033	12719	7193	4119	136523.3523
+3034	18005	10841	9282	20454.22887
+3035	24536	11438	14310	82330.23846
+3036	2957	16941	15949	201084.1465
+3037	22562	4780	6717	179898.5093
+3038	7202	7188	16519	29925.42078
+3039	6356	4646	24383	212866.318
+3040	7240	8507	8403	201057.267
+3041	17438	5205	2702	228973.672
+3042	20196	113	12633	199667.1221
+3043	16193	20991	17798	27019.35053
+3044	14221	17258	21767	167601.8699
+3045	22945	2547	19057	162656.13
+3046	11285	18289	19748	13673.97734
+3047	4082	9523	14478	225085.4398
+3048	15592	23373	12961	77494.80325
+3049	3407	7341	11003	233509.4206
+3050	2419	16346	19107	208406.0832
+3051	19571	10380	22555	58673.52817
+3052	9261	20689	6841	177563.9687
+3053	20420	11693	14072	102186.5963
+3054	18788	12701	22248	63278.58336
+3055	12334	2881	5647	228688.6388
+3056	630	14973	14547	83058.19797
+3057	1306	3877	19590	78094.13231
+3058	24446	9905	24717	200446.7156
+3059	21299	13130	3683	16542.55173
+3060	9449	15492	18254	70476.39723
+3061	16718	11696	16983	220592.2083
+3062	24233	14190	7192	118650.5271
+3063	9802	7643	3489	176893.8395
+3064	6364	8787	4994	176958.5962
+3065	14320	2513	17161	189903.3515
+3066	22550	4613	15839	160469.6929
+3067	9253	19095	2393	12462.56559
+3068	3915	12115	14595	66522.78398
+3069	746	24772	21824	84237.97333
+3070	22078	15942	23550	200179.9056
+3071	6505	22920	1014	181468.3939
+3072	1495	14767	13807	200167.9348
+3073	20539	20420	5976	54486.22944
+3074	4311	21479	13128	209207.6632
+3075	4648	22157	20593	172389.7337
+3076	7592	6040	10751	162741.008
+3077	19172	9194	4145	100288.7705
+3078	16222	6258	5581	165836.1071
+3079	2359	18850	20433	114902.9748
+3080	16022	4935	23022	58488.10662
+3081	18409	9680	9099	19156.84142
+3082	1351	2853	17230	137887.4764
+3083	4213	4994	13477	8234.32244
+3084	17799	19581	5645	199193.5046
+3085	13830	23027	22825	142142.5432
+3086	19649	16824	3551	183659.3389
+3087	15716	18017	22729	155737.2592
+3088	15798	16253	22653	210718.9386
+3089	3036	20356	197	165251.4962
+3090	12983	14711	6230	189444.5011
+3091	19667	17420	2655	212080.8494
+3092	23251	16508	2344	105530.811
+3093	9416	13255	8417	51577.33279
+3094	2099	17273	24023	27984.7004
+3095	12536	17774	20772	240571.6941
+3096	24282	15082	6246	189827.7077
+3097	3179	24932	15865	13552.21472
+3098	2051	21005	7638	246171.0395
+3099	18495	19807	4469	240051.035
+4000	1752	4639	17960	26053.06087
+4010	1752	4639	17960	26053.06087
+\.
+
+
+--
+-- Data for Name: managed_by; Type: TABLE DATA; Schema: public; Owner: farhath
+--
+
+COPY public.managed_by (m_invid, m_pid) FROM stdin;
+3033	2122
+3032	2122
+3011	2045
+3086	2046
+3062	2111
+\.
+
+
+--
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: farhath
+--
+
+COPY public.product (pid, imei_number, display_res, price, model_year, model_name, internal) FROM stdin;
+2145	437	240 x 204 pixels (~258 ppi density)	121	 2015, September	alcatel Watch	8MB RAM
+2000	2	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	363	 2018, July	Acer Chromebook Tab 10	32GB 4GB RAM
+2001	5	768 x 1024 pixels, 4:3 ratio (~162 ppi density)	143	 2014, March	Acer Iconia A1-830	16GB 1GB RAM
+2002	8	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	99	 2014, June	Acer Iconia One 7 B1-730	8GB 1GB RAM
+2003	11	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	198	 2015, May	Acer Iconia One 8 B1-820	16GB 1GB RAM, 32GB 1GB RAM
+2004	14	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	275	 2015, June	Acer Iconia Tab 10 A3-A30	16GB 2GB RAM, 32GB 2GB RAM, 64GB 2GB RAM
+2005	17	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	253	 2016, June	Acer Iconia Tab 10 A3-A40	16GB 2GB RAM, 32GB 2GB RAM, 64GB 2GB RAM
+2006	20	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	121	 2014, August	Acer Iconia Tab 7 A1-713	16GB 1GB RAM
+2007	23	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	165	 2014, August	Acer Iconia Tab 7 A1-713HD	16GB 1GB RAM
+2008	26	1200 x 1920 pixels, 16:10 ratio (~283 ppi density)	220	 2014, September	Acer Iconia Tab 8 A1-840FHD	16GB 2GB RAM, 32GB 2GB RAM
+2009	29	1280 x 800 pixels, 16:10 ratio (~149 ppi density)	209	 2014, October	Acer Iconia Tab A3-A20	16GB 1GB RAM
+2010	32	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	253	 2014, October	Acer Iconia Tab A3-A20FHD	32GB 2GB RAM
+2011	35	720 x 1280 pixels, 16:9 ratio (~210 ppi density)	187	 2016, October	Acer Iconia Talk S	16GB 2GB RAM, 32GB 2GB RAM
+2012	38	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	220	 2014, April	Acer Liquid E3	4GB 1GB RAM
+2013	41	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	264	 2014, Q3	Acer Liquid E3 Duo Plus	16GB 2GB RAM
+2014	44	480 x 854 pixels, 16:9 ratio (~196 ppi density)	220	 2014, September	Acer Liquid E600	4GB 1GB RAM, 16GB 2GB RAM
+2015	47	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2014, August	Acer Liquid E700	4GB 1GB RAM, 16GB 2GB RAM
+2016	50	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2014, July	Acer Liquid Jade	8GB 1GB RAM, 16GB 2GB RAM
+2017	53	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	242	 2016, April	Acer Liquid Jade Primo	32GB 3GB RAM
+2018	56	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2014, December	Acer Liquid Jade S	16GB 2GB RAM
+2019	59	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2015, April	Acer Liquid Jade Z	8GB 1GB RAM (Jade Z), 16GB 2GB RAM (Jade Z+)
+2020	62	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2015, May	Acer Liquid M220	4GB 512MB RAM (M220), 8GB 1GB RAM (M220+)
+2021	65	720 x 1280 pixels, 16:9 ratio (~258 ppi density)	286	 2014, September	Acer Liquid X1	16GB 2GB RAM
+2022	68	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	253	 2016, February	Acer Liquid X2	32GB 3GB RAM
+2023	71	480 x 800 pixels, 5:3 ratio (~233 ppi density)	99	 2014, September	Acer Liquid Z200	4GB 512MB RAM
+2024	74	480 x 800 pixels, 5:3 ratio (~233 ppi density)	99	 2015, April	Acer Liquid Z220	8GB 1GB RAM
+2025	77	480 x 854 pixels, 16:9 ratio (~218 ppi density)	99	 2015, November	Acer Liquid Z320	8GB 1GB RAM
+2026	80	480 x 854 pixels, 16:9 ratio (~218 ppi density)	121	 2015, October	Acer Liquid Z330	8GB 1GB RAM
+2027	83	480 x 800 pixels, 5:3 ratio (~233 ppi density)	110	 2014, April	Acer Liquid Z4	4GB 512MB RAM
+2028	86	540 x 960 pixels, 16:9 ratio (~245 ppi density)	143	 2015, February	Acer Liquid Z410	8GB 1GB RAM, 16GB 2GB RAM
+2029	89	480 x 854 pixels, 16:9 ratio (~196 ppi density)	187	 2014, January	Acer Liquid Z5	4GB 512MB RAM
+2030	92	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2014, Septeber	Acer Liquid Z500	4GB 1GB RAM, 16GB 2GB RAM
+2031	95	480 x 854 pixels, 16:9 ratio (~187 ppi density)	143	 2015, April	Acer Liquid Z520	8GB 1GB RAM, 16GB 2GB RAM
+2032	98	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2015, October	Acer Liquid Z530	8GB 1GB RAM, 16GB 2GB RAM
+2033	101	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2016, December	Acer Liquid Z6	8GB 1GB RAM
+2034	104	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	 2016, December	Acer Liquid Z6 Plus	32GB 3GB RAM
+2035	107	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2015, September	Acer Liquid Z630	8GB 1GB RAM, 16GB 2GB RAM
+2036	110	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2016, April	Acer Liquid Zest	8GB 1GB RAM
+2037	113	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2016, July	Acer Liquid Zest Plus	16GB 2GB RAM
+2038	116	1920 x 1200 pixels, 16:10 ratio (~283 ppi density)	385	 2015, November	Acer Predator 8	32GB 2GB RAM, 64GB 2GB RAM
+2039	119	480 x 960 pixels, 18:9 ratio (~215 ppi density)	77	 2019, Q1	alcatel 1c (2019)	8GB 1GB RAM
+2040	122	1280 x 800 pixels, 16:10 ratio (~149 ppi density)	110	 2018, June	alcatel 1T 10	16GB 1GB RAM
+2041	125	1024 x 600 pixels, 16:9 ratio (~170 ppi density)	77	 2018, June	alcatel 1T 7	8GB 1GB RAM
+2042	128	480 x 960 pixels, 18:9 ratio (~203 ppi density)	110	 2018, May	alcatel 1x	16GB 1GB RAM, 16GB 2GB RAM
+2043	131	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	132	 2019, Q1	alcatel 1x (2019)	16GB 2GB RAM
+2044	134	240 x 320 pixels, 4:3 ratio (~167 ppi density)	55	2014	alcatel 2010	128MB ROM, 64MB RAM
+2045	137	240 x 320 pixels, 4:3 ratio (~143 ppi density)	55	2014	alcatel 2012	16MB
+2046	140	128 x 160 pixels (~114 ppi density)	55	2014	alcatel 2052	128MB
+2047	143	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	187	 2018, May	alcatel 3	16GB 2GB RAM
+2048	146	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	143	 2018, May	alcatel 3c	16GB 1GB RAM
+2049	149	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	176	 2018, February	alcatel 3v	16GB 2GB RAM, 32GB 2GB RAM
+2050	152	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	143	 2018, May	alcatel 3x	16GB 2GB RAM, 32GB 3GB RAM
+2051	155	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	253	 2018, February	alcatel 5	16GB 2GB RAM, 32GB 3GB RAM
+2052	158	720 x 1500 pixels (~268 ppi density)	198	 2018, August	alcatel 5v	32GB 3 RAM
+2053	161	1080 x 2180 pixels, 18:9 ratio (~402 ppi density)	198	 2018, August	alcatel 7	32GB 2GB RAM
+2054	164	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2017, July	alcatel A3	16GB 1.5GB RAM
+2055	167	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	198	 2017, July	alcatel A3 XL	8GB 2GB RAM, 16GB 2GB RAM
+2056	170	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	220	 2017, June	alcatel A5 LED	16GB 2GB RAM, 32GB 3GB RAM
+2057	173	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	209	 2017, September	alcatel A7	32GB 3GB RAM
+2058	176	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	286	 2017, November	alcatel A7 XL	32GB 3GB RAM
+2059	179	480 x 800 pixels, 5:3 ratio (~233 ppi density)	77	 2013, October	alcatel Evolve	4GB 512MB RAM
+2060	182	480 x 800 pixels, 5:3 ratio (~233 ppi density)	66	 2014, October	alcatel Evolve 2	4GB 512MB RAM
+2061	185	540 x 960 pixels, 16:9 ratio (~245 ppi density)	121	 2013, October	alcatel Fierce	4GB 1GB RAM
+2062	188	540 x 960 pixels, 16:9 ratio (~220 ppi density)	99	 2014, September	alcatel Fierce 2	4GB 1GB RAM
+2063	191	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	88	 2016, August	alcatel Fierce 4	16GB 2GB RAM
+2064	194	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	143	 2015, November	alcatel Fierce XL	16GB 2GB RAM
+2065	197	540 x 960 pixels, 16:9 ratio (~157 ppi density)	88	 2014, Q2	alcatel Fire 7	\N
+2066	200	540 x 960 pixels, 16:9 ratio (~245 ppi density)	77	 2014, Q3	alcatel Fire E	4GB 512MB RAM
+2067	203	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	253	 2015, September	alcatel Flash 2	16GB 2GB RAM
+2068	206	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	143	 2015, May	alcatel Flash Plus	16GB 2GB RAM
+2069	209	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	154	 2016, May	alcatel Flash Plus 2	16GB 2GB RAM, 32GB 3GB RAM
+2070	212	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	407	 2014, January	alcatel Hero	8GB (single SIM)/ 16GB (dual SIM), 2GB RAM
+2071	215	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	506	 2014, September	alcatel Hero 2	16GB (12.9GB user available), 2GB RAM
+2072	218	1200 x 1920 pixels, 16:10 ratio (~283 ppi density)	308	 2014, December	alcatel Hero 8	8GB 2GB RAM, 16GB 2GB RAM, 32GB 2GB RAM
+2073	221	540 x 960 pixels, 16:9 ratio (~220 ppi density)	220	 2014, Q2	alcatel Idol 2	8GB 1GB RAM (SS), 16GB 1GB RAM (DS)
+2074	224	540 x 960 pixels, 16:9 ratio (~245 ppi density)	176	 2014, Q2	alcatel Idol 2 Mini	4GB 1GB RAM (SS), 8GB 1GB RAM (DS)
+2075	227	540 x 960 pixels, 16:9 ratio (~245 ppi density)	220	 2014, June	alcatel Idol 2 Mini S	4GB 1GB RAM (6036A,6036X), 8GB 1GB RAM (6036Y)
+2076	230	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	308	 2014, June	alcatel Idol 2 S	8GB 1GB RAM
+2077	233	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	220	 2015, June	alcatel Idol 3 (4.7)	8GB 1.5GB RAM, 16GB 1.5GB RAM (DS)
+2078	236	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	 2015, June	alcatel Idol 3 (5.5)	16GB 2GB RAM, 32GB 2GB RAM (DS)
+2079	239	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	220	 2016, June	alcatel Idol 4	16GB 2GB RAM (6055Y,6055K), 16GB 3GB RAM (6055B,6055H,6055I)
+2080	242	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	242	 2016, July	alcatel Idol 4s	32GB 3GB RAM
+2081	245	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2016, Q3	alcatel Idol 4s Windows	64GB 4GB RAM
+2082	248	1080 x 1920 pixels, 16:9 ratio (~423 ppi density)	132	 2017, September	alcatel Idol 5	16GB 3GB RAM
+2083	251	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	154	 2017, September	alcatel Idol 5s	32GB 3GB RAM
+2084	254	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	275	 2017, July	alcatel Idol 5s (USA)	32GB 3GB RAM
+2085	257	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	396	 2014, June	alcatel Idol Alpha	16GB 1GB RAM
+2086	260	480 x 854 pixels, 16:9 ratio (~228 ppi density)	143	 2013, December	alcatel Idol Mini	4GB 512MB RAM (SS), 8GB 512MB RAM (DS)
+2087	263	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	176	 2013, December	alcatel Idol S	4GB 1GB RAM
+2088	266	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	407	 2013, July	alcatel Idol X	8GB 2GB RAM, 16GB 2GB RAM
+2089	269	320 x 480 pixels, 3:2 ratio (~165 ppi density)	132	 2013, July	alcatel One Touch Fire	160MB 512MB ROM 256MB RAM
+2090	272	540 x 960 pixels, 16:9 ratio (~236 ppi density)	253	 2013, May	alcatel One Touch Idol	4GB / 13.3GB (dual SIM version), 1GB RAM
+2091	275	720 x 1280 pixels, 16:9 ratio (~316 ppi density)	297	 2013, April	alcatel One Touch Idol Ultra	16GB 1GB RAM
+2092	278	480 x 800 pixels, 5:3 ratio (~233 ppi density)	154	 2013, May	alcatel One Touch M'Pop	4GB 512MB RAM, 4GB 1GB RAM (5020W)
+2093	281	320 x 480 pixels, 3:2 ratio (~165 ppi density)	55	 2013, August	alcatel One Touch Pixi	512MB 256MB RAM
+2094	284	320 x 480 pixels, 3:2 ratio (~165 ppi density)	110	 2013, February	alcatel One Touch S'Pop	4GB (2GB user available), 512MB RAM
+2095	287	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	242	 2013, October	alcatel One Touch Scribe HD	4GB 1GB RAM
+2096	290	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	385	 2013, October	alcatel One Touch Scribe HD-LTE	4GB 1GB RAM
+2097	293	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	682	 2013, March	alcatel One Touch Scribe X	4GB 1GB RAM
+2098	296	480 x 800 pixels, 5:3 ratio (~233 ppi density)	242	 2013, March	alcatel One Touch Star	4GB (2.4GB user available), 512MB RAM
+2099	299	320 x 480 pixels, 3:2 ratio (~165 ppi density)	110	 2013, February	alcatel One Touch T'Pop	512MB 256MB RAM
+2100	302	480 x 800 pixels, 5:3 ratio (~133 ppi density)	143	 2013, Q2	alcatel One Touch T10	4GB (2.1GB user available), 1GB RAM
+2101	305	540 x 960 pixels, 16:9 ratio (~245 ppi density)	165	 2013, May	alcatel One Touch X'Pop	4GB (1GB user available), 512MB RAM
+2102	308	320 x 480 pixels, 3:2 ratio (~165 ppi density)	88	 2014, May	alcatel Pixi 2	4GB 512MB RAM
+2103	311	480 x 854 pixels, 16:9 ratio (~218 ppi density)	66	 2015, May	alcatel Pixi 3 (4.5)	4GB 512MB RAM, 4GB 1GB RAM (LATAM)
+2104	314	480 x 800 pixels, 5:3 ratio (~233 ppi density)	55	 2015, March	alcatel Pixi 3 (4)	4GB 512MB RAM
+2105	317	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	132	 2015, October	alcatel Pixi 3 (5.5) LTE	8GB 1GB RAM
+2106	320	480 x 854 pixels, 16:9 ratio (~196 ppi density)	88	 2015, August	alcatel Pixi 3 (5)	4GB 512MB RAM, 8GB 1GB RAM (4G)
+2107	323	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	88	 2015, June	alcatel Pixi 3 (7)	4GB 512MB RAM
+2108	326	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	110	 2015, May	alcatel Pixi 3 (7) 3G	4GB 512MB RAM
+2109	329	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	143	 2015, August	alcatel Pixi 3 (7) LTE	4GB 1GB RAM
+2110	332	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	110	 2014, August	alcatel Pixi 3 (8) 3G	4GB 1GB RAM
+2111	335	480 x 800 pixels, 5:3 ratio (~233 ppi density)	66	 2016, Q3	alcatel Pixi 4 (4)	4GB 512MB RAM, 8GB 1GB RAM
+2112	338	480 x 854 pixels, 16:9 ratio (~196 ppi density)	66	 2016, June	alcatel Pixi 4 (5)	8GB 1GB RAM
+2113	341	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	110	 2016, June	alcatel Pixi 4 (6)	8GB 1GB RAM, 16GB 1.5GB RAM
+2114	344	540 x 960 pixels, 16:9 ratio (~184 ppi density)	132	 2016, June	alcatel Pixi 4 (6) 3G	8GB 1GB RAM
+2115	347	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	88	 2016, Q3	alcatel Pixi 4 (7)	8GB 1GB RAM
+2116	350	540 x 960 pixels, 16:9 ratio (~157 ppi density)	88	 2014, July	alcatel Pixi 7	4GB 512MB RAM (EMEA), 4GB 1GB RAM (LATAM)
+2117	353	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	110	 2014, July	alcatel Pixi 8	4GB 512MB RAM (EMEA), 8GB 1GB RAM (LATAM)
+2118	356	800 x 1280 pixels, 16:10 ratio (~157 ppi density)	275	 2015, April	alcatel Pop 10	8GB 1GB RAM
+2119	359	480 x 854 pixels, 16:9 ratio (~218 ppi density)	143	 2014, December	alcatel Pop 2 (4.5)	8GB (5GB user available), 1GB RAM
+2120	362	480 x 854 pixels, 16:9 ratio (~218 ppi density)	198	 2014, December	alcatel Pop 2 (4.5) Dual SIM	8GB (5GB user available), 1GB RAM
+2121	365	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	132	 2016, April	alcatel Pop 3 (5.5)	8GB 1GB RAM
+2122	368	480 x 854 pixels, 16:9 ratio (~196 ppi density)	121	 2015, Q4	alcatel Pop 3 (5)	8GB 1GB RAM
+2123	371	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	88	 2016, Q3	alcatel Pop 4	8GB 1GB RAM
+2124	374	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	121	 2016, Q3	alcatel Pop 4+	16GB 1.5GB RAM
+2125	377	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	165	 2016, Q3	alcatel Pop 4S	16GB 2GB RAM
+2126	380	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	143	 2016, April	alcatel Pop 7 LTE	8GB 1GB RAM
+2127	383	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	209	 2014, Q2	alcatel Pop 7S	4GB 1GB RAM
+2128	386	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	275	 2014, December	alcatel Pop 8S	8GB 1GB RAM
+2129	389	540 x 960 pixels, 16:9 ratio (~245 ppi density)	143	 2015, April	alcatel Pop Astro	4GB 1GB RAM
+2130	392	320 x 480 pixels, 3:2 ratio (~165 ppi density)	77	 2014, March	alcatel Pop C1	4GB 512MB RAM
+2131	395	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, March	alcatel Pop C3	4GB 512MB RAM
+2132	398	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2013, December	alcatel Pop C5	4GB 512MB RAM
+2133	401	480 x 854 pixels, 16:9 ratio (~196 ppi density)	143	 2014, April	alcatel Pop C7	4GB 512MB RAM, 1GB RAM (7041X)
+2134	404	320 x 480 pixels, 3:2 ratio (~165 ppi density)	88	 2014, September	alcatel Pop D1	4GB 512MB RAM
+2135	407	480 x 800 pixels, 5:3 ratio (~233 ppi density)	143	 2014, September	alcatel Pop D3	4GB 512MB RAM
+2136	410	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2014, September	alcatel Pop D5	4GB 512MB RAM
+2137	413	540 x 960 pixels, 16:9 ratio (~220 ppi density)	132	 2014, October	alcatel Pop Icon	4GB 1GB RAM
+2138	416	480 x 800 pixels, 5:3 ratio (~233 ppi density)	132	 2014, Q2	alcatel Pop S3	4GB 1GB RAM
+2139	419	540 x 960 pixels, 16:9 ratio (~220 ppi density)	154	 2014, Q2	alcatel Pop S7	4GB 1GB RAM
+2140	422	720 x 1280 pixels, 16:9 ratio (~249 ppi density)	308	 2014, Q2	alcatel Pop S9	8GB 1GB RAM
+2141	425	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	88	 2017, August	alcatel Pulsemix	16GB 2GB RAM
+2142	428	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2016, October	alcatel Shine Lite	16GB 2GB RAM
+2143	431	480 x 854 pixels, 16:9 ratio (~196 ppi density)	55	 2018, September	alcatel Tetra	16GB 2GB RAM
+2144	434	480 x 854 pixels, 16:9 ratio (~196 ppi density)	110	 2017, July	alcatel U5	8GB 1GB RAM
+2146	440	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2016, June	alcatel X1	16GB 2GB RAM
+2147	443	480 x 800 pixels, 5:3 ratio (~217 ppi density)	143	 2014, January	Allview A5 Quad	4GB 512MB RAM
+2148	446	480 x 800 pixels, 5:3 ratio (~233 ppi density)	143	 2014, June	Allview A6 Quad	4GB 512MB RAM
+2149	449	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, June	Allview C5 Smiley	4GB 512MB RAM
+2150	452	480 x 854 pixels, 16:9 ratio (~218 ppi density)	154	 2014, December	Allview C6 Quad 4G	8GB 1GB RAM
+2151	455	480 x 800 pixels, 5:3 ratio (~233 ppi density)	99	 2014, May	Allview E2 Living	4GB 512MB RAM
+2152	458	480 x 854 pixels, 16:9 ratio (~218 ppi density)	154	 2015, August	Allview E3 Living	8GB 1GB RAM
+2153	461	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	264	 2015, September	Allview E4	16GB 2GB RAM
+2154	464	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	176	 2014, August	Allview Impera i	8GB 1GB RAM
+2155	467	480 x 800 pixels, 5:3 ratio (~233 ppi density)	99	 2014, October	Allview Impera M	4GB 512MB RAM
+2156	470	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2014, August	Allview Impera S	8GB 1GB RAM
+2157	473	480 x 854 pixels, 16:9 ratio (~218 ppi density)	154	 2015, September	Allview P5 Energy	16GB 1GB RAM
+2158	476	480 x 854 pixels, 16:9 ratio (~218 ppi density)	143	 2016, January	Allview P5 Pro	8GB 1GB RAM
+2159	479	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2015, November	Allview P6 Pro	8GB 1GB RAM
+2160	482	720 x 1280 pixels, 16:9 ratio (~316 ppi density)	242	 2014, January	Allview P6 Quad Plus	4GB 1GB RAM
+2161	485	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	253	 2014, July	Allview P7 Seon	8GB 1GB RAM
+2162	488	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	319	 2014, April	Allview P7 Xtreme	16GB 1GB RAM
+2163	491	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	330	 2015, September	Allview P8 Energy	16GB 2GB RAM
+2164	494	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2016, January	Allview P8 Energy mini	16GB 2GB RAM
+2165	497	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	462	 2016, February	Allview P8 Energy Pro	64GB 3GB RAM
+2166	500	1080 x 2246 pixels, 18.7:9 ratio (~402 ppi density)	363	 2018, June	Allview Soul X5 Pro	32GB 4GB RAM
+2167	503	720 x 1500 pixels (~268 ppi density)	242	 2018, November	Allview Soul X5 Style	32GB 3GB RAM
+2168	506	1080 x 2340 pixels, 19.5:9 ratio (~403 ppi density)	396	 2019, April	Allview Soul X6 Xtreme	64GB 4GB RAM
+2169	509	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	253	 2014, August	Allview Twin X2	8GB 1GB RAM
+2170	512	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	341	 2014, February	Allview V1 Viper S	16GB 2GB RAM
+2171	515	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	220	 2015, October	Allview V2 Viper	16GB 1GB RAM
+2172	518	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2015, December	Allview V2 Viper i	16GB 1GB RAM
+2173	521	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	275	 2015, October	Allview V2 Viper X	16GB 1GB RAM
+2174	524	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	330	 2015, October	Allview V2 Viper X+	16GB 3GB RAM
+2175	527	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	242	 2018, February	Allview V3 Viper	32GB 3GB RAM
+2176	530	540 x 960 pixels, 16:9 ratio (~234 ppi density)	220	 2014, May	Allview Viper i V1	8GB 1GB RAM
+2177	533	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	517	 2014, February	Allview X1 Xtreme	32GB 3GB RAM
+2178	536	1080 x 1920 pixels, 16:9 ratio (~469 ppi density)	330	 2014, December	Allview X1 Xtreme Mini	16GB 2GB RAM
+2179	539	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	374	 2014, May	Allview X2 Soul	16GB 2GB RAM
+2180	542	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	176	 2015, September	Allview X2 Soul Lite	16GB 1GB RAM
+2181	545	720 x 1280 pixels, 16:9 ratio (~306 ppi density)	253	 2014, October	Allview X2 Soul Mini	16GB 1GB RAM
+2182	548	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2015, November	Allview X2 Soul Style	16GB 2GB RAM
+2183	551	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2015, November	Allview X2 Soul Style + Platinum	16GB 3GB RAM
+2184	554	1440 x 2560 pixels, 16:9 ratio (~490 ppi density)	539	 2015, August	Allview X2 Xtreme	64GB 3GB RAM
+2185	557	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	330	 2016, January	Allview X3 Soul	32GB 3GB RAM
+2186	560	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	495	 2016, February	Allview X3 Soul Pro	64GB 4GB RAM
+2187	563	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	462	 2017, February	Allview X4 Soul	64GB 4GB RAM
+2188	566	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	495	 2017, September	Allview X4 Soul Infinity Plus	64GB 6GB RAM
+2189	569	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2017, June	Allview X4 Soul Mini S	16GB 1GB RAM
+2190	572	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	55	 2015, November	Amazon Fire 7	8GB 1GB RAM
+2191	575	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	77	 2017, June	Amazon Fire 7 (2017)	8GB 1GB RAM, 16GB 1GB RAM
+2192	578	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	231	 2015, September	Amazon Fire HD 10	16GB 1GB RAM, 32GB 1GB RAM
+2193	581	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	187	 2017, October	Amazon Fire HD 10 (2017)	32GB 2GB RAM, 64GB 2GB RAM
+2194	584	800 x 1280 pixels, 16:10 ratio (~252 ppi density)	99	 2014, October	Amazon Fire HD 6	8GB 1GB RAM, 16GB 1GB RAM
+2195	587	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	132	 2014, October	Amazon Fire HD 7	8GB 1GB RAM, 16GB 1GB RAM
+2196	590	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	143	 2015, September	Amazon Fire HD 8	8GB 1GB RAM, 16GB 1GB RAM
+2197	593	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	121	 2017, June	Amazon Fire HD 8 (2017)	16GB 1.5GB RAM, 32GB 1.5GB RAM
+2198	596	2560 x 1600 pixels, 16:10 ratio (~339 ppi density)	341	 2014, October	Amazon Fire HDX 8.9 (2014)	16GB 2GB RAM, 32GB 2GB RAM, 64GB 2GB RAM
+2199	599	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	176	 2014, July	Amazon Fire Phone	32GB 2GB RAM, 64GB 2GB RAM
+2200	602	1620 x 2160 pixels, 4:3 ratio (~264 ppi density)	385	 2019, September	Apple iPad 10.2	32GB 3GB RAM, 128GB 3GB RAM
+2201	605	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	429	 2017, March	Apple iPad 9.7 (2017)	32GB 2GB RAM, 128GB 2GB RAM
+2202	608	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	385	 2018, March	Apple iPad 9.7 (2018)	32GB 2GB RAM, 128GB 2GB RAM
+2203	611	1668 x 2224 pixels, 4:3 ratio (~265 ppi density)	605	 2019, March	Apple iPad Air (2019)	64GB 3GB RAM, 256GB 3GB RAM
+2204	614	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	484	 2014, October	Apple iPad Air 2	16GB 2GB RAM, 32GB 2GB RAM, 64GB 2GB RAM, 128GB 2GB RAM
+2205	617	1536 x 2048 pixels, 4:3 ratio (~324 ppi density)	495	 2019, March	Apple iPad mini (2019)	64GB 3GB RAM, 256GB 3GB RAM
+2206	620	1536 x 2048 pixels, 4:3 ratio (~324 ppi density)	440	 2014, October	Apple iPad mini 3	16GB 1GB RAM, 64GB 1GB RAM, 128GB 1GB RAM
+2207	623	1536 x 2048 pixels, 4:3 ratio (~324 ppi density)	396	 2015, September	Apple iPad mini 4 (2015)	16GB 2GB RAM, 32GB 2GB RAM, 64GB 2GB RAM, 128GB 2GB RAM
+2208	626	1668 x 2224 pixels, 4:3 ratio (~265 ppi density)	803	 2017, June	Apple iPad Pro 10.5 (2017)	64GB 4GB RAM, 256GB 4GB RAM, 512GB 4GB RAM
+2209	629	1668 x 2388 pixels (~265 ppi density)	968	 2018, November	Apple iPad Pro 11	64GB 4GB RAM, 256GB 4GB RAM, 512GB 4GB RAM, 1TB 6GB RAM
+2210	632	2048 x 2732 pixels, 4:3 ratio (~264 ppi density)	935	 2015, November	Apple iPad Pro 12.9 (2015)	32GB 4GB RAM, 128GB 4GB RAM, 256GB 4GB RAM
+2211	635	2732 x 2048 pixels, 4:3 ratio (~265 ppi density)	990	 2017, June	Apple iPad Pro 12.9 (2017)	64GB 4GB RAM, 256GB 4GB RAM, 512GB 4GB RAM
+2212	638	2048 x 2732 pixels, 4:3 ratio (~265 ppi density)	1210	 2018, November	Apple iPad Pro 12.9 (2018)	64GB 4GB RAM, 256GB 4GB RAM, 512GB 4GB RAM, 1TB 6GB RAM
+2213	641	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	759	 2016, March	Apple iPad Pro 9.7 (2016)	32GB 2GB RAM, 128GB 2GB RAM, 256GB 2GB RAM
+2214	644	640 x 960 pixels, 3:2 ratio (~330 ppi density)	209	 2011, October	Apple iPhone 4s	8GB 512MB RAM, 16GB 512MB RAM, 32GB 512MB RAM, 64GB 512MB RAM
+2215	647	640 x 1136 pixels, 16:9 ratio (~326 ppi density)	374	 2012, September	Apple iPhone 5	16GB 1GB RAM, 32GB 1GB RAM, 64GB 1GB RAM
+2216	650	640 x 1136 pixels, 16:9 ratio (~326 ppi density)	330	 2013, September	Apple iPhone 5c	8GB 1GB RAM, 16GB 1GB RAM, 32GB 1GB RAM
+2217	653	640 x 1136 pixels, 16:9 ratio (~326 ppi density)	363	 2013, September	Apple iPhone 5s	16GB 1GB RAM, 32GB 1GB RAM, 64GB 1GB RAM
+2218	656	1125 x 2436 pixels, 19.5:9 ratio (~458 ppi density)	1100	 2018, September	Apple iPhone XS	64GB 4GB RAM, 256GB 4GB RAM, 512GB 4GB RAM
+2219	659	340 x 272 pixels (~290 ppi density)	715	 2015, May	Apple Watch 38mm (1st gen)	8GB 512MB RAM
+2220	662	390 x 312 pixels (~303 ppi density)	770	 2015, April	Apple Watch 42mm (1st gen)	8GB 512MB RAM
+2221	665	340 x 272 pixels (~290 ppi density)	12100	 2015, July	Apple Watch Edition 38mm (1st gen)	8GB 512MB RAM
+2222	668	390 x 312 pixels (~303 ppi density)	14300	 2015, July	Apple Watch Edition 42mm (1st gen)	8GB 512MB RAM
+2223	671	390 x 312 pixels (~303 ppi density)	1595	 2017, September	Apple Watch Edition Series 3	16GB 768MB RAM
+2224	674	448 x 368 pixels (~326 ppi density)	935	 2019, September	Apple Watch Edition Series 5	32GB
+2225	677	340 x 272 pixels (~290 ppi density)	297	 2016, December	Apple Watch Series 1 Aluminum 38mm	8GB 512MB RAM
+2226	680	390 x 312 pixels (~303 ppi density)	330	 2016, December	Apple Watch Series 1 Aluminum 42mm	8GB 512MB RAM
+2227	683	390 x 312 pixels (~303 ppi density)	770	 2017, September	Apple Watch Series 3	16GB 768MB RAM
+2228	686	390 x 312 pixels (~303 ppi density)	528	 2017, September	Apple Watch Series 3 Aluminum	8GB 768MB RAM, 16GB 768MB RAM
+2229	689	448 x 368 pixels (~326 ppi density)	770	 2018, September	Apple Watch Series 4	16GB
+2230	692	448 x 368 pixels (~326 ppi density)	473	 2018, September	Apple Watch Series 4 Aluminum	16GB
+2231	695	448 x 368 pixels (~326 ppi density)	825	 2019, September	Apple Watch Series 5	32GB
+2232	698	448 x 368 pixels (~326 ppi density)	495	 2019, September	Apple Watch Series 5 Aluminum	32GB
+2233	701	340 x 272 pixels (~290 ppi density)	275	 2015, April	Apple Watch Sport 38mm (1st gen)	8GB 512MB RAM
+2234	704	390 x 312 pixels (~302 ppi density)	275	 2015, April	Apple Watch Sport 42mm (1st gen)	8GB 512MB RAM
+2235	707	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, September	Archos 40 Cesium	4GB 512MB RAM
+2236	710	480 x 800 pixels, 5:3 ratio (~233 ppi density)	132	 2014, April	Archos 40b Titanium	4GB 512MB RAM
+2237	713	480 x 800 pixels, 5:3 ratio (~207 ppi density)	253	2014	Archos 45 Helium 4G	4GB 1GB RAM
+2238	716	1080 x 1920 pixels, 16:9 ratio (~440 ppi density)	220	 2015, January	Archos 50 Diamond	16GB 2GB RAM
+2239	719	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2017, June	Archos 50 Graphite	16GB 1GB RAM
+2240	722	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	308	2014	Archos 50 Helium 4G	8GB 1GB RAM
+2241	725	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2014, December	Archos 50b Helium 4G	8GB 1GB RAM
+2242	728	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	264	 2014, April	Archos 50c Oxygen	8GB 1GB RAM
+2243	731	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2015, July	Archos 50d Helium 4G	8GB 1GB RAM
+2244	734	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	198	 2017, June	Archos 55 Graphite	16GB 2GB RAM
+2245	737	720 x 1280 pixels, 16:9 ratio (~229 ppi density)	264	 2014, April	Archos 64 Xenon	4GB 1GB RAM
+2246	740	768 x 1024 pixels, 4:3 ratio (~160 ppi density)	308	 2014, April	Archos 80 Helium 4G	8GB 1GB RAM
+2247	743	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	 2016, August	Archos Diamond 2 Plus	64GB 4GB RAM
+2248	746	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	385	 2017, July	Archos Diamond Alpha	64GB 4GB RAM
+2249	749	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	440	 2017, October	Archos Diamond Alpha +	128GB 6GB RAM
+2250	752	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2017, July	Archos Diamond Gamma	32GB 3GB RAM
+2251	755	1080 x 2040 pixels, 17:9 ratio (~403 ppi density)	330	 2017, November	Archos Diamond Omega	128GB 8GB RAM
+2252	758	1600 x 2560 pixels, 16:10 ratio (~299 ppi density)	330	 2017, October	Archos Diamond Tab	64GB 4GB RAM
+2253	761	720 x 1520 pixels, 19:9 ratio (~295 ppi density)	110	 2019, May	Archos Oxygen 57	32GB 3GB RAM
+2254	764	720 x 1520 pixels, 19:9 ratio (~269 ppi density)	143	 2019, May	Archos Oxygen 63	64GB 4GB RAM
+2255	767	640 x 1352 pixels, 19:9 ratio (~218 ppi density)	165	 2019, May	Archos Oxygen 68XL	32GB 3GB RAM
+2256	770	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2018, April	Archos Saphir 50X	16GB 2GB RAM
+2257	773	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	187	 2017, July	Archos Sense 50x	32GB 3GB RAM
+2258	776	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	275	 2017, July	Archos Sense 55s	16GB 2GB RAM
+2259	779	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	110	 2014, May	Asus Fonepad 7 (2014)	4GB 1GB RAM, 8GB 1GB RAM
+2260	782	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	176	 2015, January	Asus Fonepad 7 FE171CG	8GB 1GB RAM, 16GB 2GB RAM
+2261	785	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	231	 2014, Q3	Asus Fonepad 7 FE375CG	8GB 1GB RAM, 16GB 1GB RAM
+2262	788	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	242	 2015, March	Asus Fonepad 7 FE375CL	8GB 2GB RAM, 16GB 2GB RAM
+2263	791	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	143	 2014, September	Asus Fonepad 7 FE375CXG	8GB 1GB RAM, 16GB 1GB RAM
+2264	794	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	220	 2014, Q3	Asus Fonepad 8 FE380CG	8GB 1GB RAM, 16GB 2GB RAM
+2265	797	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	176	 2016, February	Asus Live G500TG	16GB 2GB RAM
+2266	800	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	220	 2014, November	Asus Memo Pad 10 ME103K	8GB 1GB RAM, 16GB 1GB RAM, 32GB 1GB RAM
+2267	803	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	143	 2014, August	Asus Memo Pad 7 ME176C	8GB 1GB RAM, 16GB 1GB RAM
+2268	806	1200 x 1920 pixels, 16:10 ratio (~323 ppi density)	264	 2014, November	Asus Memo Pad 7 ME572C	16GB 2GB RAM, 32GB 2GB RAM
+2269	809	1200 x 1920 pixels, 16:10 ratio (~323 ppi density)	264	 2014, November	Asus Memo Pad 7 ME572CL	16GB 2GB RAM, 32GB 2GB RAM
+2270	812	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	165	 2014, August	Asus Memo Pad 8 ME181C	16GB 1GB RAM
+2271	815	1200 x 1920 pixels, 16:10 ratio (~283 ppi density)	264	 2014, Q3	Asus Memo Pad 8 ME581CL	16GB 2GB RAM, 32GB 2GB RAM
+2272	818	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	286	 2014, March	Asus PadFone E	1GB RAM
+2273	821	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	561	 2014, March	Asus PadFone Infinity Lite	16GB 2GB RAM, 32GB 2GB RAM
+2274	824	540 x 960 pixels, 16:9 ratio (~256 ppi density)	319	 2014, December	Asus PadFone mini	16GB 1GB RAM
+2275	827	480 x 800 pixels, 5:3 ratio (~233 ppi density)	231	 2014, June	Asus PadFone mini (Intel)	8GB 1GB RAM
+2276	830	480 x 854 pixels, 16:9 ratio (~218 ppi density)	330	 2014, September	Asus PadFone mini 4G (Intel)	8GB 1GB RAM
+2277	833	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	275	 2014, July	Asus PadFone S	16GB 2GB RAM
+2278	836	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	352	 2014, July	Asus PadFone X	16GB 2GB RAM
+2279	839	480 x 854 pixels, 16:9 ratio (~218 ppi density)	176	 2014, October	Asus PadFone X mini	8GB 1GB RAM
+2280	842	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	88	 2015, May	Asus Pegasus	8GB 2GB RAM, 16GB 2GB RAM
+2281	845	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	330	 2015, December	Asus Pegasus 2 Plus	32GB 3GB RAM
+2282	848	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	880	 2018, October	Asus ROG Phone ZS600KL	128GB 8GB RAM, 512GB 8GB RAM
+2283	851	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	242	 2014, June	Asus Transformer Pad TF103C	8GB 1GB RAM, 16GB 1GB RAM
+2284	854	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	440	 2014, Q3	Asus Transformer Pad TF303CL	16GB 2GB RAM, 32GB 2GB RAM
+2285	857	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	385	 2015, September	Asus Zenfone 2 Deluxe ZE551ML	64GB 4GB RAM, 128GB 4GB RAM, 256GB 4GB RAM
+2286	860	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2015, October	Asus Zenfone 2 Laser ZE500KG	8GB 2GB RAM, 16GB 2GB RAM
+2287	863	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	231	 2015, August	Asus Zenfone 2 Laser ZE500KL	8GB 2GB RAM, 16GB 2GB RAM
+2288	866	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	242	 2015, September	Asus Zenfone 2 Laser ZE550KL	16GB 2GB RAM, 32GB 3GB RAM
+2289	869	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	198	 2015, November	Asus Zenfone 2 Laser ZE551KL	16GB 3GB RAM, 32GB 3GB RAM
+2290	872	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	341	 2016, January	Asus Zenfone 2 Laser ZE600KL	16GB 2GB RAM, 32GB 3GB RAM
+2291	875	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	297	 2015, December	Asus Zenfone 2 Laser ZE601KL	16GB 2GB RAM, 32GB 3GB RAM
+2292	878	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2015, March	Asus Zenfone 2 ZE500CL	16GB 2GB RAM
+2293	881	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	275	 2015, March	Asus Zenfone 2 ZE550ML	16GB 2GB RAM
+2294	884	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	330	 2015, March	Asus Zenfone 2 ZE551ML	16GB 2GB RAM, 32GB 2GB RAM, 64GB 4GB RAM
+2295	887	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2015, July	Asus Zenfone 2E	8GB 1GB RAM
+2296	890	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	308	 2016, October	Asus Zenfone 3 Deluxe 5.5 ZS550KL	64GB 4GB RAM
+2297	893	1080 x 1920 pixels, 16:9 ratio (~386 ppi density)	253	 2016, August	Asus Zenfone 3 Deluxe ZS570KL	64GB 4GB RAM, 128GB 4GB RAM, 256GB 6GB RAM
+2298	896	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	176	 2016, August	Asus Zenfone 3 Laser ZC551KL	16GB 2GB RAM, 32GB 4GB RAM
+2299	899	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	253	 2016, August	Asus Zenfone 3 Max ZC520TL	16GB 2GB RAM, 32GB 3GB RAM
+2300	902	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	209	 2016, November	Asus Zenfone 3 Max ZC553KL	32GB 2GB RAM, 32GB 3GB RAM, 32GB 4GB RAM
+2301	905	1080 x 1920 pixels, 16:9 ratio (~324 ppi density)	330	 2016, August	Asus Zenfone 3 Ultra ZU680KL	32GB 3GB RAM, 64GB 3GB RAM, 128GB 4GB RAM
+2302	908	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	308	 2016, August	Asus Zenfone 3 ZE520KL	32GB 3GB RAM, 64GB 4GB RAM
+2303	911	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	363	 2016, August	Asus Zenfone 3 ZE552KL	32GB 3GB RAM, 64GB 4GB RAM
+2304	914	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	352	 2017, February	Asus Zenfone 3 Zoom ZE553KL	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2305	917	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	198	 2017, February	Asus Zenfone 3s Max ZC521TL	32GB 3GB RAM
+2306	920	480 x 800 pixels, 5:3 ratio (~233 ppi density)	143	 2014, May	Asus Zenfone 4 (2014)	4GB 1GB RAM, 8GB 1GB RAM
+2307	923	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2014, July	Asus Zenfone 4 A450CG (2014)	8GB 1GB RAM
+2308	926	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	242	 2017, September	Asus Zenfone 4 Max Plus ZC554KL	32GB 3GB RAM
+2309	929	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	275	 2017, September	Asus Zenfone 4 Max Pro ZC554KL	32GB 2GB RAM, 32GB 3GB RAM
+2310	932	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	198	 2017, October	Asus Zenfone 4 Max ZC520KL	16GB 2GB RAM, 32GB 3 RAM
+2311	935	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	297	 2017, September	Asus Zenfone 4 Max ZC554KL	32GB 3GB RAM
+2312	938	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	385	 2017, October	Asus Zenfone 4 Pro ZS551KL	64GB 6GB RAM, 128GB 6GB RAM
+2313	941	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	198	 2017, November	Asus Zenfone 4 Selfie Lite ZB553KL	16GB 2GB RAM, 32GB 2GB RAM
+2314	944	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	 2017, October	Asus Zenfone 4 Selfie Pro ZD552KL	64GB 3GB RAM, 64GB 4GB RAM
+2315	947	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	165	 2017, November	Asus Zenfone 4 Selfie ZB553KL	32GB 3GB RAM
+2316	950	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	275	 2017, October	Asus Zenfone 4 Selfie ZD553KL	64GB 4GB RAM
+2317	953	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	385	 2017, October	Asus Zenfone 4 ZE554KL	64GB 4GB RAM, 64GB 6GB RAM
+2318	956	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2014, April	Asus Zenfone 5 A500CG (2014)	8GB 2GB RAM, 16GB 2GB RAM, 32GB 2GB RAM
+2319	959	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	231	 2014, July	Asus Zenfone 5 A500KL (2014)	8GB 1GB RAM, 16GB 1GB RAM, 32GB 2GB RAM
+2320	962	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2015, January	Asus Zenfone 5 A501CG (2015)	8GB 2GB RAM
+2321	965	540 x 960 pixels, 16:9 ratio (~220 ppi density)	110	 2014, November	Asus Zenfone 5 Lite A502CG (2014)	1GB RAM
+2322	968	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	220	 2018, May	Asus Zenfone 5 Lite ZC600KL	32GB 3GB RAM, 64GB 4GB RAM
+2323	971	1080 x 2246 pixels, 18.7:9 ratio (~402 ppi density)	352	 2018, May	Asus Zenfone 5 ZE620KL	64GB 4GB RAM, 64GB 6GB RAM
+2324	974	1080 x 2246 pixels, 18.7:9 ratio (~402 ppi density)	429	 2018, June	Asus Zenfone 5z ZS620KL	64GB 4GB RAM, 128GB 6GB RAM, 256GB 8GB RAM
+2325	977	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	275	 2014, May	Asus Zenfone 6 A600CG (2014)	16GB 2GB RAM, 32GB 2GB RAM
+2326	980	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	220	 2014, May	Asus Zenfone 6 A601CG (2014)	16GB 2GB RAM, 32GB 2GB RAM
+2327	983	1440 x 2560 pixels, 16:9 ratio (~515 ppi density)	407	 2017, June	Asus Zenfone AR ZS571KL	64GB 6GB RAM, 128GB 6GB RAM, 256GB 8GB RAM
+2328	986	480 x 854 pixels, 16:9 ratio (~218 ppi density)	99	 2015, February	Asus Zenfone C ZC451CG	8GB 1GB RAM
+2329	989	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2016, April	Asus Zenfone Go T500	16GB 2GB RAM
+2330	992	480 x 854 pixels, 16:9 ratio (~218 ppi density)	121	 2016, August	Asus Zenfone Go ZB450KL	8GB 1GB RAM
+2331	995	480 x 854 pixels, 16:9 ratio (~218 ppi density)	99	 2016, April	Asus Zenfone Go ZB452KG	8GB 1GB RAM
+2332	998	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2016, October	Asus Zenfone Go ZB500KL	16GB 2GB RAM
+2333	1001	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	165	 2016, May	Asus Zenfone Go ZB551KL	16GB 2GB RAM, 32GB 2GB RAM
+2334	1004	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	132	 2017, May	Asus Zenfone Go ZB552KL	16GB 2GB RAM, 32GB 2GB RAM
+2335	1007	600 x 1024 pixels, 16:9 ratio (~172 ppi density)	132	 2016, December	Asus Zenfone Go ZB690KG	8GB 1GB RAM
+2336	1010	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2015, December	Asus Zenfone Go ZC451TG	8GB 1GB RAM
+2337	1013	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2015, August	Asus Zenfone Go ZC500TG	8GB 2GB RAM, 16GB 2GB RAM
+2338	1016	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	88	 2018, October	Asus ZenFone Lite (L1) ZA551KL	16GB 2GB RAM
+2339	1019	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	110	 2018, May	Asus ZenFone Live (L1) ZA550KL	16GB 1GB RAM, 32GB 2GB RAM
+2340	1022	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2017, March	Asus Zenfone Live ZB501KL	16GB 2GB RAM, 32GB 2GB RAM
+2341	1025	720 x 1440 pixels, 16:10 ratio (~245 ppi density)	165	 2018, May	Asus Zenfone Max (M1) ZB555KL	16GB 2GB RAM, 32GB 2GB RAM, 32GB 3GB RAM
+2342	1028	720 x 1440 pixels, 16:10 ratio (~247 ppi density)	132	 2018, October	Asus Zenfone Max (M1) ZB556KL	32GB 3GB RAM
+2343	1031	1080 x 2160 pixels, 18:9 ratio (~424 ppi density)	275	 2017, December	Asus Zenfone Max Plus (M1) ZB570TL	16GB 2GB RAM, 32GB 3GB RAM, 64GB 4GB RAM
+2344	1034	1080 x 2246 pixels, 18.7:9 ratio (~398 ppi density)	220	 2019, March	Asus Zenfone Max Plus (M2) ZB634KL	32GB 3GB RAM
+2345	1037	1080 x 2160 pixels, 18:9 ratio (~404 ppi density)	176	 2018, May	Asus Zenfone Max Pro (M1) ZB601KL/ZB602K	32GB 3GB RAM, 64GB 4GB RAM, 128GB 6GB RAM
+2346	1040	1080 x 2246 pixels, 18.7:9 ratio (~398 ppi density)	341	 2019, March	Asus Zenfone Max Shot ZB634KL	64GB 4GB RAM
+2347	1043	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	187	 2016, January	Asus Zenfone Max ZC550KL	8GB 2GB RAM, 16GB 2GB RAM
+2348	1046	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	187	 2016, May	Asus Zenfone Max ZC550KL (2016)	32GB 2GB RAM, 32GB 3GB RAM
+2349	1049	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	231	 2016, June	Asus Zenfone Pegasus 3	16GB 2GB RAM, 32GB 3GB RAM
+2350	1052	1080 x 1920 pixels, 16:9 ratio (~403 ppi density)	308	 2015, August	Asus Zenfone Selfie ZD551KL	16GB 2GB RAM, 32GB 3GB RAM
+2351	1055	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	418	 2017, September	Asus Zenfone V V520KL	32GB 4GB RAM
+2352	1058	1080 x 1920 pixels, 16:9 ratio (~403 ppi density)	440	 2015, December	Asus Zenfone Zoom ZX550	16GB 2GB RAM, 32GB 2GB RAM, 64GB 2GB RAM, 128GB 4GB RAM
+2353	1061	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	 2015, December	Asus Zenfone Zoom ZX551ML	32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2354	1064	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	176	 2015, June	Asus Zenpad 10 Z300C	8GB 2GB RAM, 16GB 2GB RAM, 32GB 2GB RAM
+2355	1067	1536 x 2048 pixels, 4:3 ratio (~324 ppi density)	308	 2017, January	Asus Zenpad 3 8.0 Z581KL	32GB 4GB RAM
+2356	1070	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	385	 2017, January	Asus Zenpad 3S 10 Z500KL	32GB 4GB RAM
+2357	1073	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	374	 2016, August	Asus Zenpad 3S 10 Z500M	32GB 4GB RAM, 64GB 4GB RAM
+2358	1076	1536 x 2048 pixels, 4:3 ratio (~324 ppi density)	275	 2017, November	Asus Zenpad 3s 8.0 Z582KL	32GB 3GB RAM, 64GB 4GB RAM
+2359	1079	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	176	 2015, August	Asus Zenpad 7.0 Z370CG	16GB 2GB RAM
+2360	1082	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	308	 2015, July	Asus Zenpad 8.0 Z380KL	8GB 1GB RAM, 16GB 2GB RAM
+2361	1085	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	154	 2015, July	Asus Zenpad C 7.0	8GB 1GB RAM, 16GB 1GB RAM
+2362	1088	1536 x 2048 pixels, 4:3 ratio (~264 ppi density)	330	 2016, October	Asus Zenpad Z10 ZT500KL	32GB 3GB RAM
+2363	1091	1536 x 2048 pixels, 4:3 ratio (~324 ppi density)	275	 2017, August	Asus Zenpad Z8s ZT582KL	16GB 3GB RAM
+2364	1094	320 x 320 pixels, 1:1 ratio (~278 ppi density)	165	 2015, September	Asus Zenwatch 2 WI501Q	4GB 512MB RAM
+2365	1097	280 x 280 pixels, 1:1 ratio (~273 ppi density)	165	 2015, September	Asus Zenwatch 2 WI502Q	4GB 512MB RAM
+2366	1100	400 x 400 pixels, 1:1 ratio (~287 ppi density)	253	 2016, December	Asus Zenwatch 3 WI503Q	4GB 512MB RAM
+2367	1103	320 x 320 pixels, 1:1 ratio (~278 ppi density)	110	 2014, September	Asus Zenwatch WI500Q	4GB 512MB RAM
+2368	1106	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2014, September	BenQ F5	16GB 2GB RAM
+2369	1109	540 x 960 pixels, 16:9 ratio (~245 ppi density)	88	 2014, September	BenQ T3	4GB 1GB RAM
+2370	1112	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2017, March	BlackBerry Aurora	32GB 4GB RAM
+2371	1115	720 x 720 pixels, 1:1 ratio (~294 ppi density)	132	 2014, December	BlackBerry Classic	16GB 2GB RAM
+2372	1118	720 x 720 pixels, 1:1 ratio (~291 ppi density)	198	 2015, March	BlackBerry Classic Non Camera	16GB 2GB RAM
+2373	1121	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	220	 2016, August	BlackBerry DTEK50	16GB 3GB RAM
+2374	1124	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	275	 2016, October	BlackBerry DTEK60	32GB 4GB RAM
+2375	1127	1080 x 2160 pixels, 18:9 ratio (~403 ppi density)	330	 2018, October	BlackBerry Evolve	64GB 4GB RAM
+2376	1130	1080 x 2160 pixels, 18:9 ratio (~403 ppi density)	385	 2018, August	BlackBerry Evolve X	64GB 6GB RAM
+2377	1133	1080 x 1620 pixels, 3:2 ratio (~434 ppi density)	550	 2018, June	BlackBerry KEY2	64GB 6GB RAM, 128GB 6GB RAM
+2378	1136	1080 x 1620 pixels, 3:2 ratio (~434 ppi density)	363	 2018, October	BlackBerry KEY2 LE	32GB 4GB RAM, 64GB 4GB RAM
+2379	1139	1080 x 1620 pixels, 3:2 ratio (~434 ppi density)	319	 2017, April	BlackBerry Keyone	32GB 3GB RAM, 64GB 4GB RAM
+2380	1142	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	88	 2015, April	BlackBerry Leap	16GB 2GB RAM
+2381	1145	1080 x 1920 pixels, 16:9 ratio (~403 ppi density)	429	 2017, December	BlackBerry Motion	32GB 4GB RAM
+2382	1148	1440 x 1440 pixels, 1:1 ratio (~453 ppi density)	187	 2014, September	BlackBerry Passport	32GB 3GB RAM
+2383	1151	720 x 720 pixels, 1:1 ratio (~328 ppi density)	473	 2014, October	BlackBerry Porsche Design P'9983	64GB 2GB RAM
+2384	1154	1440 x 2560 pixels, 16:9 ratio (~540 ppi density)	297	 2015, November	BlackBerry Priv	32GB 3GB RAM
+2385	1157	720 x 720 pixels, 1:1 ratio (~328 ppi density)	121	 2013, April	BlackBerry Q10	16GB 2GB RAM
+2386	1160	720 x 720 pixels, 1:1 ratio (~328 ppi density)	77	 2013, June	BlackBerry Q5	8GB 2GB RAM
+2387	1163	768 x 1280 pixels, 5:3 ratio (~355 ppi density)	132	 2013, January	BlackBerry Z10	16GB 2GB RAM
+2388	1166	540 x 960 pixels, 16:9 ratio (~220 ppi density)	99	 2014, May	BlackBerry Z3	8GB 1.5GB RAM
+2389	1169	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2013, October	BlackBerry Z30	16GB 2GB RAM
+2390	1172	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	77	2017	Blackview A10	16GB 2GB RAM
+2391	1175	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	66	2017	Blackview A7	8GB 1GB RAM
+2392	1178	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	88	2017	Blackview A7 Pro	16GB 2GB RAM
+2393	1181	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	2017	Blackview P6000	64GB 6GB RAM
+2394	1184	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	110	 2018, January	Blackview S6	16GB 2GB RAM
+2395	1187	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	187	 2017, October	Blackview S8	64GB 4GB RAM
+2396	1190	480 x 800 pixels, 5:3 ratio (~233 ppi density)	55	 2018, September	BLU Advance L4	8GB 512MB RAM
+2397	1193	1080 x 2340 pixels, 19.5:9 ratio (~403 ppi density)	220	 2019, September	BLU Bold N1	128GB 4GB RAM
+2398	1196	480 x 800 pixels, 5:3 ratio (~233 ppi density)	55	 2018, August	BLU C4	8GB 512MB RAM
+2399	1199	480 x 854 pixels, 16:9 ratio (~196 ppi density)	66	 2018, August	BLU C5	8GB 1GB RAM
+2400	1202	480 x 854 pixels, 16:9 ratio (~196 ppi density)	77	 2019, February	BLU C5L	8GB 1GB RAM
+2401	1205	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	110	 2018, June	BLU C6	16GB 1GB RAM
+2402	1208	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	88	 2019, January	BLU C6L	16GB 1GB RAM
+2403	1211	480 x 800 pixels, 5:3 ratio (~233 ppi density)	66	 2017, December	BLU Dash L4	8GB 512MB RAM
+2404	1214	720 x 1520 pixels, 19:9 ratio (~267 ppi density)	198	 2019, May	BLU G9	64GB 4GB RAM
+2405	1217	480 x 960 pixels, 18:9 ratio (~201 ppi density)	121	 2018, June	BLU Grand M3	16GB 1GB RAM
+2406	1220	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2014, May	BLU Life 8	8GB 1GB RAM
+2407	1223	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2014, January	BLU Life One M	4GB 1GB RAM
+2408	1226	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	231	 2014, January	BLU Life One X	16GB 2GB RAM, 32GB 2GB RAM
+2409	1229	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	187	 2017, January	BLU Life One X2 Mini	64GB 4GB RAM
+2410	1232	480 x 800 pixels, 5:3 ratio (~233 ppi density)	77	 2014, October	BLU Life Play Mini	4GB 512MB RAM
+2411	1235	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	143	 2014, January	BLU Life Play S	4GB 1GB RAM
+2412	1238	720 x 1280 pixels, 16:9 ratio (~326 ppi density)	209	 2014, February	BLU Life Pure Mini	16GB 1GB RAM
+2413	1241	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	319	 2014, May	BLU Life Pure XL	16GB 2GB RAM (L259L), 32GB 3GB RAM (L260L)
+2414	1244	768 x 1024 pixels, 4:3 ratio (~160 ppi density)	396	 2014, January	BLU Life View Tab	8GB 1GB RAM
+2415	1247	320 x 480 pixels, 3:2 ratio (~165 ppi density)	77	 2014, May	BLU Neo 3.5	512MB 256MB RAM
+2416	1250	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2014, May	BLU Neo 4.5	4GB 512MB RAM
+2417	1253	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	143	 2018, February	BLU Pure View	32GB 3GB RAM
+2418	1256	1440 x 2560 pixels, 16:9 ratio (~490 ppi density)	341	 2015, September	BLU Pure XL	64GB 3GB RAM
+2419	1259	480 x 854 pixels, 16:9 ratio (~196 ppi density)	88	 2014, August	BLU Studio 5.0 C	4GB 512MB RAM
+2420	1262	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2014, August	BLU Studio 5.0 C HD	4GB 1GB RAM
+2421	1265	480 x 854 pixels, 16:9 ratio (~196 ppi density)	77	 2014, January	BLU Studio 5.0 E	4GB 512MB RAM
+2422	1268	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2014, December	BLU Studio 5.0 HD LTE	8GB 1GB RAM
+2423	1271	540 x 960 pixels, 16:9 ratio (~220 ppi density)	132	 2014, February	BLU Studio 5.0 S II	4GB 1GB RAM
+2424	1274	540 x 960 pixels, 16:9 ratio (~200 ppi density)	143	 2014, February	BLU Studio 5.5 S	4GB 1GB RAM
+2425	1277	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	231	 2014, December	BLU Studio 6.0 LTE	16GB 2GB RAM
+2426	1280	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	143	 2014, November	BLU Studio 7.0	8GB 1GB RAM
+2427	1283	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2015, January	BLU Studio Energy	8GB 1GB RAM
+2428	1286	480 x 854 pixels, 16:9 ratio (~196 ppi density)	88	 2015, January	BLU Studio G	4GB 512MB RAM
+2429	1289	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	88	 2018, July	BLU Studio G4	16GB 1GB RAM
+2430	1292	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2018, February	BLU Studio J8M LTE	16GB 2GB RAM
+2431	1295	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	88	 2016, February	BLU Studio M HD	16GB 1GB RAM
+2432	1298	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	110	 2018, October	BLU Studio Mega (2018)	16GB 1GB RAM
+2433	1301	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	99	 2019, September	BLU Studio Mega 2019	32GB 2GB RAM
+2434	1304	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	88	 2019, September	BLU Studio Mini	32GB 2GB RAM
+2435	1307	640 x 1280 pixels, 18:9 ratio (~260 ppi density)	110	 2018, January	BLU Studio View	8GB 1GB RAM
+2436	1310	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	110	 2018, January	BLU Studio View XL	16GB 1GB RAM
+2437	1313	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2015, January	BLU Studio X	8GB 1GB RAM
+2438	1316	540 x 960 pixels, 16:9 ratio (~184 ppi density)	121	 2015, August	BLU Studio XL	8GB 1GB RAM
+2439	1319	720 x 1280 pixels, 16:9 ratio (~306 ppi density)	176	 2014, January	BLU Vivo 4.8 HD	16GB 1GB RAM
+2440	1322	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	264	 2016, February	BLU Vivo 5	32GB 3GB RAM
+2441	1325	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	330	 2017, August	BLU Vivo 8	64GB 4GB RAM
+2442	1328	720 x 1280 pixels, 16:9 ratio (~306 ppi density)	209	 2015, January	BLU Vivo Air	16GB 1GB RAM
+2443	1331	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	88	 2018, December	BLU Vivo Go	16GB 1GB RAM
+2444	1334	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	286	 2014, May	BLU Vivo IV	16GB 2GB RAM
+2445	1337	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	154	 2018, February	BLU Vivo One	16GB 2GB RAM
+2446	1340	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	198	 2018, April	BLU Vivo One Plus	16GB 2GB RAM
+2447	1343	720 x 1500 pixels (~268 ppi density)	132	 2019, January	BLU Vivo One Plus (2019)	16GB 2GB RAM
+2448	1346	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	330	 2018, February	BLU Vivo X	64GB 4GB RAM
+2449	1349	720 x 1520 pixels, 19:9 ratio (~285 ppi density)	220	 2018, September	BLU Vivo XI	32GB 3GB RAM
+2450	1352	1080 x 2246 pixels, 18.7:9 ratio (~402 ppi density)	363	 2018, August	BLU Vivo XI+	64GB 4GB RAM, 128GB 6GB RAM
+2451	1355	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	198	 2018, February	BLU Vivo XL3	32GB 3GB RAM
+2452	1358	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	220	 2018, April	BLU Vivo XL3 Plus	32GB 3GB RAM
+2453	1361	720 x 1520 pixels, 19:9 ratio (~271 ppi density)	165	 2018, December	BLU Vivo XL4	32GB 3GB RAM
+2454	1364	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2014, September	BLU Win HD	8GB ROM, 1GB RAM
+2455	1367	240 x 240 pixels, 1:1 ratio (~309 ppi density)	66	 2018, May	BLU X Link	4MB 4MB RAM
+2456	1370	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	253	2015	BQ  Aquaris M10	16GB 2GB RAM
+2457	1373	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	231	2015	BQ Aquaris E5s	16GB 2GB RAM
+2458	1376	540 x 960 pixels, 16:9 ratio (~245 ppi density)	198	2015	BQ Aquaris M4.5	8GB 1GB RAM, 16GB 1GB RAM, , 16GB 2GB RAM
+2459	1379	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	286	2015	BQ Aquaris M5	16GB 2GB RAM, 32GB 2GB RAM, 32GB 3GB RAM
+2460	1382	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	330	2015	BQ Aquaris M5.5	16GB 2GB RAM, 16GB 3GB RAM, 32GB 3GB RAM
+2461	1385	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	209	 2016, September	BQ Aquaris U	16GB 2GB RAM
+2462	1388	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	176	 2016, October	BQ Aquaris U Lite	16GB 2GB RAM
+2463	1391	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	242	 2016, September	BQ Aquaris U Plus	16GB 2GB RAM, 32GB 3GB RAM
+2464	1394	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	209	 2017, October	BQ Aquaris U2	16GB 2GB RAM, 32GB 3GB RAM
+2465	1397	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	187	 2017, October	BQ Aquaris U2 Lite	16GB 2GB RAM
+2466	1400	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	231	 2017, October	BQ Aquaris V	16GB 2GB RAM, 32GB 3GB RAM, 64GB 4GB RAM
+2467	1403	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	286	 2017, October	BQ Aquaris V Plus	32GB 3GB RAM, 64GB 4GB RAM
+2468	1406	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	209	 2018, March	BQ Aquaris VS	32GB 3GB RAM, 64GB 4GB RAM
+2469	1409	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	253	 2018, March	BQ Aquaris VS Plus	64GB 4GB RAM
+2470	1412	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	319	 2017, June	BQ Aquaris X	32GB 3GB RAM
+2471	1415	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	407	 2017, June	BQ Aquaris X Pro	64GB 4GB RAM, 128GB 4GB RAM
+2472	1418	1080 x 2160 pixels, 18:9 ratio (~427 ppi density)	341	 2018, June	BQ Aquaris X2	32GB 3GB RAM, 64GB 4GB RAM
+2473	1421	1080 x 2160 pixels, 18:9 ratio (~427 ppi density)	429	 2018, June	BQ Aquaris X2 Pro	64GB 4GB RAM, 128GB 6GB RAM
+2474	1424	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	253	2015	BQ Aquaris X5	16GB 2GB RAM, 32GB 3GB RAM
+2475	1427	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	330	 2016, July	BQ Aquaris X5 Plus	16GB 2GB RAM, 32GB 3GB RAM
+2476	1430	480 x 800 pixels, 5:3 ratio (~233 ppi density)	352	 2014, June	Cat B15 Q	4GB 1GB RAM
+2477	1433	144 x 176 pixels (~114 ppi density)	154	 2015, June	Cat B30	\N
+2478	1436	240 x 320 pixels, 4:3 ratio (~167 ppi density)	121	 2018, October	Cat B35	4GB 512MB RAM
+2479	1439	480 x 854 pixels, 16:9 ratio (~218 ppi density)	374	 2015, September	Cat S30	8GB 1GB RAM
+2480	1442	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	363	 2017, October	Cat S31	16GB 2GB RAM
+2481	1445	540 x 960 pixels, 16:9 ratio (~234 ppi density)	484	 2015, August	Cat S40	16GB 1GB RAM
+2482	1448	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	495	 2017, September	Cat S41	32GB 3GB RAM
+2483	1451	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	506	 2014, November	Cat S50	8GB 2GB RAM
+2484	1454	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	715	 2016, June	Cat S60	32GB 3GB RAM
+2485	1457	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	990	 2018, June	Cat S61	64GB 4GB RAM
+2486	1460	960 x 854 pixels (~286 ppi density)	88	2014	Celkon A125	4GB 512MB RAM
+2487	1463	320 x 480 pixels, 3:2 ratio (~144 ppi density)	66	2014	Celkon A21	512MB 256MB RAM
+2488	1466	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, July	Celkon A42	4GB 512MB RAM
+2489	1469	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, July	Celkon A43	4GB 1GB RAM
+2490	1472	480 x 854 pixels, 16:9 ratio (~196 ppi density)	99	 2014, August	Celkon A500	8GB 1GB RAM
+2491	1475	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, November	Celkon Campus Whizz Q42	4GB 512MB RAM
+2492	1478	540 x 960 pixels, 16:9 ratio (~245 ppi density)	110	2014	Celkon Q455	16GB 1GB RAM
+2493	1481	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	2014	Celkon Q500 Millennium Ultra	16GB 2GB RAM
+2494	1484	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	231	 2017, January	Coolpad Conjr	16GB 3GB RAM
+2495	1487	720 x 1520 pixels, 19:9 ratio (~295 ppi density)	6600	 2019, June	Coolpad Cool 3 Plus	16GB 2GB RAM, 32GB 3 RAM
+2496	1490	720 x 1520 pixels, 19:9 ratio (~270 ppi density)	8800	 2019, October	Coolpad Cool 5	64GB 4GB RAM
+2497	1493	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	385	 2017, August	Coolpad Cool M7	64GB 4GB RAM
+2498	1496	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	16500	 2017, September	Coolpad Cool Play 6	64GB 6GB RAM
+2499	1499	1080 x 2246 pixels, 18.7:9 ratio (~402 ppi density)	165	 2018, December	Coolpad Cool Play 8	64GB 4GB RAM
+2500	1502	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	462	 2017, January	Coolpad Cool S1	64GB 4GB RAM, 128GB 6GB RAM
+2501	1505	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2016, August	Coolpad Cool1 dual	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM
+2502	1508	480 x 854 pixels, 16:9 ratio (~196 ppi density)	110	 2017, June	Coolpad Defiant	8GB 1GB RAM
+2503	1511	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	418	 2016, June	Coolpad Max	64GB 4GB RAM
+2504	1514	720 x 1280 pixels, 16:9 ratio (~233 ppi density)	88	 2016, August	Coolpad Mega	16GB 3GB RAM
+2505	1517	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	121	 2016, December	Coolpad Mega 3	16GB 2GB RAM
+2506	1520	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	7700	 2018, August	Coolpad Mega 5A	16GB 2GB RAM
+2507	1523	540 x 960 pixels, 16:9 ratio (~200 ppi density)	176	 2015, August	Coolpad Modena	8GB 1GB RAM
+2508	1526	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	198	 2016, September	Coolpad Modena 2	16GB 2GB RAM
+2509	1529	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	132	 2015, October	Coolpad Note 3	16GB 3GB RAM
+2510	1532	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2016, January	Coolpad Note 3 Lite	16GB 3GB RAM
+2511	1535	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	132	 2016, July	Coolpad Note 3 Plus	16GB 3GB RAM
+2512	1538	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	198	 2016, October	Coolpad Note 5	32GB 4GB RAM, 64GB 4GB RAM
+2513	1541	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2017, March	Coolpad Note 5 Lite	16GB 3GB RAM
+2514	1544	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	9900	 2018, May	Coolpad Note 6	32GB 3GB RAM, 64GB 4GB RAM
+2515	1547	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	11330	 2017, August	Coolpad NX1	8GB 1GB RAM
+2516	1550	540 x 960 pixels, 16:9 ratio (~234 ppi density)	165	 2015, August	Coolpad Porto	8GB 1GB RAM
+2517	1553	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2016, March	Coolpad Porto S	8GB 1GB RAM
+2518	1556	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2015, October	Coolpad Shine	8GB 2GB RAM
+2519	1559	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2016, July	Coolpad Torino	16GB 3GB RAM
+2520	1562	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	198	 2016, March	Coolpad Torino S	16GB 2GB RAM
+2521	1565	1600 x 2560 pixels, 16:10 ratio (~288 ppi density)	506	 2015, May	Dell Venue 10 7000	32GB 2GB RAM
+2522	1568	1600 x 2560 pixels, 16:10 ratio (~359 ppi density)	275	 2015, January	Dell Venue 8 7000	16GB 2GB RAM, 32GB 2GB RAM
+2523	1571	240 x 320 pixels, 4:3 ratio (~167 ppi density)	55	 2017, June	Energizer Energy 100 (2017)	\N
+2524	1574	480 x 800 pixels, 5:3 ratio (~233 ppi density)	198	 2017, Q3	Energizer Energy 400 LTE	8GB 1GB RAM
+2525	1577	240 x 320 pixels, 4:3 ratio (~167 ppi density)	44	 2017, November	Energizer Energy E20	\N
+2526	1580	480 x 854 pixels, 16:9 ratio (~196 ppi density)	77	 2018, August	Energizer Energy E500	8GB 1GB RAM
+2527	1583	480 x 854 pixels, 16:9 ratio (~196 ppi density)	110	 2018, August	Energizer Energy E500S	8GB 1GB RAM
+2528	1586	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	363	 2017, September	Energizer Energy E520 LTE	16GB 2GB RAM
+2529	1589	480 x 854 pixels, 16:9 ratio (~196 ppi density)	88	 2017, December	Energizer Energy S500E	8GB 1GB RAM
+2530	1592	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	132	 2017, December	Energizer Energy S550	8GB 1GB RAM
+2531	1595	240 x 320 pixels, 4:3 ratio (~167 ppi density)	132	 2018, January	Energizer Hardcase H240S	8GB 1GB RAM
+2532	1598	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	253	 2018, February	Energizer Hardcase H500S	16GB 2GB RAM
+2533	1601	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	495	 2018, January	Energizer Hardcase H550S	32GB 3GB RAM
+2534	1604	240 x 320 pixels, 4:3 ratio (~143 ppi density)	44	 2018, August	Energizer Power Max P20	32MB 32MB RAM
+2535	1607	480 x 960 pixels, 18:9 ratio (~217 ppi density)	99	 2018, August	Energizer Power Max P490	8GB 1GB RAM
+2536	1610	480 x 960 pixels, 18:9 ratio (~217 ppi density)	143	 2018, August	Energizer Power Max P490S	16GB 2GB RAM
+2537	1613	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	209	 2017, December	Energizer Power Max P550S	16GB 2GB RAM
+2538	1616	1080 x 2160 pixels, 18:9 ratio (~409 ppi density)	396	 2018, January	Energizer Power Max P600S	32GB 3GB RAM, 64GB 6GB RAM
+2539	1619	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2015, October	Gigabyte GSmart Classic	8GB 1GB RAM
+2540	1622	480 x 854 pixels, 16:9 ratio (~196 ppi density)	88	 2015, November	Gigabyte GSmart Classic Lite	8GB 512MB RAM
+2541	1625	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2015, October	Gigabyte GSmart Essence	8GB 512MB RAM
+2542	1628	480 x 800 pixels, 5:3 ratio (~233 ppi density)	66	 2015, November	Gigabyte GSmart Essence 4	4GB 512MB RAM
+2543	1631	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	209	 2014, June	Gigabyte GSmart Mika M2	8GB 1GB RAM
+2544	1634	480 x 800 pixels, 5:3 ratio (~233 ppi density)	110	 2014, April	Gigabyte GSmart T4	4GB 512MB RAM
+2545	1637	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	308	 2017, April	Gionee A1	64GB 4GB RAM
+2546	1640	720 x 1280 pixels, 16:9 ratio (~277 ppi density)	16500	 2017, August	Gionee A1 Lite	32GB 3GB RAM
+2547	1643	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	407	 2017, May	Gionee A1 Plus	64GB 4GB RAM
+2548	1646	540 x 960 pixels, 16:9 ratio (~234 ppi density)	176	 2014, Q1	Gionee Ctrl V5	8GB 1GB RAM
+2549	1649	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	253	 2014, April	Gionee Elife E7 Mini	16GB
+2550	1652	1440 x 2560 pixels, 16:9 ratio (~490 ppi density)	528	 2015, October	Gionee Elife E8	64GB 3GB RAM
+2551	1655	720 x 1280 pixels, 16:9 ratio (~306 ppi density)	264	 2014, November	Gionee Elife S5.1	16GB 1GB RAM
+2552	1658	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	297	 2014, March	Gionee Elife S5.5	16GB 2GB RAM
+2553	1661	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	440	 2015, April	Gionee Elife S7	16GB 2GB RAM
+2554	1664	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2015, October	Gionee F103	16GB 2GB RAM
+2555	1667	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	143	 2018, January	Gionee F205	16GB 2GB RAM
+2556	1670	720 x 1280 pixels, 16:9 ratio (~277 ppi density)	275	 2017, February	Gionee F5	32GB 4GB RAM
+2557	1673	720 x 1280 pixels, 16:9 ratio (~258 ppi density)	242	2014	Gionee Gpad G4	16GB 1GB RAM
+2558	1676	480 x 854 pixels, 16:9 ratio (~196 ppi density)	143	2014	Gionee M2	4GB 1GB RAM
+2559	1679	1440 x 2560 pixels, 16:9 ratio (~515 ppi density)	1265	 2016, December	Gionee M2017	128GB 6GB RAM
+2560	1682	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	506	 2017, May	Gionee M6s Plus	64GB 6GB RAM, 256GB 6GB RAM
+2561	1685	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	396	 2017, September	Gionee M7	64GB 6GB RAM
+2562	1688	1080 x 2160 pixels, 18:9 ratio (~376 ppi density)	737	 2018, July	Gionee M7 Plus	128GB 6GB RAM
+2563	1691	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	286	 2017, November	Gionee M7 Power	64GB 4GB RAM
+2564	1694	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2014, November	Gionee Marathon M3	8GB 1GB RAM
+2565	1697	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	242	 2015, August	Gionee Marathon M4	16GB 2GB RAM
+2566	1700	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	363	 2015, November	Gionee Marathon M5	32GB 3GB RAM
+2567	1703	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	374	 2015, December	Gionee Marathon M5 enjoy	16GB 3GB RAM
+2568	1706	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2016, January	Gionee Marathon M5 lite	32GB 3GB RAM
+2569	1709	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2016, February	Gionee Marathon M5 mini	16GB 2GB RAM
+2570	1712	1080 x 1920 pixels, 16:9 ratio (~368 ppi density)	462	 2015, December	Gionee Marathon M5 Plus	64GB 3GB RAM
+2571	1715	480 x 854 pixels, 16:9 ratio (~218 ppi density)	99	 2016, April	Gionee P5 Mini	8GB 1GB RAM
+2572	1718	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2016, December	Gionee P7	16GB 2GB RAM
+2573	1721	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	209	 2016, October	Gionee P7 Max	32GB 3GB RAM
+2574	1724	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2014, June	Gionee Pioneer P4	8GB 1GB RAM
+2575	1727	480 x 854 pixels, 16:9 ratio (~218 ppi density)	132	 2015, May	Gionee Pioneer P4S	8GB 1GB RAM
+2576	1730	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	99	 2016, January	Gionee Pioneer P5W	16GB 1GB RAM
+2577	1733	480 x 854 pixels, 16:9 ratio (~196 ppi density)	132	 2015, January	Gionee Pioneer P6	8GB 1GB RAM
+2578	1736	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	418	 2017, July	Gionee S10	64GB 4GB RAM
+2579	1739	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	264	 2017, July	Gionee S10B	64GB 4GB RAM
+2580	1742	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	220	 2017, July	Gionee S10C	32GB 4GB RAM
+2581	1745	1080 x 2160 pixels, 18:9 ratio (~403 ppi density)	352	 2017, December	Gionee S11	64GB 4GB RAM
+2582	1748	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	220	 2018, February	Gionee S11 lite	32GB 4GB RAM
+2583	1751	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	550	 2017, December	Gionee S11S	64GB 6GB RAM
+2584	1754	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	319	 2015, November	Gionee S6	32GB 3GB RAM
+2585	1757	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	429	 2016, June	Gionee S6 Pro	64GB 4GB RAM
+2586	1760	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	308	 2016, August	Gionee S6s	32GB 3GB RAM
+2587	1763	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	495	 2016, June	Gionee S8	64GB 4GB RAM
+2588	1766	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	407	 2016, November	Gionee S9	64GB 4GB RAM
+2589	1769	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	231	 2017, January	Gionee Steel 2	16GB 3GB RAM, 32GB 3GB RAM
+2590	1772	720 x 1280 pixels, 16:9 ratio (~350 ppi density)	605	 2016, June	Gionee W909	64GB 4GB RAM
+2591	1775	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	9900	 2017, August	Gionee X1	16GB 2GB RAM
+2592	1778	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	14300	 2017, September	Gionee X1s	16GB 3GB RAM
+2593	1781	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	319	 2016, October	Google Pixel	32GB 4GB RAM, 128GB 4GB RAM
+2594	1784	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	605	 2017, October	Google Pixel 2	64GB 4GB RAM, 128GB 4GB RAM
+2595	1787	1440 x 2880 pixels, 18:9 ratio (~538 ppi density)	583	 2017, October	Google Pixel 2 XL	64GB 4GB RAM, 128GB 4GB RAM
+2596	1790	2560 x 1800 pixels (~308 ppi density)	374	 2015, December	Google Pixel C	32GB 3GB RAM, 64GB 3GB RAM
+2597	1793	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	418	 2016, October	Google Pixel XL	32GB 4GB RAM, 128GB 4GB RAM
+2598	1796	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	132	2017	Haier L7	32GB 3GB RAM
+2599	1799	1080 x 2280 pixels, 19:9 ratio (~432 ppi density)	308	 2018, May	Honor 10	64 GB 4GB RAM, 128 GB 6GB RAM, 128 GB 8GB RAM
+2600	1802	1080 x 2340 pixels, 19.5:9 ratio (~412 ppi density)	550	 2019, June	Honor 20	128GB 6GB RAM
+2601	1805	1080 x 2340 pixels, 19.5:9 ratio (~415 ppi density)	308	 2019, April	Honor 20 lite	128GB 4GB RAM
+2602	1808	1080 x 2340 pixels, 19.5:9 ratio (~412 ppi density)	660	 2019, July	Honor 20 Pro	256GB 8GB RAM
+2603	1811	1080 x 2340 pixels, 19.5:9 ratio (~415 ppi density)	231	 2019, April	Honor 20i	64GB 6GB RAM, 128GB 4GB RAM, 128GB 6GB RAM, 256GB 6GB RAM
+2604	1814	1080 x 2340 pixels, 19.5:9 ratio (~412 ppi density)	275	 2019, October	Honor 20S	128GB 6GB RAM, 128GB 8GB RAM
+2605	1817	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2014, June	Honor 3C 4G	8GB 1GB RAM, 16GB 2GB RAM
+2606	1820	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2014, September	Honor 3C Play	16GB 1GB RAM
+2607	1823	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2014, September	Honor 4 Play	8GB 1GB RAM
+2608	1826	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2015, April	Honor 4C	8GB 2GB RAM
+2609	1829	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2014, October	Honor 4X	8GB 2GB RAM
+2610	1832	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2016, June	Honor 5A	16GB 2GB RAM
+2611	1835	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	187	 2016, May	Honor 5c	16GB 2GB RAM
+2612	1838	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	198	 2015, November	Honor 5X	16GB 2GB RAM, 16GB 3GB RAM
+2613	1841	1080 x 1920 pixels, 16:9 ratio (~445 ppi density)	319	 2014, August	Honor 6	16GB 3GB RAM, 32GB 3GB RAM
+2614	1844	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	352	 2014, December	Honor 6 Plus	16GB (3G model); 16/32GB (LTE model), 3GB RAM
+2615	1847	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2017, July	Honor 6A (Pro)	16GB 2GB RAM, 32GB 3GB RAM
+2616	1850	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	187	 2017, November	Honor 6C Pro	32GB 3GB RAM
+2617	1853	1080 x 1920 pixels, 16:9 ratio (~403 ppi density)	198	 2016, October	Honor 6X	32GB 3GB RAM, 64GB 4GB RAM
+2618	1856	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	242	 2015, July	Honor 7	16GB 3GB RAM, 32GB 3GB RAM, 64GB 3GB RAM
+2619	1859	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	132	 2018, April	Honor 7A	16GB 2GB RAM, 32GB 2GB RAM, 32GB 3GB RAM
+2620	1862	720 x 1440 pixels, 18:9 ratio (~269 ppi density)	220	 2018, May	Honor 7C	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM
+2621	1865	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	275	 2015, August	Honor 7i	16GB 2GB RAM, 32GB 3GB RAM (AL00)
+2622	1868	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	121	 2018, May	Honor 7S	16GB 2GB RAM
+2623	1871	1080 x 2160 pixels, 18:9 ratio (~407 ppi density)	198	 2017, December	Honor 7X	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM
+2624	1874	1080 x 1920 pixels, 16:9 ratio (~423 ppi density)	220	 2016, July	Honor 8	32GB 4GB RAM, 64GB 4GB RAM
+2625	1877	1440 x 2560 pixels, 16:9 ratio (~515 ppi density)	341	 2017, April	Honor 8 Pro	64GB 4GB RAM, 64GB 6GB RAM
+2626	1880	720 x 1560 pixels, 19.5:9 ratio (~282 ppi density)	220	 2019, April	Honor 8A Pro	32GB 2GB RAM, 32GB 3GB RAM, 64GB 3GB RAM
+2627	1883	720 x 1520 pixels, 19:9 ratio (~269 ppi density)	187	 2018, October	Honor 8C	32GB 4GB RAM, 64GB 4GB RAM
+2628	1886	720 x 1520 pixels, 19:9 ratio (~295 ppi density)	132	 2019, April	Honor 8S	32GB 2GB RAM, 64GB 3GB RAM
+2629	1889	1080 x 2244 pixels, 18.7:9 ratio (~350 ppi density)	275	 2018, September	Honor 8X Max	64GB 4GB RAM, 64GB 6GB RAM, 128GB 4GB RAM
+2630	1892	1080 x 1920 pixels, 16:9 ratio (~428 ppi density)	242	 2017, July	Honor 9	64GB 4GB RAM, 64GB 6GB RAM, 128GB 4GB RAM, 128GB 6GB RAM
+2631	1895	1080 x 2160 pixels, 18:9 ratio (~428 ppi density)	209	 2017, December	Honor 9 Lite	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM
+2632	1898	1080 x 2280 pixels, 19:9 ratio (~432 ppi density)	242	 2018, July	Honor 9N (9i)	32GB 3GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2633	1901	1080 x 2340 pixels, 19.5:9 ratio (~391 ppi density)	198	 2019, July	Honor 9X	64GB 4GB RAM, 64GB 6GB RAM, 128GB 6GB RAM, 128GB 8GB RAM
+2634	1904	1080 x 2340 pixels, 19.5:9 ratio (~391 ppi density)	319	 2019, August	Honor 9X Pro	128GB 8GB RAM, 256GB 8GB RAM
+2635	1907	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2015, May	Honor Bee	8GB 1GB RAM
+2636	1910	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2014, October	Honor Holly	16GB 1GB RAM
+2637	1913	720 x 1280 pixels, 16:9 ratio (~296 ppi density)	154	 2016, February	Honor Holly 2 Plus	16GB 2GB RAM
+2638	1916	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	154	 2016, October	Honor Holly 3	16GB 2GB RAM
+2639	1919	1440 x 2560 pixels, 16:9 ratio (~577 ppi density)	385	 2016, December	Honor Magic	64GB 4GB RAM
+2640	1922	1080 x 2340 pixels, 19.5:9 ratio (~403 ppi density)	605	 2018, November	Honor Magic 2	128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM
+2641	1925	1080 x 2340 pixels, 19.5:9 ratio (~403 ppi density)	660	 2019, March	Honor Magic 2 3D	128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM, 512GB 8GB RAM
+2642	1928	1080 x 2220 pixels, 18.5:9 ratio (~355 ppi density)	440	 2018, August	Honor Note 10	64GB 6GB RAM, 128GB 6GB RAM, 128GB 8GB RAM
+2643	1931	1440 x 2560 pixels, 16:9 ratio (~443 ppi density)	275	 2016, September	Honor Note 8	32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2644	1934	1200 x 1920 pixels, 16:10 ratio (~283 ppi density)	253	 2016, October	Honor Pad 2	16GB 3GB RAM, 32GB 3GB RAM
+2645	1937	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	275	 2019, July	Honor Pad 5 10.1	32GB 3GB RAM, 64GB 4GB RAM
+2646	1940	1920 x 1200 pixels, 16:10 ratio (~283 ppi density)	220	 2019, July	Honor Pad 5 8	32GB 3GB RAM, 64GB 4GB RAM
+2647	1943	1080 x 2340 pixels, 19.5:9 ratio (~409 ppi density)	275	 2018, August	Honor Play	64GB 4GB RAM, 64GB 6GB RAM
+2648	1946	720 x 1560 pixels, 19.5:9 ratio (~269 ppi density)	143	 2019, September	Honor Play 3	64GB 4GB RAM, 64GB 6GB RAM, 128GB 4GB RAM
+2649	1949	720 x 1520 pixels, 19:9 ratio (~295 ppi density)	99	 2019, September	Honor Play 3e	32GB 2GB RAM, 64GB 3GB RAM
+2650	1952	720 x 1560 pixels, 19.5:9 ratio (~282 ppi density)	110	 2019, January	Honor Play 8A	32GB 3GB RAM, 64GB 3GB RAM
+2651	1955	1920 x 1200 pixels, 16:10 ratio (~283 ppi density)	220	 2019, March	Honor Tab 5	32GB 3GB RAM, 64GB 4GB RAM
+2652	1958	1080 x 1920 pixels (KNT-AL10, KNT-TL10) (~386 ppi pixel density)	319	 2016, May	Honor V8	32GB 4GB RAM (AL10,TL10), 64GB 4GB RAM (AL20)
+2653	1961	1080 x 2160 pixels, 18:9 ratio (~403 ppi density)	352	 2018, January	Honor View 10	64GB 4GB RAM, 64GB 6GB RAM, 128GB 6GB RAM
+2654	1964	1080 x 2310 pixels (~398 ppi density)	451	 2018, December	Honor View 20	128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM
+2655	1967	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	77	 2014, May	HP 7 Plus	8GB 1GB RAM
+2656	1970	600 x 1024 pixels, 16:9 ratio (~171 ppi density)	154	 2014, October	HP 7 VoiceTab	8GB 1GB RAM
+2657	1973	768 x 1024 pixels, 4:3 ratio (~163 ppi density)	132	 2014, March	HP 8	16GB 1GB RAM
+2658	1976	1440 x 2560 pixels, 16:9 ratio (~494 ppi density)	770	 2016, August	HP Elite x3	64GB 4GB RAM
+2659	1979	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	264	 2015, January	HP Pro Slate 10 EE G1	16GB 1GB RAM, 32GB 2GB RAM
+2660	1982	1536 x 2048 pixels, 4:3 ratio (~326 ppi density)	429	 2015, January	HP Pro Slate 8	16GB 2GB RAM, 32GB 2GB RAM
+2661	1985	1080 x 1920 pixels, 16:9 ratio (~127 ppi density)	407	 2014, September	HP Slate 17	32GB 2GB RAM
+2662	1988	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	297	 2014, February	HP Slate6 VoiceTab	16GB 1GB RAM
+2663	1991	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	220	 2014, November	HP Slate6 VoiceTab II	16GB 1GB RAM
+2664	1994	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	198	 2014, February	HP Slate7 VoiceTab	16GB 1GB RAM
+2665	1997	1200 x 1920 pixels, 16:10 ratio (~323 ppi density)	440	2014	HP Slate7 VoiceTab Ultra	16GB 2GB RAM
+2666	2000	1440 x 2560 pixels, 16:9 ratio (~565 ppi density)	330	 2016, May	HTC 10	32GB 4GB RAM, 64GB 4GB RAM
+2667	2003	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	253	 2016, November	HTC 10 evo	32GB 3GB RAM, 64GB 3GB RAM
+2668	2006	1440 x 2560 pixels, 16:9 ratio (~565 ppi density)	275	 2016, June	HTC 10 Lifestyle	32GB 3GB RAM
+2669	2009	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	275	 2014, September	HTC Butterfly 2	16GB 2GB RAM, 32GB 2GB RAM
+2670	2012	1440 x 2560 pixels, 16:9 ratio (~565 ppi density)	330	 2015, October	HTC Butterfly 3	32GB 3GB RAM
+2671	2015	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2017, Q1	HTC Desire 10 Compact	32GB 3GB RAM
+2672	2018	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	220	 2016, September	HTC Desire 10 Lifestyle	32GB 3GB RAM
+2673	2021	1080 x 1920 pixels, 16:9 ratio (~400 ppi density)	286	 2016, December	HTC Desire 10 Pro	64GB 4GB RAM
+2674	2024	720 x 1440 pixels, 18:9 ratio (~293 ppi density)	143	 2018, May	HTC Desire 12	16GB 2GB RAM, 32GB 3 RAM
+2675	2027	720 x 1440 pixels, 18:9 ratio (~268 ppi density)	187	 2018, May	HTC Desire 12+	32GB 3GB RAM
+2676	2030	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	220	 2018, December	HTC Desire 12s	32GB 3GB RAM, 64GB 4GB RAM
+2677	2033	720 x 1520 pixels, 19:9 ratio (~271 ppi density)	308	 2019, July	HTC Desire 19+	64GB 4GB RAM, 128GB 6GB RAM
+2678	2036	480 x 800 pixels, 5:3 ratio (~233 ppi density)	110	 2014, June	HTC Desire 210 dual sim	4GB 512MB RAM
+2679	2039	480 x 854 pixels, 16:9 ratio (~218 ppi density)	165	 2014, April	HTC Desire 310	4GB 512MB, 4GB 1GB RAM
+2680	2042	480 x 854 pixels, 16:9 ratio (~218 ppi density)	154	 2014, April	HTC Desire 310 dual sim	4GB 512MB
+2681	2045	480 x 854 pixels, 16:9 ratio (~218 ppi density)	88	 2015, January	HTC Desire 320	4GB 512MB (NA), 8GB 1GB RAM (EU)
+2682	2048	480 x 854 pixels, 16:9 ratio (~218 ppi density)	143	 2015, June	HTC Desire 326G dual sim	8GB 1GB RAM
+2683	2051	480 x 800 pixels, 5:3 ratio (~217 ppi density)	264	 2014, February	HTC Desire 501	8GB 1GB RAM
+2684	2054	480 x 800 pixels, 5:3 ratio (~217 ppi density)	209	 2014, February	HTC Desire 501 dual sim	8GB 1GB RAM
+2685	2057	480 x 854 pixels, 16:9 ratio (~208 ppi density)	220	 2014, September	HTC Desire 510	8GB 1GB RAM
+2686	2060	540 x 960 pixels, 16:9 ratio (~220 ppi density)	176	 2014, June	HTC Desire 516 dual sim	4GB 1GB RAM
+2687	2063	540 x 960 pixels, 16:9 ratio (~234 ppi density)	121	 2015, August	HTC Desire 526	8GB 1.5GB RAM
+2688	2066	540 x 960 pixels, 16:9 ratio (~234 ppi density)	176	 2015, January	HTC Desire 526G+ dual sim	8GB 1GB RAM, 16GB 1GB RAM
+2689	2069	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2016, March	HTC Desire 530	16GB 1.5GB RAM
+2690	2072	540 x 960 pixels, 16:9 ratio (~234 ppi density)	220	 2014, May	HTC Desire 610	8GB 1GB RAM
+2691	2075	540 x 960 pixels, 16:9 ratio (~234 ppi density)	264	 2014, October	HTC Desire 612	8GB 1GB RAM
+2692	2078	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2014, June	HTC Desire 616 dual sim	4GB 1GB RAM
+2693	2081	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2014, December	HTC Desire 620	8GB 1GB RAM
+2694	2084	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	209	 2014, December	HTC Desire 620G dual sim	8GB 1GB RAM
+2695	2087	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	77	 2016, August	HTC Desire 625	8GB 1.5GB RAM
+2696	2090	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2015, March	HTC Desire 626	16GB 1GB RAM, 16GB 2GB RAM
+2697	2093	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	275	 2015, April	HTC Desire 626G+	8GB 1GB RAM
+2698	2096	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	209	 2015, July	HTC Desire 626s	8GB 1GB RAM, 8GB 1.5GB RAM (T-Mobile)
+2699	2099	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2016, June	HTC Desire 628	32GB 3GB RAM
+2700	2102	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	209	 2016, June	HTC Desire 630	16GB 2GB RAM
+2701	2105	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2016, December	HTC Desire 650	16GB 2GB RAM
+2702	2108	540 x 960 pixels, 16:9 ratio (~220 ppi density)	242	 2014, January	HTC Desire 700	8GB 1GB RAM
+2703	2111	540 x 960 pixels, 16:9 ratio (~220 ppi density)	275	 2014, January	HTC Desire 700 dual sim	8GB 1GB RAM
+2704	2114	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	264	 2015, November	HTC Desire 728 dual sim	16GB 1.5GB RAM (728G), 16GB 2GB RAM (728)
+2705	2117	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	242	 2016, October	HTC Desire 728 Ultra	32GB 3GB RAM
+2706	2120	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	275	 2014, May	HTC Desire 816 dual sim	8GB 1.5GB RAM
+2707	2123	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	286	 2014, October	HTC Desire 816G dual sim	8GB (IN), 16GB (SEA), 1GB RAM
+2708	2126	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	374	 2014, November	HTC Desire 820	16GB 2GB RAM
+2709	2129	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	352	 2014, November	HTC Desire 820 dual sim	16GB 2GB RAM
+2710	2132	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	198	 2015, June	HTC Desire 820G+ dual sim	16GB 1GB RAM
+2711	2135	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	286	 2014, October	HTC Desire 820q dual sim	16GB 1GB RAM
+2712	2138	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	407	 2015, March	HTC Desire 820s dual sim	16GB 2GB RAM
+2713	2141	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	264	 2016, April	HTC Desire 825	16GB 2GB RAM
+2714	2144	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2015, March	HTC Desire 826 dual sim	16GB 2GB RAM
+2715	2147	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	143	 2015, November	HTC Desire 828 dual sim	16GB 2GB RAM, 32GB 3GB RAM
+2716	2150	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2016, May	HTC Desire 830	32GB 3GB RAM
+2717	2153	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	418	 2014, November	HTC Desire Eye	16GB 2GB RAM
+2718	2156	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	385	 2014, August	HTC One (E8) CDMA	16GB 2GB RAM
+2719	2159	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	286	 2014, October	HTC One (M8 Eye)	16GB 2GB RAM
+2720	2162	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	275	 2014, March	HTC One (M8)	16GB 2GB RAM, 32GB 2GB RAM
+2721	2165	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	275	 2014, March	HTC One (M8) CDMA	32GB 2GB RAM
+2722	2168	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	330	 2014, July	HTC One (M8) dual sim	16GB 2GB RAM
+2723	2171	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	330	 2014, November	HTC One (M8) for Windows	32GB 2GB RAM
+2724	2174	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	330	 2014, September	HTC One (M8) for Windows (CDMA)	32GB 2GB RAM
+2725	2177	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	330	 2015, November	HTC One A9	16GB 2GB RAM, 32GB 3GB RAM
+2726	2180	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2016, November	HTC One A9s	16GB 2GB RAM, 32GB 3GB RAM
+2727	2183	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	352	 2015, May	HTC One E9	16GB 2GB RAM
+2728	2186	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	352	 2015, May	HTC One E9+	32GB 3GB RAM
+2729	2189	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	341	 2015, October	HTC One E9s dual sim	16GB 2GB RAM
+2730	2192	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	363	 2015, May	HTC One M8s	16GB 2GB RAM, 32GB 2GB RAM
+2731	2195	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	396	 2015, March	HTC One M9	32GB 3GB RAM
+2732	2198	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	275	 2016, May	HTC One M9 Prime Camera	16GB 2GB RAM
+2733	2201	1440 x 2560 pixels, 16:9 ratio (~565 ppi density)	330	 2015, May	HTC One M9+	32GB 3GB RAM
+2734	2204	1440 x 2560 pixels, 16:9 ratio (~565 ppi density)	528	 2015, October	HTC One M9+ Supreme Camera	32GB 3GB RAM
+2735	2207	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	297	 2015, November	HTC One M9s	16GB 2GB RAM
+2736	2210	1440 x 2560 pixels, 16:9 ratio (~565 ppi density)	374	 2015, July	HTC One ME	32GB 3GB RAM
+2737	2213	720 x 1280 pixels, 16:9 ratio (~326 ppi density)	275	 2014, May	HTC One mini 2	16GB 1GB RAM
+2738	2216	720 x 1280 pixels, 16:9 ratio (~326 ppi density)	308	 2014, July	HTC One Remix	16GB 1.5GB RAM
+2739	2219	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	231	 2016, June	HTC One S9	16GB 2GB RAM
+2740	2222	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2017, July	HTC One X10	32GB 3GB RAM
+2741	2225	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	330	 2016, January	HTC One X9	32GB 3GB RAM
+2742	2228	1080 x 1920 pixels, 16:9 ratio (~428 ppi density)	165	 2017, February	HTC U Play	32GB 3 RAM, 64GB 4GB RAM
+2743	2231	1440 x 2560 pixels, 16:9 ratio (~513 ppi density)	275	 2017, February	HTC U Ultra	64GB 4GB RAM, 128GB 4GB RAM
+2744	2234	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	330	 2017, June	HTC U11	64GB 4GB RAM, 128GB 6GB RAM
+2745	2237	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	330	 2018, January	HTC U11 Eyes	64GB 4GB RAM
+2746	2240	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	231	 2017, December	HTC U11 Life	32GB 3GB RAM, 64GB 4GB RAM
+2747	2243	1440 x 2880 pixels, 18:9 ratio (~537 ppi density)	495	 2017, December	HTC U11+	64GB 4GB RAM, 128GB 6GB RAM
+2748	2246	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	253	 2018, September	HTC U12 life	64GB 4GB RAM, 128GB 6GB RAM
+2749	2249	1440 x 2880 pixels, 18:9 ratio (~537 ppi density)	495	 2018, June	HTC U12+	64GB 6GB RAM, 128GB 6GB RAM
+2750	2252	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	462	 2019, June	HTC U19e	128GB 6GB RAM
+2751	2255	720 x 1520 pixels, 19:9 ratio (~271 ppi density)	165	 2019, August	HTC Wildfire X	32GB 3GB RAM, 128GB 4GB RAM
+2752	2258	540 x 960 pixels, 16:9 ratio (~245 ppi density)	121	 2014, Q3	Huawei Ascend G535	8GB 1GB RAM
+2753	2261	540 x 960 pixels, 16:9 ratio (~245 ppi density)	275	 2014, May	Huawei Ascend G6	4GB 1GB RAM
+2754	2264	540 x 960 pixels, 16:9 ratio (~245 ppi density)	264	 2014, May	Huawei Ascend G6 4G	8GB 1GB RAM
+2755	2267	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2014, November	Huawei Ascend G620s	8GB 1GB RAM
+2756	2270	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2014, March	Huawei Ascend G630	4GB 1GB RAM
+2757	2273	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	286	 2014, October	Huawei Ascend G7	16GB 2GB RAM
+2758	2276	540 x 960 pixels, 16:9 ratio (~200 ppi density)	297	 2014, April	Huawei Ascend G730	4GB 1GB RAM
+2759	2279	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	220	 2014, December	Huawei Ascend GX1	8GB 1GB RAM
+2760	2282	720 x 1280 pixels, 16:9 ratio (~241 ppi density)	363	 2014, January	Huawei Ascend Mate2 4G	16GB 2GB RAM
+2761	2285	1080 x 1920 pixels, 16:9 ratio (~368 ppi density)	374	 2014, October	Huawei Ascend Mate7	16GB 2GB RAM, 32GB 3GB RAM
+2762	2288	1080 x 1920 pixels, 16:9 ratio (~367 ppi density)	550	 2015, March	Huawei Ascend Mate7 Monarch	64GB 3GB RAM
+2763	2291	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	330	 2014, January	Huawei Ascend P6 S	16GB 2GB RAM
+2764	2294	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	275	 2014, June	Huawei Ascend P7	16GB 2GB RAM
+2765	2297	_	121	 2014, April	Huawei Ascend Plus	\N
+2766	2300	320 x 480 pixels, 3:2 ratio (~165 ppi density)	66	 2014, March	Huawei Ascend Y220	256MB RAM, 512MB
+2767	2303	320 x 480 pixels, 3:2 ratio (~165 ppi density)	143	 2014, December	Huawei Ascend Y221	4GB 512MB RAM
+2768	2306	480 x 800 pixels, 5:3 ratio (~245 ppi density)	77	 2014, March	Huawei Ascend Y330	4GB 512MB RAM
+2769	2309	480 x 854 pixels, 16:9 ratio (~218 ppi density)	88	 2014, December	Huawei Ascend Y520	4GB 512MB RAM
+2770	2312	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2014, February	Huawei Ascend Y530	4GB 512MB RAM
+2771	2315	480 x 854 pixels, 16:9 ratio (~218 ppi density)	121	 2015, February	Huawei Ascend Y540	4GB 1GB RAM
+2772	2318	480 x 854 pixels, 16:9 ratio (~218 ppi density)	143	 2014, November	Huawei Ascend Y550	4GB 1GB RAM
+2773	2321	480 x 854 pixels, 16:9 ratio (~196 ppi density)	110	 2014, June	Huawei Ascend Y600	4GB 512MB RAM
+2774	2324	1080 x 2340 pixels, 19.5:9 ratio (~391 ppi density)	209	 2019, September	Huawei Enjoy 10 Plus	128GB 4GB RAM, 128GB 6GB RAM, 128GB 8GB RAM
+2775	2327	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2015, December	Huawei Enjoy 5s	16GB 2GB RAM
+2776	2330	720 x 1280 pixels, 16:9 ratio (~293 ppi density)	220	 2016, November	Huawei Enjoy 6	16GB 3GB RAM
+2777	2333	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	275	 2017, January	Huawei Enjoy 6s	16GB 2GB RAM (Nova Smart), 32GB 3GB RAM (Enjoy 6s)
+2778	2336	720 x 1520 pixels, 19:9 ratio (~269 ppi density)	176	 2018, December	Huawei Enjoy 9	32GB 3GB RAM, 64GB 4GB RAM
+2779	2339	720 x 1560 pixels, 19.5:9 ratio (~283 ppi density)	132	 2019, April	Huawei Enjoy 9e	32GB 3GB RAM, 64GB 3GB RAM
+2780	2342	1080 x 2340 pixels, 19.5:9 ratio (~415 ppi density)	220	 2019, March	Huawei Enjoy 9s	64GB 4GB RAM, 128GB 4GB RAM
+2781	2345	208 x 208 pixels, 1:1 ratio (~200 ppi density)	220	 2016, November	Huawei Fit	16MB 256 KB RAM
+2782	2348	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2015, November	Huawei G7 Plus	32GB 3GB RAM
+2783	2351	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	363	 2015, October	Huawei G8	16GB 2GB RAM, 32GB 3GB RAM
+2784	2354	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	308	 2016, August	Huawei G9 Plus	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM
+2785	2357	1440 x 2560 pixels, 16:9 ratio (~499 ppi density)	407	 2017, November	Huawei Mate 10	64GB 4GB RAM
+2786	2360	1080 x 2160 pixels, 18:9 ratio (~409 ppi density)	209	 2017, November	Huawei Mate 10 Lite	64GB 4GB RAM
+2787	2363	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	660	 2017, November	Huawei Mate 10 Porsche Design	256GB 6GB RAM
+2788	2366	1080 x 2160 pixels, 18:9 ratio (~402 ppi density)	440	 2017, November	Huawei Mate 10 Pro	64GB 4GB RAM, 128GB 6GB RAM
+2789	2369	1080 x 2244 pixels, 18.7:9 ratio (~381 ppi density)	418	 2018, November	Huawei Mate 20	64GB 6GB RAM, 128GB 4GB RAM, 128GB 6GB RAM
+2790	2372	1080 x 2340 pixels, 19.5:9 ratio (~409 ppi density)	209	 2018, September	Huawei Mate 20 lite	64GB 4GB RAM, 64GB 6GB RAM
+2791	2375	1440 x 3120 pixels, 19.5:9 ratio (~538 ppi density)	1320	 2018, December	Huawei Mate 20 RS Porsche Design	256GB 8GB RAM, 512GB 8GB RAM
+2792	2378	1080 x 2244 pixels, 18.7:9 ratio (~346 ppi density)	638	 2018, November	Huawei Mate 20 X	128GB 6GB RAM, 256GB 8GB RAM
+2793	2381	1080 x 2244 pixels, 18.7:9 ratio (~346 ppi density)	990	 2019, July	Huawei Mate 20 X (5G)	256GB 8GB RAM
+2794	2384	1080 x 2340 pixels, 19.5:9 ratio (~389 ppi density)	715	 2019, September	Huawei Mate 30 5G	128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM
+2795	2387	1176 x 2400 pixels, 18.5:9 ratio (~409 ppi density)	990	 2019, September	Huawei Mate 30 Pro 5G	128GB 8GB RAM, 256GB 8GB RAM
+2796	2390	1176 x 2400 pixels, 18.5:9 ratio (~409 ppi density)	1870	 2019, September	Huawei Mate 30 RS Porsche Design	512GB 12GB RAM
+2797	2393	1080 x 1920 pixels, 16:9 ratio (~368 ppi density)	330	 2015, November	Huawei Mate 8	32GB 3GB RAM (L09, L29), 64GB 4GB RAM (L29)
+2798	2396	1080 x 1920 pixels, 16:9 ratio (~373 ppi density)	352	 2016, December	Huawei Mate 9	64GB 4GB RAM
+2799	2399	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	1012	 2017, January	Huawei Mate 9 Porsche Design	256GB 6GB RAM
+2800	2402	1440 x 2560 pixels, 16:9 ratio (~534 ppi density)	440	 2017, January	Huawei Mate 9 Pro	64GB 4GB RAM, 128GB 6GB RAM
+2801	2405	1440 x 2880 pixels, 18:9 ratio (~538 ppi density)	1430	 2018, April	Huawei Mate RS Porsche Design	256GB 6GB RAM, 512GB 6GB RAM
+2802	2408	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	385	 2015, October	Huawei Mate S	32GB 3GB RAM, 64GB 3GB RAM, 128GB 3GB RAM
+2803	2411	1280 x 800 pixels, 16:10 ratio (~149 ppi density)	385	 2014, May	Huawei MediaPad 10 Link+	8GB 1GB RAM, 16GB 1GB RAM
+2804	2414	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	176	 2014, March	Huawei MediaPad 7 Youth2	4GB 1GB RAM, 8GB 1GB RAM
+2805	2417	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	330	 2014, May	Huawei MediaPad M1	8GB 1GB RAM
+2806	2420	1200 x 1920 pixels, 16:10 ratio (~224 ppi density)	275	 2016, February	Huawei MediaPad M2 10.0	16GB 2GB RAM (Standard), 64GB 3GB RAM (Premium)
+2807	2423	1200 x 1920 pixels, 16:10 ratio (~323 ppi density)	220	 2016, June	Huawei MediaPad M2 7.0	16GB 3GB RAM, 32GB 3GB RAM
+2808	2426	1200 x 1920 pixels, 16:10 ratio (~283 ppi density)	275	 2015, May	Huawei MediaPad M2 8.0	16GB 2GB RAM (Standard), 32GB 3GB RAM (Premium)
+2809	2429	1600 x 2560 pixels, 16:10 ratio (~359 ppi density)	308	 2016, October	Huawei MediaPad M3 8.4	32GB 4GB RAM, 64GB 4GB RAM
+2810	2432	1200 x 1920 pixels, 16:10 ratio (~224 ppi density)	275	 2017, June	Huawei MediaPad M3 Lite 10	16GB 4GB RAM, 32GB 3GB RAM, 64GB 4GB RAM
+2811	2435	1200 x 1920 pixels, 16:10 ratio (~283 ppi density)	297	 2017, June	Huawei MediaPad M3 Lite 8	16GB 4GB RAM, 32GB 3GB RAM, 64GB 4GB RAM
+2812	2438	2560 x 1600 pixels, 16:10 ratio (~280 ppi density)	319	 2018, April	Huawei MediaPad M5 10	32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2813	2441	2560 x 1600 pixels, 16:10 ratio (~280 ppi density)	429	 2018, April	Huawei MediaPad M5 10 (Pro)	64GB 4GB RAM, 128GB 4GB RAM
+2814	2444	2560 x 1600 pixels, 16:10 ratio (~359 ppi density)	319	 2018, April	Huawei MediaPad M5 8	32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2815	2447	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	220	 2018, October	Huawei MediaPad M5 lite	32GB 3GB RAM, 64GB 4GB RAM
+2816	2450	1920 x 1200 pixels, 16:10 ratio (~283 ppi density)	176	 2019, March	Huawei MediaPad M5 Lite 8	32GB 3GB RAM, 64GB 4GB RAM
+2817	2453	2560 x 1600 pixels, 16:10 ratio (~280 ppi density)	330	 2019, July 10	Huawei MediaPad M6 10.8	64GB 4GB RAM, 128GB 4GB RAM
+2818	2456	2560 x 1600 pixels, 16:10 ratio (~359 ppi density)	286	 2019, July	Huawei MediaPad M6 8.4	64GB 4GB RAM, 128GB 4GB RAM
+2819	2459	2560 x 1600 pixels, 16:10 ratio (~359 ppi density)	385	 2019, September	Huawei MediaPad M6 Turbo 8.4	128GB 6GB RAM
+2820	2462	800 x 1280 pixels, 16:10 ratio (~157 ppi density)	198	 2015, March	Huawei MediaPad T1 10	8GB 1GB RAM
+2821	2465	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	110	 2015, March	Huawei MediaPad T1 7.0	8GB 1GB RAM
+2822	2468	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	110	 2016, April	Huawei MediaPad T1 7.0 Plus	16GB 2GB RAM
+2823	2471	800 x 1280 pixels, 16:10 ratio (~188 ppi density)	165	 2014, September	Huawei MediaPad T1 8.0	8GB 1GB RAM, 16GB 1GB RAM
+2824	2474	1200 x 1920 pixels, 16:10 ratio (~226 ppi density)	264	 2016, September	Huawei MediaPad T2 10.0 Pro	16GB 2GB RAM; 16GB 3GB RAM, 32GB 3GB RAM (A03L)
+2825	2477	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	165	 2016, September	Huawei MediaPad T2 7.0	8GB 1GB RAM, 16GB 1GB RAM, 16GB 2GB RAM (DL09)
+2826	2480	1080 x 1920 pixels, 16:9 ratio (~315 ppi density)	253	 2016, September	Huawei MediaPad T2 7.0 Pro	16GB 2GB RAM, 32GB 3GB RAM (701L); 16GB 3GB RAM, 32GB 3GB RAM (703L)
+2827	2483	800 x 1280 pixels, 16:10 ratio (~157 ppi density)	198	 2017, June	Huawei MediaPad T3 10	16GB 2GB RAM, 32GB 3GB RAM
+2828	2486	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	110	 2017, May	Huawei MediaPad T3 7.0	8GB 1GB RAM, 16GB 2GB RAM
+2829	2489	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	176	 2017, May	Huawei MediaPad T3 8.0	16GB 2GB RAM, 32GB 3GB RAM
+2830	2492	1920 x 1200 pixels, 16:10 ratio (~224 ppi density)	187	 2018, September	Huawei MediaPad T5	16GB 2GB RAM, 32GB 3 RAM
+2831	2495	1200 x 1920 pixels, 16:10 ratio (~323 ppi density)	385	 2014, April	Huawei MediaPad X1	16GB 2GB RAM
+2832	2498	1200 x 1920 pixels, 16:10 ratio (~323 ppi density)	407	 2015, May	Huawei MediaPad X2	16GB 2GB RAM, 32GB 3GB RAM
+2833	2501	1440 x 2560 pixels, 16:9 ratio (~518 ppi density)	330	 2015, September	Huawei Nexus 6P	32GB 3GB RAM, 64GB 3GB RAM, 128GB 3GB RAM
+2834	2504	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	220	 2016, October	Huawei nova	32GB 3GB RAM
+2835	2507	1080 x 1920 pixels, 16:9 ratio (~443 ppi density)	275	 2017, June	Huawei nova 2	64GB 4GB RAM
+2836	2510	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	330	 2017, June	Huawei nova 2 plus	64GB 4GB RAM, 128GB 4GB RAM
+2837	2513	1080 x 2160 pixels, 18:9 ratio (~403 ppi density)	220	 2017, December	Huawei nova 2s	64GB 4GB RAM, 64GB 6GB RAM, 128GB 6GB RAM
+2838	2516	1080 x 2340 pixels, 19.5:9 ratio (~409 ppi density)	385	 2018, August	Huawei nova 3	128GB 4GB RAM, 128GB 6GB RAM
+2839	2519	1080 x 2340 pixels, 19.5:9 ratio (~409 ppi density)	242	 2018, August	Huawei nova 3i	128GB 4GB RAM
+2840	2522	1080 x 2312 pixels (~415 ppi density)	297	 2019, March	Huawei nova 4e	128GB 4GB RAM, 128GB 8GB RAM
+2841	2525	1080 x 2340 pixels, 19.5:9 ratio (~403 ppi density)	396	 2019, June	Huawei nova 5	128GB 8GB RAM
+2842	2528	1080 x 2340 pixels, 19.5:9 ratio (~403 ppi density)	429	 2019, June	Huawei nova 5 Pro	128GB 8GB RAM, 256GB 8GB RAM
+2843	2531	1080 x 2310 pixels (~398 ppi density)	286	 2019, June	Huawei nova 5i	128GB 6GB RAM, 128GB 8GB RAM
+2844	2534	1080 x 2340 pixels, 19.5:9 ratio (~412 ppi density)	319	 2019, July	Huawei nova 5i Pro	128GB 6GB RAM, 128GB 8GB RAM, 256GB 8GB RAM
+2845	2537	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	275	 2016, October	Huawei nova plus	32GB 3GB RAM
+2846	2540	1080 x 2160 pixels, 18:9 ratio (~427 ppi density)	187	 2017, December	Huawei P smart	32GB 3GB RAM, 64GB 4GB RAM
+2847	2543	1080 x 2340 pixels, 19.5:9 ratio (~415 ppi density)	209	 2018, December	Huawei P smart 2019	32GB 3GB RAM, 64GB 3GB RAM
+2848	2546	1080 x 2340 pixels, 19.5:9 ratio (~391 ppi density)	308	 2019, June	Huawei P Smart Z	64GB 4GB RAM
+2849	2549	1080 x 2340 pixels, 19.5:9 ratio (~415 ppi density)	286	 2018, August	Huawei P Smart+ 2019	64GB 3GB RAM
+2850	2552	1080 x 1920 pixels, 16:9 ratio (~432 ppi density)	308	 2017, March	Huawei P10	32GB 4GB RAM, 64GB 4GB RAM
+2851	2555	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	253	 2017, March	Huawei P10 Lite	32GB 3GB RAM, 32GB 4GB RAM, 64GB 4GB RAM
+2852	2558	1440 x 2560 pixels, 16:9 ratio (~540 ppi density)	264	 2017, April	Huawei P10 Plus	64GB 4GB RAM, 128GB 6GB RAM
+2853	2561	1080 x 2240 pixels, 18.7:9 ratio (~429 ppi density)	396	 2018, April	Huawei P20	64GB 4GB RAM, 64GB 6GB RAM, 128GB 4GB RAM, 128GB 6GB RAM
+2854	2564	1080 x 2280 pixels, 19:9 ratio (~432 ppi density)	220	 2018, March	Huawei P20 lite	32GB 4GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2855	2567	1080 x 2310 pixels (~398 ppi density)	308	 2019, July	Huawei P20 lite (2019)	64GB 4GB RAM, 128GB 4GB RAM
+2856	2570	1080 x 2240 pixels, 18.7:9 ratio (~408 ppi density)	528	 2018, April	Huawei P20 Pro	64GB 6GB RAM, 128GB 6GB RAM, 128GB 8GB RAM, 256GB 6GB RAM, 256GB 8GB RAM
+2857	2573	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	253	 2015, April	Huawei P8	16GB 3GB RAM, 64GB 3GB RAM
+2858	2576	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	187	 2017, January	Huawei P8 Lite (2017)	16GB 3GB RAM, 64GB 4GB RAM
+2859	2579	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2015, May	Huawei P8lite	16GB 2GB RAM
+2860	2582	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	198	 2015, May	Huawei P8lite ALE-L04	16GB 2GB RAM
+2861	2585	1080 x 1920 pixels, 16:9 ratio (~326 ppi density)	440	 2015, July	Huawei P8max	64GB 3GB RAM
+2862	2588	1080 x 1920 pixels, 16:9 ratio (~423 ppi density)	374	 2016, April	Huawei P9	32GB 3GB RAM (EVA-L19/EVA-L09), 64GB 4GB RAM (EVA-L29)
+2863	2591	1080 x 1920 pixels, 16:9 ratio (~424 ppi density)	231	 2016, April	Huawei P9 lite	16GB 2GB RAM, 16GB 3GB RAM
+2864	2594	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2017, September	Huawei P9 lite mini	16GB 2GB RAM
+2865	2597	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	473	 2016, May	Huawei P9 Plus	64GB 4GB RAM
+2866	2600	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2015, April	Huawei SnapTo	8GB 1GB RAM
+2867	2603	400 x 400 pixels, 1:1 ratio (~286 ppi density)	319	 2015, September	Huawei Watch	4GB 512MB RAM
+2868	2606	390 x 390 pixels, 1:1 ratio (~326 ppi density)	198	 2017, April	Huawei Watch 2	4GB 768MB RAM
+2869	2609	390 x 390 pixels, 1:1 ratio (~326 ppi density)	297	 2018, May	Huawei Watch 2 2018	4GB 768MB RAM
+2870	2612	390 x 390 pixels, 1:1 ratio (~326 ppi density)	330	 2017, May	Huawei Watch 2 Classic	4GB 768MB RAM
+2871	2615	390 x 390 pixels, 1:1 ratio (~326 ppi density)	363	 2017, November	Huawei Watch 2 Pro	4GB 768MB RAM
+2872	2618	454 x 454 pixels, 1:1 ratio (~326 ppi density)	220	 2018, November	Huawei Watch GT	128MB 16MB RAM
+2873	2621	390 x 390 pixels, 1:1 ratio (~326 ppi density)	165	 2018, November	Huawei Watch Magic	128MB 16MB RAM
+2874	2624	1080 x 2244 pixels, 18.7:9 ratio (~350 ppi density)	308	 2018, December	Huawei Y Max	128GB 4GB RAM
+2875	2627	480 x 854 pixels, 16:9 ratio (~196 ppi density)	99	 2017, September	Huawei Y3 (2017)	8GB 1GB RAM
+2876	2630	480 x 854 pixels, 16:9 ratio (~196 ppi density)	99	 2018, May	Huawei Y3 (2018)	8GB 1GB RAM
+2877	2633	480 x 854 pixels, 16:9 ratio (~245 ppi density)	99	 2015, June	Huawei Y360	4GB 512MB RAM
+2878	2636	480 x 854 pixels, 16:9 ratio (~218 ppi density)	88	 2016, June	Huawei Y3II	8GB 1GB RAM
+2879	2639	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2017, June	Huawei Y5 (2017)	16GB 2GB RAM
+2880	2642	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	110	 2018, December	Huawei Y5 lite (2018)	16GB 1GB RAM
+2881	2645	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	110	 2018, June	Huawei Y5 Prime (2018)	16GB 2GB RAM
+2882	2648	480 x 854 pixels, 16:9 ratio (~218 ppi density)	121	 2015, June	Huawei Y560	8GB 1GB RAM
+2883	2651	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2016, June	Huawei Y5II	8GB 1GB RAM
+2884	2654	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	99	 2015, July	Huawei Y6	8GB 1GB RAM, 8GB 2GB RAM
+2885	2657	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2017, July	Huawei Y6 (2017)	16GB 2GB RAM
+2886	2660	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	165	 2018, May	Huawei Y6 (2018)	16GB 2GB RAM
+2887	2663	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	154	 2018, May	Huawei Y6 Prime (2018)	16GB 2GB RAM, 32GB 3GB RAM
+2888	2666	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	209	 2015, October	Huawei Y6 Pro	16GB 2GB RAM
+2889	2669	480 x 854 pixels, 16:9 ratio (~196 ppi density)	143	 2015, April	Huawei Y625	4GB 1GB RAM
+2890	2672	480 x 854 pixels, 16:9 ratio (~196 ppi density)	154	 2015, May	Huawei Y635	4GB 1GB RAM
+2891	2675	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2016, September	Huawei Y6II Compact	16GB 2GB RAM
+2892	2678	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	176	 2017, July	Huawei Y7	16GB 2GB RAM
+2893	2681	720 x 1440 pixels, 18:9 ratio (~269 ppi density)	165	 2018, April	Huawei Y7 (2018)	16GB 2GB RAM
+2894	2684	720 x 1520 pixels, 19:9 ratio (~269 ppi density)	198	 2019, March	Huawei Y7 (2019)	32GB 3GB RAM
+2895	2687	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	198	 2017, June	Huawei Y7 Prime	32GB 3GB RAM
+2896	2690	720 x 1440 pixels, 18:9 ratio (~269 ppi density)	187	 2018, April	Huawei Y7 Prime (2018)	32GB 3GB RAM
+2897	2693	720 x 1520 pixels, 19:9 ratio (~269 ppi density)	220	 2019, January	Huawei Y7 Prime (2019)	32GB 3GB RAM
+2898	2696	720 x 1440 pixels, 18:9 ratio (~269 ppi density)	165	 2018, April	Huawei Y7 Pro (2018)	32GB 3GB RAM
+2899	2699	720 x 1520 pixels, 19:9 ratio (~269 ppi density)	220	 2019, January	Huawei Y7 Pro (2019)	32GB 3GB RAM
+2900	2702	1080 x 2160 pixels, 18:9 ratio (~407 ppi density)	242	 2018, April	Huawei Y9 (2018)	32GB 3GB RAM, 64GB 4GB RAM, 128GB 4GB RAM
+2901	2705	720 x 1520 pixels, 19:9 ratio (~271 ppi density)	7700	 2019, April	Infinix Smart3 Plus	32GB 2GB RAM, 32GB 3GB RAM
+2902	2708	240 x 240 pixels, 1:1 ratio (~218 ppi density)	176	 2015, August	Intex IRist Smartwatch	4GB 512MB RAM
+2903	2711	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2016, May	Jolla Jolla C	16GB 2GB RAM
+2904	2714	480 x 800 pixels, 5:3 ratio (~239 ppi density)	66	 2014, January	Karbonn A16	4GB 512MB RAM
+2905	2717	480 x 800 pixels, 5:3 ratio (~233 ppi density)	55	 2014, July	Karbonn Smart A12 Star	4GB 512MB RAM
+2906	2720	480 x 854 pixels, 16:9 ratio (~218 ppi density)	88	 2014, September	Karbonn Sparkle V	4GB 1GB RAM
+2907	2723	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2014, April	Karbonn Titanium Hexa	16GB 2GB RAM
+2908	2726	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	154	 2015, March	Karbonn Titanium Mach Two S360	8GB 1GB RAM
+2909	2729	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2014, April	Karbonn Titanium Octane	16GB 1GB RAM
+2910	2732	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	242	 2014, April	Karbonn Titanium Octane Plus	16GB 2GB RAM
+2911	2735	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, May	Karbonn Titanium S1 Plus	4GB 1GB RAM
+2912	2738	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2014, August	Karbonn Titanium S19	8GB 1GB RAM
+2913	2741	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	220	 2014, January	Karbonn Titanium X	16GB 1GB RAM
+2914	2744	720 x 1280 pixels, 16:9 ratio (~326 ppi density)	330	 2014, July	Kyocera Brigadier	16GB 2GB RAM
+2915	2747	720 x 1280 pixels, 16:9 ratio (~326 ppi density)	352	 2014, November	Kyocera DuraForce	16GB 2GB RAM
+2916	2750	1080 x 1920 pixels, 16:9 ratio (~441 ppi density)	488.4	 2018, November	Kyocera DuraForce Pro 2	64GB 4GB RAM
+2917	2753	480 x 854 pixels, 16:9 ratio (~245 ppi density)	5940	 2017, June	Lava A44	8GB 1GB RAM
+2918	2756	480 x 854 pixels, 16:9 ratio (~218 ppi density)	6708.9	 2017, May	Lava A77	8GB 1GB RAM
+2919	2759	480 x 854 pixels, 16:9 ratio (~196 ppi density)	8470	 2017, June	Lava A97 2GB+	16GB 2GB RAM
+2920	2762	480 x 800 pixels, 5:3 ratio (~233 ppi density)	88	 2014, April	Lava Iris 406Q	4GB 1GB RAM
+2921	2765	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2014, April	Lava Iris 450 Colour	4GB 512MB RAM
+2922	2768	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	165	 2014, April	Lava Iris 550Q	4GB 1GB RAM
+2923	2771	480 x 854 pixels, 3:2 ratio	110	 2014, October	Lava Iris Fuel 50	8GB 1GB RAM
+2924	2774	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2014, December	Lava Iris Fuel 60	8GB 1GB RAM
+2925	2777	480 x 854 pixels, 16:9 ratio (~196 ppi density)	66	 2016, March	Lava Iris Fuel F2	8GB 512MB RAM
+2926	2780	540 x 960 pixels, 16:9 ratio (~234 ppi density)	165	 2014, April	Lava Iris Pro 20	4GB 1GB RAM
+2927	2783	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	198	 2014, January	Lava Iris Pro 30	4GB 1GB RAM
+2928	2786	720 x 1280 pixels, 16:9 ratio (~312 ppi density)	165	 2014, August	Lava Iris Pro 30+	16GB 1GB RAM
+2929	2789	480 x 800 pixels, 5:3 ratio (~233 ppi density)	77	 2014, December	Lava Iris Win1	8GB 1GB RAM
+2930	2792	480 x 854 pixels, 16:9 ratio (~218 ppi density)	110	 2014, May	Lava Iris X1	8GB 1GB RAM
+2931	2795	480 x 854 pixels, 16:9 ratio (~196 ppi density)	121	 2015, January	Lava Iris X1 Grand	8GB 1GB RAM
+2932	2798	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2014, September	Lava Iris X5	8GB 1GB RAM
+2933	2801	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2015, February	Lava Iris X8	8GB 1GB RAM, 16GB 2GB RAM
+2934	2804	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	176	 2015, July	Lava Pixel V1	32GB 2GB RAM
+2935	2807	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	132	 2015, September	Lava Pixel V2	16GB 2GB RAM
+2936	2810	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	165	 2016, January	Lava V5	16GB 3GB RAM
+2937	2813	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2015, November	Lava X10	16GB 3GB RAM
+2938	2816	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2016, January	Lava X3	8GB 2GB RAM
+2939	2819	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	176	 2017, March	Lava Z10	16GB 2GB RAM, 16GB 3GB RAM
+2940	2822	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	275	 2017, March	Lava Z25	32GB 4GB RAM
+2941	2825	480 x 800 pixels, 5:3 ratio (~233 ppi density)	3850	 2019, March	Lava Z40	8GB 1GB RAM
+2942	2828	480 x 854 pixels, 16:9 ratio (~218 ppi density)	4840	 2018, March	Lava Z50	8GB 1GB RAM
+2943	2831	480 x 854 pixels, 16:9 ratio (~196 ppi density)	7150	 2017, September	Lava Z60	16GB 1GB RAM
+2944	2834	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	5445	 2018, August	Lava Z60s	16GB 1GB RAM
+2945	2837	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	6270	 2018, July	Lava Z61	16GB 1GB RAM, 16GB 2GB RAM
+2946	2840	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	9900	 2017, September	Lava Z80	16GB 3GB RAM
+2947	2843	720 x 1280 pixels, 16:9 ratio (~282 ppi density)	11825	 2017, September	Lava Z90	32GB 3GB RAM
+2948	2846	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	11000	 2018, March	Lava Z91	32GB 3GB RAM
+2949	2849	720 x 1440 pixels, 18:9 ratio (~282 ppi density)	9900	 2018, July	Lava Z91 (2GB)	16GB 2GB RAM
+2950	2852	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	231	 2016, February	LeEco Le 1s	32GB 3GB RAM
+2951	2855	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	209	 2016, April	LeEco Le 2	32GB 3GB RAM, 64GB 3GB RAM
+2952	2858	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	286	 2016, April	LeEco Le 2 Pro	32GB 4GB RAM
+2953	2861	1440 x 2560 pixels, 16:9 ratio (~464 ppi density)	385	 2016, January	LeEco Le Max	64GB 4GB RAM, 128GB 4GB RAM
+2954	2864	1440 x 2560 pixels, 16:9 ratio (~515 ppi density)	385	 2016, May	LeEco Le Max 2	32GB 4GB RAM, 64GB 4GB RAM, 64GB 6GB RAM, 128GB 6GB RAM
+2955	2867	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	308	 2017, April	LeEco Le Pro 3 AI Edition	32GB 4GB RAM (Standard), 64GB 4GB RAM (Eco)
+2956	2870	1080 x 1920 pixels, 16:9 ratio (~403 ppi density)	363	 2016, October	LeEco Le Pro3	32GB 4GB RAM, 64GB 4GB RAM, 64GB 6GB RAM, 128GB 6GB RAM
+2957	2873	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	308	 2017, March	LeEco Le Pro3 Elite	32GB 4GB RAM, 64GB 6GB RAM, 128GB 6GB RAM
+2958	2876	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	220	 2016, November	LeEco Le S3	32GB 3GB RAM
+2959	2879	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2016, September	Lenovo A Plus	8GB 1GB RAM
+2960	2882	800 x 1280 pixels, 16:10 ratio (~149 ppi density)	209	 2014, June	Lenovo A10-70 A7600	16GB 1GB RAM, 32GB 1GB RAM
+2961	2885	480 x 800 pixels, 5:3 ratio (~233 ppi density)	66	 2015, September	Lenovo A1000	8GB 1GB RAM
+2962	2888	480 x 800 pixels, 5:3 ratio (~233 ppi density)	66	 2015, April	Lenovo A1900	4GB 512MB RAM
+2963	2891	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2015, September	Lenovo A2010	8GB 1GB RAM
+2964	2894	480 x 800 pixels, 5:3 ratio (~233 ppi density)	55	 2014, April	Lenovo A316i	4GB 512MB RAM
+2965	2897	480 x 800 pixels, 5:3 ratio (~233 ppi density)	77	 2014, October	Lenovo A319	4GB 512MB RAM
+2966	2900	480 x 854 pixels, 16:9 ratio (~218 ppi density)	99	 2014, Q3	Lenovo A328	4GB 1GB RAM
+2967	2903	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2015, October	Lenovo A3690	8GB 1GB RAM
+2968	2906	480 x 854 pixels, 16:9 ratio (~196 ppi density)	77	 2015, August	Lenovo A3900	4GB 512MB RAM
+2969	2909	720 x 1440 pixels, 18:9 ratio (~295 ppi density)	132	 2018, June	Lenovo A5	16GB 3GB RAM, 32GB 3GB RAM
+2970	2912	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2015, April	Lenovo A5000	8GB 1GB RAM
+2971	2915	480 x 854 pixels, 16:9 ratio (~218 ppi density)	77	 2014, June	Lenovo A526	4GB 1GB RAM
+2972	2918	480 x 854 pixels, 16:9 ratio (~196 ppi density)	110	 2014, Q3	Lenovo A536	8GB 1GB RAM
+2973	2921	720 x 1560 pixels, 19.5:9 ratio (~282 ppi density)	110	 2019, September	Lenovo A6 Note	16GB 2GB RAM, 32GB 3GB RAM
+2974	2924	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	110	 2015, January	Lenovo A6000	8GB 1GB RAM
+2975	2927	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2015, April	Lenovo A6000 Plus	16GB 2GB RAM
+2976	2930	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2015, October	Lenovo A6010	8GB 1GB RAM
+2977	2933	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	176	 2015, October	Lenovo A6010 Plus	16GB 2GB RAM
+2978	2936	480 x 854 pixels, 16:9 ratio (~196 ppi density)	132	 2014, September	Lenovo A606	8GB 1GB RAM
+2979	2939	480 x 854 pixels, 16:9 ratio (~178 ppi density)	55	2015	Lenovo A616	4GB 512MB RAM
+2980	2942	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	121	 2016, October	Lenovo A6600	16GB 1GB RAM
+2981	2945	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	143	 2016, October	Lenovo A6600 Plus	16GB 2GB RAM
+2982	2948	480 x 854 pixels, 16:9 ratio (~196 ppi density)	121	 2014, May	Lenovo A680	4GB 1GB RAM
+2983	2951	600 x 1024 pixels, 16:9 ratio (~170 ppi density)	88	 2014, May	Lenovo A7-30 A3300	8GB 1GB RAM
+2984	2954	800 x 1280 pixels, 16:10 ratio (~216 ppi density)	132	 2014, June	Lenovo A7-50 A3500	8GB 1GB RAM, 16GB 1GB RAM
+2985	2957	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	165	 2015, April	Lenovo A7000	8GB 2GB RAM
+2986	2960	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	209	 2015, September	Lenovo A7000 Plus	16GB 2GB RAM
+2987	2963	1080 x 1920 pixels, 16:9 ratio (~401 ppi density)	198	 2016, January	Lenovo A7000 Turbo	16GB 2GB RAM
+2988	2966	800 x 1280 pixels, 16:10 ratio (~189 ppi density)	154	 2014, June	Lenovo A8-50 A5500	8GB 1GB RAM, 16GB 1GB RAM
+2989	2969	540 x 960 pixels, 16:9 ratio (~200 ppi density)	176	 2014, April	Lenovo A850+	4GB 1GB RAM
+2990	2972	540 x 960 pixels, 16:9 ratio (~184 ppi density)	143	 2014, January	Lenovo A880	8GB 1GB RAM
+2991	2975	540 x 960 pixels, 16:9 ratio (~184 ppi density)	132	 2014, May	Lenovo A889	8GB 1GB RAM
+2992	2978	720 x 1280 pixels, 16:9 ratio (~267 ppi density)	176	 2014, November	Lenovo A916	8GB 1GB RAM
+2993	2981	480 x 800 pixels, 5:3 ratio (~207 ppi density)	88	 2016, October	Lenovo B	8GB 1GB RAM
+2994	2984	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	220	 2016, July	Lenovo C2	8GB 1GB RAM, 16GB 1GB RAM
+2995	2987	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	187	 2016, November	Lenovo C2 Power	16GB 2GB RAM
+2996	2990	720 x 1280 pixels, 16:9 ratio (~294 ppi density)	165	 2014, August	Lenovo Golden Warrior A8	16GB 2GB RAM
+2997	2993	720 x 1280 pixels, 16:9 ratio (~245 ppi density)	176	 2014, December	Lenovo Golden Warrior Note 8	8GB 1GB RAM
+2998	2996	720 x 1280 pixels, 16:9 ratio (~277 ppi density)	165	 2014, May	Lenovo Golden Warrior S8	8GB 1GB RAM, 16GB 2GB RAM
+2999	2999	1080 x 2340 pixels, 19.5:9 ratio (~409 ppi density)	198	 2019, September	Lenovo K10 Note	64GB 4GB RAM, 128GB 6GB RAM
+\.
+
+
+--
+-- Name: customer_cid_seq; Type: SEQUENCE SET; Schema: public; Owner: farhath
+--
+
+SELECT pg_catalog.setval('public.customer_cid_seq', 1003, true);
+
+
+--
+-- Name: inventory_invid_seq; Type: SEQUENCE SET; Schema: public; Owner: farhath
+--
+
+SELECT pg_catalog.setval('public.inventory_invid_seq', 3000, false);
+
+
+--
+-- Name: product_pid_seq; Type: SEQUENCE SET; Schema: public; Owner: farhath
+--
+
+SELECT pg_catalog.setval('public.product_pid_seq', 2002, true);
+
+
+--
+-- Name: buys buys_pkey; Type: CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.buys
+    ADD CONSTRAINT buys_pkey PRIMARY KEY (b_pid);
+
+
+--
+-- Name: customer customer_pkey; Type: CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.customer
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (cid);
+
+
+--
+-- Name: inventory inventory_pkey; Type: CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.inventory
+    ADD CONSTRAINT inventory_pkey PRIMARY KEY (invid);
+
+
+--
+-- Name: managed_by managed_by_pkey; Type: CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.managed_by
+    ADD CONSTRAINT managed_by_pkey PRIMARY KEY (m_invid);
+
+
+--
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (pid);
+
+
+--
+-- Name: buys buys_b_cid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.buys
+    ADD CONSTRAINT buys_b_cid_fkey FOREIGN KEY (b_cid) REFERENCES public.customer(cid);
+
+
+--
+-- Name: buys buys_b_pid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.buys
+    ADD CONSTRAINT buys_b_pid_fkey FOREIGN KEY (b_pid) REFERENCES public.product(pid);
+
+
+--
+-- Name: managed_by managed_by_m_invid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.managed_by
+    ADD CONSTRAINT managed_by_m_invid_fkey FOREIGN KEY (m_invid) REFERENCES public.inventory(invid);
+
+
+--
+-- Name: managed_by managed_by_m_pid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: farhath
+--
+
+ALTER TABLE ONLY public.managed_by
+    ADD CONSTRAINT managed_by_m_pid_fkey FOREIGN KEY (m_pid) REFERENCES public.product(pid);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

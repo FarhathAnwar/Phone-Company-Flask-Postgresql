@@ -14,6 +14,7 @@ def index():
     # return 'Hello world!'
 
     # connect to
+    session['username'] = ''
     conn = dbconn.get_db_connection()
 
     products = executeTest(conn)
@@ -71,6 +72,9 @@ def signin():
 
 @app.route('/browse/', methods=('GET', 'POST'))
 def browse():
+    if session['username'] == '':
+        return redirect('http://127.0.0.1:5000/signin')
+
     conn = dbconn.get_db_connection()
 
     products = executeTest(conn)
@@ -81,6 +85,9 @@ def browse():
 
 @app.route('/deals/', methods=('GET', 'POST'))
 def deals():
+    if session['username'] == '':
+        return redirect('http://127.0.0.1:5000/signin')
+    
     conn = dbconn.get_db_connection()
 
     products = getCheapest(conn)
@@ -163,7 +170,7 @@ def confirmation():
     selection = cur.fetchall()
     # cur.close()
 
-    m_invid = 3020
+    m_invid = getInvID()
     cur.execute(
         'Insert into managed_by(m_invid, m_pid) Values(%s , %s)', (m_invid, pid))
     conn.commit()
@@ -202,6 +209,21 @@ def getCID(email, password):
     cid = cid_list[0]
     return cid
 
+def getInvID():
+    conn = dbconn.get_db_connection()
+    cur = conn.cursor()
+    pid = session['pid_of_placed_order']
+    id = 3020
+    cur.execute("SELECT b_cid FROM buys WHERE b_pid=(%s) " +
+                "limit 1;", (pid, ))
+    # cur.commit()
+    query_result = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    cid_list = query_result[0]
+    cid = cid_list[0]
+    return id
 
 def getPriceFromPID(pid):
     price = 0
